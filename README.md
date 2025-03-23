@@ -83,6 +83,12 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="noah-cms-views"
 ```
 
+Optionally, you can publish the assets using
+
+```bash
+php artisan vendor:publish --tag="noah-cms-assets"
+```
+
 ## Usage
 
 ```php

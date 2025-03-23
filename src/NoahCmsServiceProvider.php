@@ -20,7 +20,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasTranslations()
-            ->hasMigration('create_noah_cms_table')
+            ->discoversMigrations()
             ->hasCommand(NoahCmsCommand::class);
     }
 }
