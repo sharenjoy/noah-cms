@@ -31,6 +31,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasTranslations()
             ->discoversMigrations()
+            ->hasAssets()
             ->hasCommand(NoahCmsCommand::class);
     }
 }

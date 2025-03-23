@@ -47,6 +47,10 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                 'required' => true,
                 'rules' => ['required', 'email'],
             ],
+            'password' => [
+                'required' => true,
+                'rules' => ['required', 'min:6'],
+            ],
         ],
         'right' => [],
     ];

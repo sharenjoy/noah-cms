@@ -71,16 +71,16 @@ You can publish the config file with:
 php artisan vendor:publish --tag="noah-cms-config"
 ```
 
+You can publish the assets using
+
+```bash
+php artisan vendor:publish --tag="noah-cms-assets"
+```
+
 Optionally, you can publish the views using
 
 ```bash
 php artisan vendor:publish --tag="noah-cms-views"
-```
-
-Optionally, you can publish the assets using
-
-```bash
-php artisan vendor:publish --tag="noah-cms-assets"
 ```
 
 ## Usage
