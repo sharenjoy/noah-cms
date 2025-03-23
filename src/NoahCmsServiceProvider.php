@@ -40,7 +40,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
     public function packageBooted()
     {
         FilamentAsset::register([
-            Css::make('noah-cms-js', __DIR__ . '/../resources/dist/js/theme.css'),
+            Css::make('noah-cms-theme', __DIR__ . '/../resources/dist/js/theme.css'),
         ], 'sharenjoy/noah-cms');
     }
 }
