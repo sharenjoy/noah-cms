@@ -53,6 +53,9 @@ class NoahPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->plugins([
+                NoahCmsPlugin::make(),
             ]);
     }
 }
