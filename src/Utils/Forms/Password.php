@@ -10,7 +10,7 @@ class Password extends FormAbstract implements FormInterface
     {
         $this->field = TextInput::make($this->fieldName)
             ->password()
-            ->placeholder(__('*******'))
+            ->placeholder('*******')
             ->translateLabel()
             ->disabled(fn($record) => $record !== null ? true : false);
 
