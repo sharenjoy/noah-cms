@@ -40,14 +40,14 @@ class Form
 
         $tabs = [];
 
-        if (in_array(HasSEO::class, class_uses(static::$model)) && config('noah.featureToggle.seo')) {
+        if (in_array(HasSEO::class, class_uses(static::$model)) && config('noah-cms.featureToggle.seo')) {
             $tabs[] = Tabs\Tab::make('SEO')
                 ->schema([
                     static::setSeoField()
                 ]);
         }
 
-        if (in_array(LogsActivity::class, class_uses(static::$model)) && config('noah.featureToggle.logActivity')) {
+        if (in_array(LogsActivity::class, class_uses(static::$model)) && config('noah-cms.featureToggle.logActivity')) {
             $tabs[] = Tabs\Tab::make(__('Activity Log'))
                 ->schema([
                     static::setActivityLogField()
@@ -97,13 +97,13 @@ class Form
             $method = str()->camel($name);
             $class = str()->studly((isset($content['alias']) ? $content['alias'] : $name));
 
-            if (class_exists('\\App\\Filament\\Utils\\Forms\\Custom\\' . $class)) {
+            if (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Forms\\Custom\\' . $class)) {
                 // custom class
-                $obj = new ("\\App\\Filament\\Utils\\Forms\\Custom\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
+                $obj = new ("\\Sharenjoy\\NoahCms\\Utils\\Forms\\Custom\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
                 $schema = $obj->make();
-            } elseif (class_exists('\\App\\Filament\\Utils\\Forms\\' . $class)) {
+            } elseif (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Forms\\' . $class)) {
                 // class
-                $obj = new ("\\App\\Filament\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
+                $obj = new ("\\Sharenjoy\\NoahCms\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
                 $schema = $obj->make();
             } else {
                 throw new Exception('No class available that matches. -> ' . $class);

@@ -21,7 +21,7 @@ class MenuWidget extends BaseWidget
 
     public static function getMaxDepth(): int
     {
-        static::$maxDepth = config('noah.menuTree.maxDepth');
+        static::$maxDepth = config('noah-cms.menuTree.maxDepth');
         return static::$maxDepth;
     }
 

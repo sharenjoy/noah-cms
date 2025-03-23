@@ -2,7 +2,7 @@
 
 namespace Sharenjoy\NoahCms\Resources\TagResource\Pages;
 
-use App\Enums\TagType;
+use Sharenjoy\NoahCms\Enums\TagType;
 use Sharenjoy\NoahCms\Resources\TagResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahListRecords;
 use Filament\Resources\Pages\ListRecords;

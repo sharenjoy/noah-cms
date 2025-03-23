@@ -21,7 +21,7 @@ class CategoryWidget extends BaseWidget
 
     public static function getMaxDepth(): int
     {
-        static::$maxDepth = config('noah.categoryTree.maxDepth');
+        static::$maxDepth = config('noah-cms.categoryTree.maxDepth');
         return static::$maxDepth;
     }
 

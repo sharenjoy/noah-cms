@@ -4,7 +4,8 @@ namespace Sharenjoy\NoahCms;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Sharenjoy\NoahCms\Resources\UserResource;
+use Sharenjoy\NoahCms\Pages\Activities;
+use Sharenjoy\NoahCms\Resources;
 
 class NoahCmsPlugin implements Plugin
 {
@@ -24,9 +25,16 @@ class NoahCmsPlugin implements Plugin
     {
         $panel
             ->resources([
-                UserResource::class,
+                Resources\CategoryResource::class,
+                Resources\MenuResource::class,
+                Resources\PostResource::class,
+                // Resources\RoleResource::class,
+                Resources\TagResource::class,
+                Resources\UserResource::class,
             ])
-            ->pages([]);
+            ->pages([
+                Activities::class,
+            ]);
     }
 
     public function boot(Panel $panel): void

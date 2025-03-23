@@ -86,11 +86,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://satis.ralphjsmit.com"
-        }
-    ]
+    "prefer-stable": true
 }

@@ -2,7 +2,7 @@
 
 namespace Sharenjoy\NoahCms\Utils\Forms;
 
-use App\Enums\TagType as EnumTagType;
+use Sharenjoy\NoahCms\Enums\TagType as EnumTagType;
 use Filament\Forms\Components\Select;
 
 class TagType extends FormAbstract implements FormInterface

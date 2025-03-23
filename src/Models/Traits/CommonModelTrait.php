@@ -21,7 +21,7 @@ trait CommonModelTrait
     protected function getAlternateTag(string $path)
     {
         $items = [];
-        $locales = array_keys(config('noah.locale'));
+        $locales = array_keys(config('noah-cms.locale'));
 
         foreach ($locales as $locale) {
             $items[] = new AlternateTag(

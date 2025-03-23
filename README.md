@@ -17,10 +17,44 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation
 
+Add repositories section to composer
+
+```json
+"repositories": [
+    {
+        "type": "composer",
+        "url": "https://satis.ralphjsmit.com"
+    }
+]
+```
+
 You can install the package via composer:
 
 ```bash
 composer require sharenjoy/noah-cms
+```
+
+Replace this to user model
+
+```php
+namespace App\Models;
+
+use Sharenjoy\NoahCms\Models\User as NoahCmsUser;
+
+class User extends NoahCmsUser {}
+```
+
+Add this to boot method in AppServiceProvider
+
+```php
+public function boot(): void
+{
+    \Illuminate\Database\Eloquent\Model::unguard();
+
+    \Filament\Tables\Actions\CreateAction::configureUsing(function ($action) {
+        return $action->slideOver();
+    });
+}
 ```
 
 You can publish and run the migrations with:
@@ -76,8 +110,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Ronald](https://github.com/sharenjoy)
-- [All Contributors](../../contributors)
+-   [Ronald](https://github.com/sharenjoy)
+-   [All Contributors](../../contributors)
 
 ## License
 

@@ -44,7 +44,7 @@ abstract class FormAbstract
             if ($this->content['localeRules'] ?? false) {
                 $localeRules = $this->content['localeRules'];
             } elseif ($this->content['rules'] ?? false) {
-                $localeRules = config('noah.locale');
+                $localeRules = config('noah-cms.locale');
                 foreach ($localeRules ?? [] as $locale => $value) {
                     $localeRules[$locale] = $this->content['rules'];
                 }
