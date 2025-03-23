@@ -18,6 +18,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
         $package
             ->name('noah-cms')
             ->hasConfigFile()
+            ->hasConfigFile(['noah-cms', 'seo'])
             ->hasViews()
             ->hasTranslations()
             ->discoversMigrations()
