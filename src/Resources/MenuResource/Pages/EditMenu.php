@@ -1,17 +1,16 @@
 <?php
 
-namespace Sharenjoy\NoahCms\Resources\UserResource\Pages;
+namespace Sharenjoy\NoahCms\Resources\MenuResource\Pages;
 
+use Sharenjoy\NoahCms\Resources\MenuResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahEditRecord;
-use Sharenjoy\NoahCms\Resources\UserResource;
-use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditUser extends EditRecord
+class EditMenu extends EditRecord
 {
     use NoahEditRecord;
 
-    protected static string $resource = UserResource::class;
+    protected static string $resource = MenuResource::class;
 
     protected function getHeaderActions(): array
     {

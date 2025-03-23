@@ -2,38 +2,27 @@
 
 namespace Sharenjoy\NoahCms\Resources;
 
+use Sharenjoy\NoahCms\Resources\TagResource\Pages;
+use Sharenjoy\NoahCms\Resources\TagResource\RelationManagers\PostsRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
-use Sharenjoy\NoahCms\Resources\UserResource\Pages;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\RolesRelationManager;
-use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Models\Tag;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
-class UserResource extends Resource implements HasShieldPermissions
+class TagResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = User::class;
+    protected static ?string $model = Tag::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
-
-    protected static ?int $navigationSort = 49;
-
-    public static function getNavigationGroup(): ?string
-    {
-        return Utils::isResourceNavigationGroupEnabled()
-            ? __('filament-shield::filament-shield.nav.group')
-            : '';
-    }
+    protected static ?string $navigationIcon = 'heroicon-c-tag';
 
     public static function getModelLabel(): string
     {
-        return __('User');
+        return __('Tag');
     }
 
     public static function form(Form $form): Form
@@ -45,11 +34,11 @@ class UserResource extends Resource implements HasShieldPermissions
 
     public static function table(Table $table): Table
     {
+        $table = static::chainTableFunctions($table);
         return $table
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
             ->actions([
-                Impersonate::make()->iconSize('sm'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ActionGroup::make(array_merge(static::getTableActions(), [])),
             ])
@@ -61,16 +50,17 @@ class UserResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            RolesRelationManager::class,
+            PostsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListTags::route('/'),
+            'create' => Pages\CreateTag::route('/create'),
+            // 'view' => Pages\ViewTag::route('/{record}'),
+            'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
     }
 
