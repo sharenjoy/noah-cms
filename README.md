@@ -57,6 +57,17 @@ public function boot(): void
 }
 ```
 
+Update auth.php in config folder
+
+```php
+'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => env('AUTH_MODEL', \Sharenjoy\NoahCms\Models\User::class),
+    ],
+],
+```
+
 You can publish and run the migrations with:
 
 ```bash
@@ -81,6 +92,40 @@ Optionally, you can publish the views using
 
 ```bash
 php artisan vendor:publish --tag="noah-cms-views"
+```
+
+Update vite.config.js
+
+```js
+import { defineConfig } from "vite";
+import laravel, { refreshPaths } from "laravel-vite-plugin";
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                "resources/css/app.css",
+                "resources/js/app.js",
+                "resources/css/filament/noah/theme.css",
+            ],
+            refresh: [
+                ...refreshPaths,
+                "app/Livewire/**",
+                "app/Models/**",
+                "app/Filament/**",
+                "app/Providers/Filament/**",
+            ],
+            detectTls: "noah-cms.test",
+        }),
+    ],
+});
+```
+
+Npm install and build
+
+```bash
+npm install
+npm run build
 ```
 
 ## Usage
