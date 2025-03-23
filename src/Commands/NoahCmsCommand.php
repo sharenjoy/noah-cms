@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Sharenjoy\NoahCms\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class NoahCmsCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'noah-cms';
 
     public $description = 'My command';
 
