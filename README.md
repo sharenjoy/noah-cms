@@ -62,19 +62,13 @@ You can publish and run the migrations with:
 ```bash
 php artisan vendor:publish --tag="noah-cms-migrations"
 php artisan migrate
+php artisan storage:link
 ```
 
 You can publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="noah-cms-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
 ```
 
 Optionally, you can publish the views using

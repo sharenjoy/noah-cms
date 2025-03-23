@@ -18,7 +18,16 @@ class NoahCmsServiceProvider extends PackageServiceProvider
         $package
             ->name('noah-cms')
             ->hasConfigFile()
-            ->hasConfigFile(['noah-cms', 'seo'])
+            ->hasConfigFile([
+                'activitylog',
+                'filament-shield',
+                'filament-tiptap-editor',
+                'filament-tree',
+                'media-library',
+                'noah-cms',
+                'seo',
+                'tags',
+            ])
             ->hasViews()
             ->hasTranslations()
             ->discoversMigrations()
