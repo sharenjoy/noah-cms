@@ -94,6 +94,40 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="noah-cms-views"
 ```
 
+Create custom panel theme
+
+```bash
+php artisan make:filament-theme
+```
+
+Update resources/css/filament/noah/theme.css
+
+```css
+@import "/vendor/filament/filament/resources/css/theme.css";
+@import "/vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css";
+
+@config 'tailwind.config.js';
+```
+
+Update resources/css/filament/noah/tailwind.config.js
+
+```js
+import preset from "../../../../vendor/filament/filament/tailwind.config.preset";
+
+export default {
+    presets: [preset],
+    content: [
+        "./app/Filament/**/*.php",
+        "./resources/views/filament/**/*.blade.php",
+        "./vendor/filament/**/*.blade.php",
+        "./vendor/ralphjsmit/laravel-filament-media-library/resources/**/*.blade.php",
+        "./vendor/awcodes/filament-tiptap-editor/resources/**/*.blade.php",
+        "./vendor/solution-forest/filament-tree/resources/**/*.blade.php",
+        "./vendor/ralphjsmit/laravel-filament-activitylog/resources/**/*.blade.php",
+    ],
+};
+```
+
 Update vite.config.js
 
 ```js

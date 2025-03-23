@@ -2,11 +2,9 @@
 
 namespace Sharenjoy\NoahCms;
 
-use Filament\Support\Assets\Css;
-use Filament\Support\Facades\FilamentAsset;
-use Sharenjoy\NoahCms\Commands\NoahCmsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Sharenjoy\NoahCms\Commands\NoahCmsCommand;
 
 class NoahCmsServiceProvider extends PackageServiceProvider
 {
@@ -35,12 +33,5 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ->discoversMigrations()
             ->hasAssets()
             ->hasCommand(NoahCmsCommand::class);
-    }
-
-    public function packageBooted()
-    {
-        FilamentAsset::register([
-            Css::make('noah-cms-theme', __DIR__ . '/../resources/dist/css/theme.css'),
-        ], 'sharenjoy/noah-cms');
     }
 }
