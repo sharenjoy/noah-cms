@@ -57,7 +57,7 @@ class Tag extends Model implements Sortable
         'type' => [],
         'seo' => [],
         'created_at' => [],
-        'updated_at' => ['isToggledHiddenByDefault' => false],
+        'updated_at' => [],
     ];
 
     public function posts()

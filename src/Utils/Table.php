@@ -21,7 +21,7 @@ class Table
                 if ($content['description'] ?? false) {
                     $field = $field->description(fn(Model $record): string => str($record->description)->limit(150))->searchable(['title', 'description']);
                 }
-                $columns[] = $field;
+                $columns[] = $field->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             } elseif ($name == 'thumbnail') {
                 $columns[] = MediaColumn::make($name)->label(__('Image'))->circular()->size($content['size'] ?? 40)->alignCenter()->defaultImageUrl(asset('vendor/noah-cms/images/placeholder.jpg'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             } elseif ($name == 'slug') {
@@ -56,11 +56,11 @@ class Table
             } elseif ($name == 'published_at') {
                 $columns[] = TextColumn::make($name)->translateLabel()->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             } elseif ($name == 'created_at') {
-                $columns[] = TextColumn::make($name)->translateLabel()->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? true);
+                $columns[] = TextColumn::make($name)->translateLabel()->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             } elseif ($name == 'updated_at') {
-                $columns[] = TextColumn::make($name)->translateLabel()->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? true);
+                $columns[] = TextColumn::make($name)->translateLabel()->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             } else {
-                $columns[] = TextColumn::make($name)->translateLabel()->searchable();
+                $columns[] = TextColumn::make($name)->translateLabel()->searchable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             }
         }
 

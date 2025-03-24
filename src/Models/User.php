@@ -59,7 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'name' => [],
         'email' => [],
         'roles' => [],
-        'created_at' => ['isToggledHiddenByDefault' => false],
+        'created_at' => [],
         'updated_at' => [],
     ];
 

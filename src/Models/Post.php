@@ -89,8 +89,8 @@ class Post extends Model implements Sortable
         'seo' => [],
         'is_active' => [],
         'published_at' => [],
-        'created_at' => [],
-        'updated_at' => [],
+        'created_at' => ['isToggledHiddenByDefault' => true],
+        'updated_at' => ['isToggledHiddenByDefault' => true],
     ];
 
     /** RELACTIONS */

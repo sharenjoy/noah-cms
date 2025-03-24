@@ -73,7 +73,7 @@ class Category extends Model
         'seo' => [],
         'is_active' => [],
         'created_at' => [],
-        'updated_at' => ['isToggledHiddenByDefault' => false],
+        'updated_at' => [],
     ];
 
     /** RELACTIONS */
