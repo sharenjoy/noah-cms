@@ -20,6 +20,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasConfigFile([
                 'activitylog',
+                'filament-activity-log',
                 'filament-shield',
                 'filament-tiptap-editor',
                 'filament-tree',
