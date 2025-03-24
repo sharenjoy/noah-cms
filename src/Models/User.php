@@ -58,6 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     protected array $tableFields = [
         'name' => [],
         'email' => [],
+        'roles' => [],
         'created_at' => ['isToggledHiddenByDefault' => false],
         'updated_at' => [],
     ];

@@ -30,6 +30,8 @@ class Table
                 $columns[] = TextColumn::make('categories.title')->translateLabel()->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             } elseif ($name == 'tags') {
                 $columns[] = SpatieTagsColumn::make($name)->label(__('Tag'))->type($content['type'])->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+            } elseif ($name == 'roles') {
+                $columns[] = TextColumn::make('roles.name')->translateLabel()->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             } elseif ($name == 'seo') {
                 $columns[] = IconColumn::make($name)->translateLabel()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false)
                     ->size(IconColumn\IconColumnSize::Medium)
