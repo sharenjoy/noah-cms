@@ -2,8 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\CategoryResource\Widgets;
 
-use Sharenjoy\NoahCms\Models\Category;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Notifications\Notification;
+use Sharenjoy\NoahCms\Models\Category;
 use SolutionForest\FilamentTree\Actions\Action;
 use SolutionForest\FilamentTree\Actions\ActionGroup;
 use SolutionForest\FilamentTree\Actions\DeleteAction;
@@ -13,6 +14,8 @@ use SolutionForest\FilamentTree\Widgets\Tree as BaseWidget;
 
 class CategoryWidget extends BaseWidget
 {
+    use HasWidgetShield;
+
     protected static string $model = Category::class;
 
     protected ?string $treeTitle = 'CategoryWidget';

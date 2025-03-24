@@ -2,8 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\MenuResource\Widgets;
 
-use Sharenjoy\NoahCms\Models\Menu;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Notifications\Notification;
+use Sharenjoy\NoahCms\Models\Menu;
 use SolutionForest\FilamentTree\Actions\Action;
 use SolutionForest\FilamentTree\Actions\ActionGroup;
 use SolutionForest\FilamentTree\Actions\DeleteAction;
@@ -13,6 +14,8 @@ use SolutionForest\FilamentTree\Widgets\Tree as BaseWidget;
 
 class MenuWidget extends BaseWidget
 {
+    use HasWidgetShield;
+
     protected static string $model = Menu::class;
 
     protected ?string $treeTitle = 'MenuWidget';
