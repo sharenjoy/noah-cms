@@ -2,7 +2,7 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use App\Filament\Utils\Media;
+use Sharenjoy\NoahCms\Utils\Media;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
 use Sharenjoy\NoahCms\Models\Traits\HasMenuTree;

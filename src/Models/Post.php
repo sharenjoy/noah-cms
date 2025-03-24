@@ -2,8 +2,8 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use App\Filament\Utils\JsonLD;
-use App\Filament\Utils\Media;
+use Sharenjoy\NoahCms\Utils\JsonLD;
+use Sharenjoy\NoahCms\Utils\Media;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;

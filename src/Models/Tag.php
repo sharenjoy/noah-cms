@@ -2,7 +2,7 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use App\Filament\Utils\Media;
+use Sharenjoy\NoahCms\Utils\Media;
 use Sharenjoy\NoahCms\Models\Post;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use ArrayAccess;

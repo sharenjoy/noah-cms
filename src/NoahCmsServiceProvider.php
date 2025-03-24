@@ -26,6 +26,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
                 'filament-tree',
                 'media-library',
                 'noah-cms',
+                'permission',
                 'seo',
                 'tags',
             ])
