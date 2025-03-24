@@ -6,6 +6,8 @@ use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Sharenjoy\NoahCms\Pages\Activities;
 use Sharenjoy\NoahCms\Resources;
+use Sharenjoy\NoahCms\Resources\CategoryResource\Widgets\CategoryWidget;
+use Sharenjoy\NoahCms\Resources\MenuResource\Widgets\MenuWidget;
 
 class NoahCmsPlugin implements Plugin
 {
@@ -33,6 +35,10 @@ class NoahCmsPlugin implements Plugin
             ])
             ->pages([
                 Activities::class,
+            ])
+            ->widgets([
+                CategoryWidget::class,
+                MenuWidget::class,
             ]);
     }
 
