@@ -18,6 +18,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
                 'filament-shield',
                 'filament-tiptap-editor',
                 'filament-tree',
+                'laravellocalization',
                 'media-library',
                 'noah-cms',
                 'permission',
