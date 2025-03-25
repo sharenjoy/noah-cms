@@ -10,14 +10,8 @@ class NoahCmsServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name('noah-cms')
-            ->hasConfigFile()
             ->hasConfigFile([
                 'activitylog',
                 'filament-activity-log',
@@ -35,5 +29,16 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ->discoversMigrations()
             ->hasAssets()
             ->hasCommand(NoahCmsCommand::class);
+    }
+
+    public function bootingPackage() {}
+
+    public function packageBooted()
+    {
+        \Illuminate\Database\Eloquent\Model::unguard();
+
+        \Filament\Tables\Actions\CreateAction::configureUsing(function ($action) {
+            return $action->slideOver();
+        });
     }
 }
