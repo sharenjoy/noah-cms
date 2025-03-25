@@ -44,19 +44,6 @@ use Sharenjoy\NoahCms\Models\User as NoahCmsUser;
 class User extends NoahCmsUser {}
 ```
 
-Add this to boot method in AppServiceProvider
-
-```php
-public function boot(): void
-{
-    \Illuminate\Database\Eloquent\Model::unguard();
-
-    \Filament\Tables\Actions\CreateAction::configureUsing(function ($action) {
-        return $action->slideOver();
-    });
-}
-```
-
 Update auth.php in config folder
 
 ```php
