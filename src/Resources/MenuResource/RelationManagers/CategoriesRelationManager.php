@@ -16,12 +16,12 @@ class CategoriesRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('Category');
+        return __('noah-cms::noah-cms.category');
     }
 
     protected static function getRecordLabel(): ?string
     {
-        return __('Category');
+        return __('noah-cms::noah-cms.category');
     }
 
     public function form(Form $form): Form
@@ -35,7 +35,7 @@ class CategoriesRelationManager extends RelationManager
     {
         return $table
             ->recordTitle(fn(Category $record): string => "({$record->id}) {$record->title}")
-            ->heading(__('Category'))
+            ->heading(__('noah-cms::noah-cms.category'))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Category::class))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Category::class, Menu::class))
             ->headerActions([

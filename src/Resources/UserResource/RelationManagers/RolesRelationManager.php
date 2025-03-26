@@ -17,12 +17,12 @@ class RolesRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('Role');
+        return __('noah-cms::noah-cms.role');
     }
 
     protected static function getRecordLabel(): ?string
     {
-        return __('Role');
+        return __('noah-cms::noah-cms.role');
     }
 
     public function form(Form $form): Form
@@ -39,7 +39,7 @@ class RolesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('name')
-            ->heading(__('Role'))
+            ->heading(__('noah-cms::noah-cms.role'))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->weight('font-medium')

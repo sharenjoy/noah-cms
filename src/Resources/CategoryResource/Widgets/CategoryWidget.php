@@ -30,7 +30,7 @@ class CategoryWidget extends BaseWidget
 
     public function getTreeTitle(): ?string
     {
-        return __('Category Widget') . ' (' . static::$maxDepth . ' ' . __('Level') . ')';
+        return __('noah-cms::noah-cms.category_widget') . ' (' . static::$maxDepth . ' ' . __('noah-cms::noah-cms.level') . ')';
     }
 
     protected function getFormSchema(): array

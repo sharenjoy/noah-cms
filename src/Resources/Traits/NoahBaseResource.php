@@ -43,7 +43,7 @@ trait NoahBaseResource
                 ->reorderRecordsTriggerAction(
                     fn(Action $action, bool $isReordering) => $action
                         ->button()
-                        ->label($isReordering ? __('Reordering completed') : __('Start reordering')),
+                        ->label($isReordering ? __('noah-cms::noah-cms.reordering_completed') : __('noah-cms::noah-cms.start_reordering')),
                 );
         }
 

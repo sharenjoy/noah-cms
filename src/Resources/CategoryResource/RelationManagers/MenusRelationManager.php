@@ -16,12 +16,12 @@ class MenusRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('Menu');
+        return __('noah-cms::noah-cms.menu');
     }
 
     protected static function getRecordLabel(): ?string
     {
-        return __('Menu');
+        return __('noah-cms::noah-cms.menu');
     }
 
     public function form(Form $form): Form
@@ -35,7 +35,7 @@ class MenusRelationManager extends RelationManager
     {
         return $table
             ->recordTitle(fn(Menu $record): string => "({$record->id}) {$record->title}")
-            ->heading(__('Menu'))
+            ->heading(__('noah-cms::noah-cms.menu'))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Menu::class))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Menu::class, Category::class))
             ->headerActions([

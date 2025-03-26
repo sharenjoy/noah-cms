@@ -48,14 +48,14 @@ class Form
         }
 
         if (in_array(LogsActivity::class, class_uses(static::$model)) && config('noah-cms.featureToggle.logActivity')) {
-            $tabs[] = Tabs\Tab::make(__('Activity Log'))
+            $tabs[] = Tabs\Tab::make(__('noah-cms::noah-cms.activity_log'))
                 ->schema([
                     static::setActivityLogField()
                 ]);
         }
 
         if (count($tabs)) {
-            array_unshift($tabs, Tabs\Tab::make(__('Content'))
+            array_unshift($tabs, Tabs\Tab::make(__('noah-cms::noah-cms.content'))
                 ->columns(3)
                 ->schema($schemas));
 
@@ -130,14 +130,14 @@ class Form
         }
 
         if ($position == 'right') {
-            $fields[] = Section::make(__('Time'))
+            $fields[] = Section::make(__('noah-cms::noah-cms.time'))
                 ->hidden(fn($record) => $record === null)
                 ->schema([
                     Placeholder::make('created_at')
-                        ->label(__('Created at'))
+                        ->label(__('noah-cms::noah-cms.created_at'))
                         ->content(fn($record): ?string => $record->created_at?->diffForHumans()),
                     Placeholder::make('updated_at')
-                        ->label(__('Last modified at'))
+                        ->label(__('noah-cms::noah-cms.last_modified_at'))
                         ->content(fn($record): ?string => $record->updated_at?->diffForHumans()),
                 ]);
         }
@@ -150,29 +150,29 @@ class Form
         return Group::make([
             TextInput::make('title')
                 ->translateLabel()
-                ->label(__('Title') . ' (Meta)')
+                ->label(__('noah-cms::noah-cms.title') . ' (Meta)')
                 ->helperText(function (?string $state): string {
                     return (string) Str::of(strlen($state))
                         ->append(' / ')
                         ->append(120 . ' ')
-                        ->append(__('Characters'));
+                        ->append(__('noah-cms::noah-cms.characters'));
                 })
                 ->translatable()
                 ->reactive()
                 ->columnSpan(2),
             TextInput::make('author')
                 ->translateLabel()
-                ->label(__('Author') . ' (Meta)')
+                ->label(__('noah-cms::noah-cms.author') . ' (Meta)')
                 ->translatable()
                 ->columnSpan(2),
             Textarea::make('description')
                 ->translateLabel()
-                ->label(__('Description') . ' (Meta)')
+                ->label(__('noah-cms::noah-cms.description') . ' (Meta)')
                 ->helperText(function (?string $state): string {
                     return (string) Str::of(strlen($state))
                         ->append(' / ')
                         ->append(240 . ' ')
-                        ->append(__('Characters'));
+                        ->append(__('noah-cms::noah-cms.characters'));
                 })
                 ->translatable()
                 ->reactive()
@@ -180,9 +180,9 @@ class Form
             Section::make()
                 ->columnSpan(2)
                 ->schema([
-                    MediaPicker::make('image')->label(__('Choose image') . ' (Meta)')->showFileName(),
+                    MediaPicker::make('image')->label(__('noah-cms::noah-cms.choose_image') . ' (Meta)')->showFileName(),
                     Select::make('robots')
-                        ->label(__('Robots'))
+                        ->label(__('noah-cms::noah-cms.robots'))
                         ->columnSpan(2)
                         ->default('index, follow')
                         ->options([
@@ -210,7 +210,7 @@ class Form
     {
         return Section::make([
             Timeline::make()
-                ->label(__('Activity Log'))
+                ->label(__('noah-cms::noah-cms.activity_log'))
         ]);
     }
 }

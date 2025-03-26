@@ -22,7 +22,7 @@ class MenuResource extends Resource implements HasShieldPermissions
 
     public static function getModelLabel(): string
     {
-        return __('Menu');
+        return __('noah-cms::noah-cms.menu');
     }
 
     public static function form(Form $form): Form

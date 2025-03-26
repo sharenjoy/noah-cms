@@ -12,7 +12,7 @@ class Slug extends FormAbstract implements FormInterface
             ->disabled(function (string $operation) {
                 return $operation === 'create' ? true : false;
             })
-            ->helperText(__('The value in this field represents a unique identifier for the URL. It is recommended not to change it after adding!'))
+            ->helperText(__('noah-cms::noah-cms.slug_help_text'))
             ->placeholder('good-day')
             ->prefixIcon('heroicon-m-globe-alt')
             ->dehydrated()

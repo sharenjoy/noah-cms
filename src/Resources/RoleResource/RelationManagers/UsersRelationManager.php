@@ -16,12 +16,12 @@ class UsersRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('User');
+        return __('noah-cms::noah-cms.user');
     }
 
     protected static function getRecordLabel(): ?string
     {
-        return __('User');
+        return __('noah-cms::noah-cms.user');
     }
 
     public function form(Form $form): Form
@@ -34,7 +34,7 @@ class UsersRelationManager extends RelationManager
     {
         return $table
             ->recordTitle(fn(User $record): string => "({$record->id}) {$record->name}\r{$record->email}")
-            ->heading(__('User'))
+            ->heading(__('noah-cms::noah-cms.user'))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(User::class))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(User::class, Role::class))
             ->headerActions([

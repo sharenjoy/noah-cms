@@ -9,7 +9,7 @@ class Album extends FormAbstract implements FormInterface
     public function make()
     {
         $this->field = MediaPicker::make($this->fieldName)
-            ->label(__('Select photo album'))
+            ->label(__('noah-cms::noah-cms.select_photo_album'))
             ->showFileName()
             ->multiple()
             ->reorderable();

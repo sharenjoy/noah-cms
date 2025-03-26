@@ -13,6 +13,6 @@ class MediaLibrary extends BaseMediaLibrary
 
     public static function getNavigationGroup(): string
     {
-        return __('Resource');
+        return __('noah-cms::noah-cms.resource');
     }
 }

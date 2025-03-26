@@ -10,8 +10,8 @@ class Menus extends FormAbstract implements FormInterface
     {
         $this->field = SelectTree::make('menus')
             ->translateLabel()
-            ->placeholder(__('Please select menu'))
-            ->emptyLabel(__('Oops, no results have been found!'))
+            ->placeholder(__('noah-cms::noah-cms.please_select_menu'))
+            ->emptyLabel(__('noah-cms::noah-cms.no_results_found'))
             ->prefixIcon('heroicon-o-bars-arrow-down')
             ->searchable()
             ->enableBranchNode()

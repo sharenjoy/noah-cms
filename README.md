@@ -81,6 +81,12 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="noah-cms-views"
 ```
 
+Optionally, you can publish the translations using
+
+```bash
+php artisan vendor:publish --tag="noah-cms-translations" --force
+```
+
 Create custom panel theme
 
 ```bash

@@ -33,7 +33,7 @@ class UserResource extends Resource implements HasShieldPermissions
 
     public static function getModelLabel(): string
     {
-        return __('User');
+        return __('noah-cms::noah-cms.user');
     }
 
     public static function form(Form $form): Form

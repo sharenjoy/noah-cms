@@ -17,7 +17,7 @@ class Activities extends ListActivities
 
     public static function getNavigationGroup(): string
     {
-        return __('Resource');
+        return __('noah-cms::noah-cms.resource');
     }
 
     public static function registerNavigationItems(): void

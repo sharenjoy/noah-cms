@@ -21,7 +21,7 @@ class PostResource extends Resource implements HasShieldPermissions
 
     public static function getModelLabel(): string
     {
-        return __('Post');
+        return __('noah-cms::noah-cms.post');
     }
 
     public static function form(Form $form): Form

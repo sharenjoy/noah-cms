@@ -15,8 +15,8 @@ enum TagType: string implements HasLabel, HasIcon, HasColor
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Post => __('Post'),
-            self::Product => __('Product'),
+            self::Post => __('noah-cms::noah-cms.post'),
+            self::Product => __('noah-cms::noah-cms.product'),
         };
     }
 

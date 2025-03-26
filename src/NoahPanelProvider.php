@@ -75,8 +75,8 @@ class NoahPanelProvider extends PanelProvider
                 ]),
                 FilamentActivitylog::make(),
                 FilamentMediaLibrary::make()
-                    ->navigationLabel(__('Media Browser'))
-                    ->pageTitle(__('Media Browser'))
+                    ->navigationLabel($this->mediaLibraryLabel())
+                    ->pageTitle($this->mediaLibraryLabel())
                     ->slug('media-browser')
                     ->acceptPdf()
                     ->acceptVideo()
@@ -88,5 +88,14 @@ class NoahPanelProvider extends PanelProvider
                         MediaLibrary::class,
                     ]),
             ]);
+    }
+
+    protected function mediaLibraryLabel(): string
+    {
+        return match (app()->currentLocale()) {
+            'zh_TW' => '媒體庫',
+            'en' => 'Media Library',
+            default => 'Media Library',
+        };
     }
 }

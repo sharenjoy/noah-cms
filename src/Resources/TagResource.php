@@ -22,7 +22,7 @@ class TagResource extends Resource implements HasShieldPermissions
 
     public static function getModelLabel(): string
     {
-        return __('Tag');
+        return __('noah-cms::noah-cms.tag');
     }
 
     public static function form(Form $form): Form

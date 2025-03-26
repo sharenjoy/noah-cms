@@ -23,7 +23,7 @@ class CategoryResource extends Resource implements HasShieldPermissions
 
     public static function getModelLabel(): string
     {
-        return __('Categories');
+        return __('noah-cms::noah-cms.categories');
     }
 
     public static function form(Form $form): Form

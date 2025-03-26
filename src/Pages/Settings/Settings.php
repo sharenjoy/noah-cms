@@ -18,7 +18,7 @@ class Settings extends BaseSettings
 
     public static function getNavigationGroup(): string
     {
-        return __('Resource');
+        return __('noah-cms::noah-cms.resource');
     }
 
     public function schema(): array|Closure
@@ -32,7 +32,7 @@ class Settings extends BaseSettings
                         ->translateLabel()
                         ->schema([
                             TextInput::make('general.app_name')
-                                ->label(__('Website(Brand) name'))
+                                ->label(__('noah-cms::noah-cms.website_name'))
                                 ->required()
                                 ->translatable(true, null, [
                                     'en' => ['required', 'string', 'max:255'],
@@ -42,14 +42,14 @@ class Settings extends BaseSettings
                     Tabs\Tab::make('SEO')
                         ->schema([
                             TextInput::make('seo.title')
-                                ->label(__('SEO(Meta) title'))
+                                ->label(__('noah-cms::noah-cms.seo_title'))
                                 ->required()
                                 ->translatable(true, null, [
                                     'en' => ['required', 'string', 'max:255'],
                                     'zh_TW' => ['required', 'string', 'max:255'],
                                 ]),
                             TextInput::make('seo.description')
-                                ->label(__('SEO(Meta) description'))
+                                ->label(__('noah-cms::noah-cms.seo_description'))
                                 ->required()
                                 ->translatable(true, null, [
                                     'en' => ['required', 'string', 'max:255'],

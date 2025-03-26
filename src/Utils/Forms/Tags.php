@@ -9,7 +9,7 @@ class Tags extends FormAbstract implements FormInterface
     public function make()
     {
         $this->field = Select::make($this->fieldName)
-            ->label(__('Tag'))
+            ->label(__('noah-cms::noah-cms.tag'))
             ->preload()
             ->prefixIcon('heroicon-c-tag')
             ->relationship(name: $this->fieldName, titleAttribute: 'name')

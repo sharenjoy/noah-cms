@@ -10,8 +10,8 @@ class Categories extends FormAbstract implements FormInterface
     {
         $this->field = SelectTree::make('categories')
             ->translateLabel()
-            ->placeholder(__('Please select category'))
-            ->emptyLabel(__('Oops, no results have been found!'))
+            ->placeholder(__('noah-cms::noah-cms.please_select_category'))
+            ->emptyLabel(__('noah-cms::noah-cms.no_results_found'))
             ->prefixIcon('heroicon-o-circle-stack')
             ->searchable()
             ->enableBranchNode()

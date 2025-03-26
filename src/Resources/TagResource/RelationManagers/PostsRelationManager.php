@@ -16,12 +16,12 @@ class PostsRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('Post');
+        return __('noah-cms::noah-cms.post');
     }
 
     protected static function getRecordLabel(): ?string
     {
-        return __('Post');
+        return __('noah-cms::noah-cms.post');
     }
 
     public function form(Form $form): Form
@@ -35,7 +35,7 @@ class PostsRelationManager extends RelationManager
     {
         return $table
             ->recordTitle(fn(Post $record): string => "({$record->id}) {$record->title}")
-            ->heading(__('Post'))
+            ->heading(__('noah-cms::noah-cms.post'))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Post::class))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Post::class, Tag::class))
             ->headerActions([

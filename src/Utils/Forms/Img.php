@@ -8,7 +8,7 @@ class Img extends FormAbstract implements FormInterface
 {
     public function make()
     {
-        $this->field = MediaPicker::make($this->fieldName)->label(__('Choose image'))->showFileName();
+        $this->field = MediaPicker::make($this->fieldName)->label(__('noah-cms::noah-cms.choose_image'))->showFileName();
 
         $this->resolve();
 

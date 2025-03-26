@@ -30,7 +30,7 @@ class MenuWidget extends BaseWidget
 
     public function getTreeTitle(): ?string
     {
-        return __('Menu Widget') . ' (' . static::$maxDepth . ' ' . __('Level') . ')';
+        return __('noah-cms::noah-cms.menu_widget') . ' (' . static::$maxDepth . ' ' . __('noah-cms::noah-cms.level') . ')';
     }
 
     protected function getFormSchema(): array

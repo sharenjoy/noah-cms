@@ -38,7 +38,7 @@ class Filter
                 })
                 ->indicateUsing(function (array $data): ?string {
                     if (! $data['categories']) return null;
-                    return __('Categories') . ': ' . implode(', ', Category::whereIn('id', $data['categories'])->get()->pluck('title')->toArray());
+                    return __('noah-cms::noah-cms.categories') . ': ' . implode(', ', Category::whereIn('id', $data['categories'])->get()->pluck('title')->toArray());
                 });
         }
 
@@ -56,15 +56,15 @@ class Filter
                 })
                 ->indicateUsing(function (array $data): ?string {
                     if (! $data['tags']) return null;
-                    return __('Tag') . ': ' . implode(', ', Tag::whereIn('id', $data['tags'])->get()->pluck('name')->toArray());
+                    return __('noah-cms::noah-cms.tag') . ': ' . implode(', ', Tag::whereIn('id', $data['tags'])->get()->pluck('name')->toArray());
                 });
         }
 
         if (array_key_exists('is_active', app(static::getModel())->getCasts())) {
-            $filters[] = SelectFilter::make('is_active')->label(__('Is active'))
+            $filters[] = SelectFilter::make('is_active')->label(__('noah-cms::noah-cms.is_active'))
                 ->options([
-                    true => __('Open'),
-                    false => __('Close'),
+                    true => __('noah-cms::noah-cms.open'),
+                    false => __('noah-cms::noah-cms.close'),
                 ]);
         }
 

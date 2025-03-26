@@ -24,10 +24,10 @@ class TagLogger extends Logger
         return $logger
             ->fields([
                 Field::make('name')
-                    ->label(__('Title')),
+                    ->label(__('noah-cms::noah-cms.title')),
 
                 Field::make('type')
-                    ->label(__('Type')),
+                    ->label(__('noah-cms::noah-cms.type')),
             ])
             ->relationManagers([
                 //
