@@ -33,6 +33,10 @@ class Table
             } elseif ($name == 'roles') {
                 $columns[] = TextColumn::make('roles.name')->label(__('noah-cms::noah-cms.role'))->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
             } elseif ($name == 'seo') {
+                if (! config('noah-cms.featureToggle.seo')) {
+                    continue;
+                }
+
                 $columns[] = IconColumn::make($name)->label(__('noah-cms::noah-cms.seo'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false)
                     ->size(IconColumn\IconColumnSize::Medium)
                     ->icon(fn(string $state): string => match ($state) {
