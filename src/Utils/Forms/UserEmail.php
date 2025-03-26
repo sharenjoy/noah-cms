@@ -9,7 +9,7 @@ class UserEmail extends FormAbstract implements FormInterface
     public function make()
     {
         $this->field = TextInput::make($this->fieldName)
-            ->translateLabel()
+            ->label(__('noah-cms::noah-cms.' . $this->fieldName))
             ->placeholder('name@example.com')
             ->disabled(fn($record) => $record !== null ? true : false);
 

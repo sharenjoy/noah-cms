@@ -29,7 +29,7 @@ class Settings extends BaseSettings
                 ->persistTabInQueryString()
                 ->schema([
                     Tabs\Tab::make('General')
-                        ->translateLabel()
+                        ->label(__('noah-cms::noah-cms.general'))
                         ->schema([
                             TextInput::make('general.app_name')
                                 ->label(__('noah-cms::noah-cms.website_name'))

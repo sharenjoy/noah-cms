@@ -10,7 +10,7 @@ class TagType extends FormAbstract implements FormInterface
     public function make()
     {
         $this->field = Select::make($this->fieldName)
-            ->translateLabel()
+            ->label(__('noah-cms::noah-cms.' . $this->fieldName))
             ->options(EnumTagType::class);
 
         $this->resolve();

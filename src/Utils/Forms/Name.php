@@ -8,7 +8,7 @@ class Name extends FormAbstract implements FormInterface
 {
     public function make()
     {
-        $this->field = TextInput::make($this->fieldName)->placeholder(__('noah-cms::noah-cms.john_doe'))->translateLabel();
+        $this->field = TextInput::make($this->fieldName)->placeholder(__('noah-cms::noah-cms.john_doe'))->label(__('noah-cms::noah-cms.' . $this->fieldName));
 
         $this->resolve();
 

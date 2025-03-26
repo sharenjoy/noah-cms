@@ -9,7 +9,7 @@ class Content extends FormAbstract implements FormInterface
     public function make()
     {
         $this->field = TiptapEditor::make($this->fieldName)
-            ->translateLabel()
+            ->label(__('noah-cms::noah-cms.' . $this->fieldName))
             ->profile($this->content['profile'] ?? 'simple')
             ->maxContentWidth('5xl')
             ->extraInputAttributes(['style' => 'min-height: 24rem;']);

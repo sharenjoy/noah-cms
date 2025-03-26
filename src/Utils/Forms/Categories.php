@@ -9,7 +9,7 @@ class Categories extends FormAbstract implements FormInterface
     public function make()
     {
         $this->field = SelectTree::make('categories')
-            ->translateLabel()
+            ->label(__('noah-cms::noah-cms.categories'))
             ->placeholder(__('noah-cms::noah-cms.please_select_category'))
             ->emptyLabel(__('noah-cms::noah-cms.no_results_found'))
             ->prefixIcon('heroicon-o-circle-stack')

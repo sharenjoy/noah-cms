@@ -51,5 +51,6 @@ return [
     "robots" => "索引選項",
     "author" => "作者",
     "activity_log" => "活動紀錄",
+    "password" => "密碼",
 
 ];

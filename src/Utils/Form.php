@@ -149,7 +149,6 @@ class Form
     {
         return Group::make([
             TextInput::make('title')
-                ->translateLabel()
                 ->label(__('noah-cms::noah-cms.title') . ' (Meta)')
                 ->helperText(function (?string $state): string {
                     return (string) Str::of(strlen($state))
@@ -161,12 +160,10 @@ class Form
                 ->reactive()
                 ->columnSpan(2),
             TextInput::make('author')
-                ->translateLabel()
                 ->label(__('noah-cms::noah-cms.author') . ' (Meta)')
                 ->translatable()
                 ->columnSpan(2),
             Textarea::make('description')
-                ->translateLabel()
                 ->label(__('noah-cms::noah-cms.description') . ' (Meta)')
                 ->helperText(function (?string $state): string {
                     return (string) Str::of(strlen($state))

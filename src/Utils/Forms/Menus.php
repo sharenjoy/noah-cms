@@ -9,7 +9,7 @@ class Menus extends FormAbstract implements FormInterface
     public function make()
     {
         $this->field = SelectTree::make('menus')
-            ->translateLabel()
+            ->label(__('noah-cms::noah-cms.menu'))
             ->placeholder(__('noah-cms::noah-cms.please_select_menu'))
             ->emptyLabel(__('noah-cms::noah-cms.no_results_found'))
             ->prefixIcon('heroicon-o-bars-arrow-down')
