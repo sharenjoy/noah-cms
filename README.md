@@ -31,12 +31,14 @@ Add repositories section to composer
 You can install the package via composer:
 
 ```bash
-composer require sharenjoy/noah-cms
+composer require sharenjoy/noah-cms:dev-main
 ```
 
 Replace this to user model
 
 ```php
+<?php
+
 namespace App\Models;
 
 use Sharenjoy\NoahCms\Models\User as NoahCmsUser;
@@ -55,11 +57,29 @@ Update auth.php in config folder
 ],
 ```
 
-You can publish and run the migrations with:
+You can publish migrations and run migrate and other database related:
 
 ```bash
 php artisan vendor:publish --tag="noah-cms-migrations"
+```
+
+```bash
 php artisan migrate
+```
+
+```bash
+php artisan shield:super-admin
+```
+
+You can publish assets and run the migrations with:
+
+```bash
+php artisan filament:assets
+```
+
+You can run the storage link with:
+
+```bash
 php artisan storage:link
 ```
 
