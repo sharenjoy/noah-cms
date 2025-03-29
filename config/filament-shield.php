@@ -60,8 +60,8 @@ return [
 
     'generator' => [
         'option' => 'policies_and_permissions',
-        'policy_directory' => base_path('vendor/sharenjoy/noah-cms/src/Policies'),
-        'policy_namespace' => 'Sharenjoy\\NoahCms\\Policies',
+        'policy_directory' => 'Policies',
+        'policy_namespace' => 'Policies',
     ],
 
     'exclude' => [

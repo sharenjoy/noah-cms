@@ -4,7 +4,6 @@ namespace Sharenjoy\NoahCms;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Sharenjoy\NoahCms\Commands\NoahCmsCommand;
 
 class NoahCmsServiceProvider extends PackageServiceProvider
 {
@@ -29,7 +28,9 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->discoversMigrations()
             ->hasAssets()
-            ->hasCommand(NoahCmsCommand::class);
+            ->hasCommands([
+                // NoahCmsCommand::class
+            ]);
     }
 
     public function bootingPackage() {}
