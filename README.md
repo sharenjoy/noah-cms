@@ -71,6 +71,10 @@ php artisan migrate
 php artisan shield:super-admin
 ```
 
+```bash
+php artisan shield:generate --all
+```
+
 You can publish assets and run the migrations with:
 
 ```bash
