@@ -35,7 +35,7 @@ class NoahCmsPlugin implements Plugin
                 Resources\UserResource::class,
             ])
             ->pages([
-                Activities::class,
+                // Activities::class,
             ])
             ->widgets([
                 CategoryWidget::class,
