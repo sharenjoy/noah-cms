@@ -26,6 +26,7 @@
         "illuminate/contracts": "^10.0||^11.0||^12.0",
         "mcamara/laravel-localization": "^2.2",
         "mvenghaus/filament-plugin-translatable-inline": "^3.0",
+        "noxoua/filament-activity-log": "^2.2",
         "outerweb/filament-settings": "^1.2",
         "outerweb/filament-translatable-fields": "^2.0",
         "overtrue/laravel-pinyin": "^5.1",
