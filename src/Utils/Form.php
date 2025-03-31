@@ -97,9 +97,9 @@ class Form
             $method = str()->camel($name);
             $class = str()->studly((isset($content['alias']) ? $content['alias'] : $name));
 
-            if (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Forms\\Custom\\' . $class)) {
+            if (class_exists('\\App\\Filament\\Utils\\Forms\\' . $class)) {
                 // custom class
-                $obj = new ("\\Sharenjoy\\NoahCms\\Utils\\Forms\\Custom\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
+                $obj = new ("\\App\\Filament\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
                 $schema = $obj->make();
             } elseif (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Forms\\' . $class)) {
                 // class
