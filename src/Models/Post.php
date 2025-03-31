@@ -59,8 +59,6 @@ class Post extends Model implements Sortable
                 // ],
             ],
             'slug' => ['maxLength' => 50, 'required' => true],
-            'categories' => ['required' => true],
-            'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
             'description' => ['required' => true, 'rules' => ['required', 'string']],
             'content' => [
                 'profile' => 'simple',
@@ -73,6 +71,8 @@ class Post extends Model implements Sortable
             'album' => ['required' => true],
             'is_active' => ['required' => true],
             'published_at' => ['required' => true],
+            'categories' => ['required' => true],
+            'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
         ],
     ];
 
