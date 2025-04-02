@@ -34,9 +34,9 @@ return new class extends Migration
             $table->{$fieldDataType['content']}('content')->nullable();
             $table->integer('img')->nullable();
             $table->text('album')->nullable();
-            $table->string('slug', 50);
-            $table->unsignedInteger('order_column')->nullable();
-            $table->boolean('is_active')->default(false);
+            $table->string('slug', 50)->index();
+            $table->unsignedInteger('order_column')->nullable()->index();
+            $table->boolean('is_active')->default(false)->index();
             $table->timestamp('published_at');
             $table->timestamps();
             $table->softDeletes();

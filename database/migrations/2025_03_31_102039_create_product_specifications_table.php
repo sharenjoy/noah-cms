@@ -38,7 +38,7 @@ return new class extends Migration
             $table->json('product_limit')->nullable();
             $table->text('album')->nullable();
             $table->{$fieldDataType['content']}('content')->nullable();
-            $table->unsignedInteger('order_column')->nullable();
+            $table->unsignedInteger('order_column')->nullable()->index();
             $table->boolean('is_active')->default(false)->index();
             $table->timestamps();
         });

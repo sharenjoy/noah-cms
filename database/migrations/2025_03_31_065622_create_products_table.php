@@ -40,7 +40,7 @@ return new class extends Migration
             $table->{$fieldDataType['specs']}('specs')->nullable();
             $table->integer('img')->nullable();
             $table->text('album')->nullable();
-            $table->unsignedInteger('order_column')->nullable();
+            $table->unsignedInteger('order_column')->nullable()->index();
             $table->boolean('is_single_spec')->default(false)->index();
             $table->boolean('is_active')->default(false)->index();
             $table->timestamp('published_at');

@@ -22,9 +22,9 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) use ($fieldDataType) {
             $table->id();
             $table->$fieldDataType('name');
-            $table->string('slug', 50);
-            $table->string('type', 50)->nullable();
-            $table->unsignedInteger('order_column')->nullable();
+            $table->string('slug', 50)->index();
+            $table->string('type', 50)->nullable()->index();
+            $table->unsignedInteger('order_column')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
         });
