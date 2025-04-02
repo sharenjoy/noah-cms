@@ -2,29 +2,34 @@
 
 namespace Sharenjoy\NoahCms\Resources;
 
+use Sharenjoy\NoahCms\Resources\ProductResource\Pages;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
+use Sharenjoy\NoahCms\Models\Product;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Sharenjoy\NoahCms\Models\Category;
-use Sharenjoy\NoahCms\Resources\CategoryResource\Pages;
-use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\MenusRelationManager;
-use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\PostsRelationManager;
-use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\ProductsRelationManager;
-use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
+use Sharenjoy\NoahCms\Resources\ProductResource\RelationManagers\ProductSpecificationsRelationManager;
 
-class CategoryResource extends Resource implements HasShieldPermissions
+class ProductResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
+
+    protected static ?int $navigationSort = 2;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('noah-cms::noah-cms.product');
+    }
 
     public static function getModelLabel(): string
     {
-        return __('noah-cms::noah-cms.categories');
+        return __('noah-cms::noah-cms.product');
     }
 
     public static function form(Form $form): Form
@@ -46,24 +51,24 @@ class CategoryResource extends Resource implements HasShieldPermissions
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make(array_merge(static::getBulkActions(), [])),
-            ]);
+            ])
+            ->defaultSort('order_column', 'desc');
     }
 
     public static function getRelations(): array
     {
         return [
-            ProductsRelationManager::class,
-            PostsRelationManager::class,
-            MenusRelationManager::class,
+            ProductSpecificationsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListProducts::route('/'),
+            'create' => Pages\CreateProduct::route('/create'),
+            // 'view' => Pages\ViewProduct::route('/{record}'),
+            'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 

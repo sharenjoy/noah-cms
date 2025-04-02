@@ -10,11 +10,19 @@ trait CommonModelTrait
 {
     public function getFormFields(): array
     {
+        if (method_exists($this, 'formFields')) {
+            return $this->formFields();
+        }
+
         return $this->formFields;
     }
 
     public function getTableFields(): array
     {
+        if (method_exists($this, 'tableFields')) {
+            return $this->tableFields();
+        }
+
         return $this->tableFields;
     }
 

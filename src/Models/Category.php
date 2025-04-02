@@ -2,16 +2,18 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use Sharenjoy\NoahCms\Utils\Media;
-use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
-use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
-use Sharenjoy\NoahCms\Models\Traits\HasMenuTree;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
+use Sharenjoy\NoahCms\Models\Post;
+use Sharenjoy\NoahCms\Models\Product;
+use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
+use Sharenjoy\NoahCms\Models\Traits\HasMenuTree;
+use Sharenjoy\NoahCms\Utils\Media;
 use SolutionForest\FilamentTree\Concern\ModelTree;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
@@ -81,6 +83,11 @@ class Category extends Model
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class);
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
     }
 
     /** SCOPES */

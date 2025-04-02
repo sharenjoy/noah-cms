@@ -83,7 +83,7 @@ class Post extends Model implements Sortable
         'slug' => [],
         'categories' => [],
         'tags' => [
-            'type' => 'post',
+            'tagType' => 'post',
         ],
         'thumbnail' => [],
         'seo' => [],
@@ -135,6 +135,7 @@ class Post extends Model implements Sortable
         return $classname::make()
             ->after(function (Model $replica): void {
                 $replica->slug = $replica->slug . '-' . $replica->id;
+                $replica->is_active = false;
                 $replica->save();
             })
             ->successRedirectUrl(function (Model $replica) use ($resourceName): string {
