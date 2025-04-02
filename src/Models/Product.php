@@ -102,7 +102,6 @@ class Product extends Model implements Sortable
                                 ])
                                 ->columns(1)
                         ])
-                        ->dehydrateStateUsing(fn(string $state): string => json_encode($state))
                         ->disabled(function (string $operation) {
                             return $operation === 'edit' ? true : false;
                         })

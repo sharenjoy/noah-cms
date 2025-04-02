@@ -25,7 +25,7 @@ class ResolveProductSpecsDataToRecords
     {
         if ($this->model->is_single_spec) {
             $this->model->productSpecifications()->create([
-                'spec' => $this->model->title,
+                'spec_detail_name' => $this->model->title,
                 'is_active' => true,
             ]);
 
@@ -36,7 +36,7 @@ class ResolveProductSpecsDataToRecords
 
         foreach ($this->specResults as $result) {
             $this->model->productSpecifications()->create([
-                'spec' => $result,
+                'spec_detail_name' => $result,
                 'is_active' => true,
             ]);
         }
