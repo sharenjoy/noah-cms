@@ -23,6 +23,8 @@ abstract class FormAbstract
         $this->rules();
         $this->translatable();
         $this->slug();
+        $this->disable();
+        $this->live();
         $this->span();
     }
 
@@ -77,5 +79,21 @@ abstract class FormAbstract
     protected function span()
     {
         $this->field = $this->field->columnSpanFull();
+    }
+
+    protected function disable()
+    {
+        if ($this->content['disable'] ?? false) {
+            $this->field = $this->field->disabled(function (string $operation) {
+                return $operation === $this->content['disable'] ? true : false;
+            });
+        }
+    }
+
+    protected function live()
+    {
+        if ($this->content['live'] ?? false) {
+            $this->field = $this->field->live();
+        }
     }
 }

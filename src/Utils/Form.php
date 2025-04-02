@@ -94,27 +94,32 @@ class Form
         $fields = [];
 
         foreach ($items as $name => $content) {
-            $method = str()->camel($name);
-            $class = str()->studly((isset($content['alias']) ? $content['alias'] : $name));
-
-            if (class_exists('\\App\\Filament\\Utils\\Forms\\' . $class)) {
-                // custom class
-                $obj = new ("\\App\\Filament\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
-                $schema = $obj->make();
-            } elseif (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Forms\\' . $class)) {
-                // class
-                $obj = new ("\\Sharenjoy\\NoahCms\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
-                $schema = $obj->make();
+            if (! is_array($content)) {
+                // 可以直接使用 Filamane form field component
+                $fields[] = $content;
             } else {
-                throw new Exception('No class available that matches. -> ' . $class);
-                // method
-                // $schema = static::$method(fieldName: $name, content: $content);
-            }
+                $method = str()->camel($name);
+                $class = str()->studly((isset($content['alias']) ? $content['alias'] : $name));
 
-            if (in_array($name, static::$translatable)) {
-                $fields[] = Grid::make()->schema([$schema]);
-            } else {
-                $fields[] = Section::make()->schema([$schema]);
+                if (class_exists('\\App\\Filament\\Utils\\Forms\\' . $class)) {
+                    // custom class
+                    $obj = new ("\\App\\Filament\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
+                    $schema = $obj->make();
+                } elseif (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Forms\\' . $class)) {
+                    // class
+                    $obj = new ("\\Sharenjoy\\NoahCms\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
+                    $schema = $obj->make();
+                } else {
+                    throw new Exception('No class available that matches. -> ' . $class);
+                    // method
+                    // $schema = static::$method(fieldName: $name, content: $content);
+                }
+
+                if (in_array($name, static::$translatable)) {
+                    $fields[] = Grid::make()->schema([$schema]);
+                } else {
+                    $fields[] = Section::make()->schema([$schema]);
+                }
             }
         }
 
