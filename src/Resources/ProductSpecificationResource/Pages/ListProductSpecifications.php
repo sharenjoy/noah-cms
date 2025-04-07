@@ -14,6 +14,6 @@ class ListProductSpecifications extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return array_merge([], $this->recordHeaderActions());
+        return [];
     }
 }

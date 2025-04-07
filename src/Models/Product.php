@@ -115,8 +115,8 @@ class Product extends Model implements Sortable
                 ],
             ],
             'right' => [
-                'img' => ['required' => true],
-                'album' => ['required' => true],
+                'img' => [],
+                'album' => [],
                 'is_active' => ['required' => true],
                 'published_at' => ['required' => true],
                 'categories' => ['required' => true],

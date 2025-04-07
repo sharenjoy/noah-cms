@@ -78,7 +78,7 @@ class ProductSpecification extends Model implements Sortable
                 ],
             ],
             'right' => [
-                'album' => ['required' => true],
+                'album' => [],
                 'is_active' => ['required' => true],
             ],
         ];
