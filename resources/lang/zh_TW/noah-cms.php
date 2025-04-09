@@ -53,6 +53,8 @@ return [
     "activity_log" => "活動紀錄",
     "password" => "密碼",
     "is_single_spec" => "是否為單一規格商品",
+    "single_spec" => "此為單一規格商品",
+    "single_spec_selected" => "已選擇為單一規格商品",
     'yes' => '是',
     'no' => '否',
     'specification' => '商品規格',
@@ -62,7 +64,7 @@ return [
     'spec_no' => '規格編號',
     'spec_code' => '商品條碼',
     'price' => '價格',
-    'compare_price' => '比較價格',
+    'compare_price' => '原價',
     'cost' => '成本',
     'stock_method' => '庫存方法',
     'product_specifications_count' => '規格數量',
@@ -76,5 +78,6 @@ return [
     'no_international' => '不可國際運送',
     'no_coupon' => '不可搭配使用折價券',
     'no_point' => '不可累積點數',
+    'error' => '錯誤',
 
 ];

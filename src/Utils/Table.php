@@ -40,7 +40,7 @@ class Table
                     }
                     $columns[] = $field->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'thumbnail') {
-                    $columns[] = MediaColumn::make($name)->label(__('noah-cms::noah-cms.image'))->circular()->size($content['size'] ?? 40)->alignCenter()->defaultImageUrl(asset('vendor/noah-cms/images/placeholder.jpg'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $columns[] = MediaColumn::make($name)->label(__('noah-cms::noah-cms.image'))->circular()->size($content['size'] ?? 40)->alignCenter()->defaultImageUrl(asset('vendor/noah-cms/images/placeholder.svg'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'slug') {
                     $columns[] = TextColumn::make($name)->label('Slug')->searchable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'categories') {

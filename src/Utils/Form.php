@@ -22,14 +22,16 @@ class Form
 {
     protected static $model;
     protected static $operation;
+    protected static $ownerRecord;
     protected static $translatable;
 
-    public static function make(string $model, string $operation): array
+    public static function make(string $model, string $operation, $ownerRecord = null): array
     {
         $modelInstance = app($model);
 
         static::$model = $model;
         static::$operation = $operation;
+        static::$ownerRecord = $ownerRecord;
         static::$translatable = $modelInstance->translatable;
 
         $form = $modelInstance->getFormFields();
@@ -103,11 +105,11 @@ class Form
 
                 if (class_exists('\\App\\Filament\\Utils\\Forms\\' . $class)) {
                     // custom class
-                    $obj = new ("\\App\\Filament\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
+                    $obj = new ("\\App\\Filament\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model, ownerRecord: static::$ownerRecord);
                     $schema = $obj->make();
                 } elseif (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Forms\\' . $class)) {
                     // class
-                    $obj = new ("\\Sharenjoy\\NoahCms\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model);
+                    $obj = new ("\\Sharenjoy\\NoahCms\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model, ownerRecord: static::$ownerRecord);
                     $schema = $obj->make();
                 } else {
                     throw new Exception('No class available that matches. -> ' . $class);

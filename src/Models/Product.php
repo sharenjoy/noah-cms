@@ -3,6 +3,8 @@
 namespace Sharenjoy\NoahCms\Models;
 
 use Filament\Facades\Filament;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -16,6 +18,8 @@ use RalphJSmit\Laravel\SEO\SchemaCollection;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use Sharenjoy\NoahCms\Actions\ResolveProductSpecsDataToRecords;
+use Sharenjoy\NoahCms\Enums\ProductLimit;
+use Sharenjoy\NoahCms\Enums\StockMethod;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
@@ -44,34 +48,18 @@ class Product extends Model implements Sortable
     protected $casts = [
         'album' => 'array',
         'categories' => 'array',
+        'specs' => 'json',
+        'stock_method' => 'json',
+        'product_limit' => 'json',
         'is_single_spec' => 'boolean',
         'is_active' => 'boolean',
         'published_at' => 'datetime',
-        'specs' => 'json',
     ];
 
     public $translatable = [
         'title',
         'description',
         'content',
-    ];
-
-    protected array $tableFields = [
-        'title' => [
-            'description' => true,
-        ],
-        'slug' => [],
-        'categories' => [],
-        'tags' => [
-            'tagType' => 'post',
-        ],
-        'relationCount' => ['label' => 'product_specifications_count', 'relation' => 'productSpecifications'],
-        'thumbnail' => [],
-        'seo' => [],
-        'is_active' => [],
-        'published_at' => [],
-        'created_at' => ['isToggledHiddenByDefault' => true],
-        'updated_at' => ['isToggledHiddenByDefault' => true],
     ];
 
     protected function formFields(): array
@@ -82,15 +70,21 @@ class Product extends Model implements Sortable
                     'slug' => true,
                     'required' => true,
                     'rules' => ['required', 'string'],
-                    // 'localeRules' => [
-                    //     'zh_TW' => ['required', 'string', 'max:255'],
-                    //     'en' => ['required', 'string', 'max:255'],
-                    // ],
                 ],
                 'slug' => ['maxLength' => 50, 'required' => true],
                 'description' => ['required' => true, 'rules' => ['required', 'string']],
+                'check' => Section::make()->schema([
+                    'delivery_limit' => CheckboxList::make('product_limit')
+                        ->options(ProductLimit::class)
+                        ->label(__('noah-cms::noah-cms.product_limit')),
+                    'stock_method' => CheckboxList::make('stock_method')
+                        ->options(StockMethod::class)
+                        ->label(__('noah-cms::noah-cms.stock_method')),
+                ])->columns(2),
                 'is_single_spec' => ['alias' => 'yes_no', 'required' => true, 'disable' => 'edit', 'live' => true],
                 'specs' => Section::make()->schema([
+                    Placeholder::make(__('noah-cms::noah-cms.single_spec_selected'))
+                        ->visible(fn(Get $get): bool => $get('is_single_spec') == true),
                     Repeater::make('specs')
                         ->label(__('noah-cms::noah-cms.specification'))
                         ->schema([
@@ -109,7 +103,7 @@ class Product extends Model implements Sortable
                         ->collapsible()
                         ->maxItems(3)
                         ->visible(fn(Get $get): bool => $get('is_single_spec') == false)
-                ]),
+                ])->visible(fn($operation) => $operation === 'create'),
                 'content' => [
                     'profile' => 'simple',
                 ],
@@ -122,6 +116,23 @@ class Product extends Model implements Sortable
                 'categories' => ['required' => true],
                 'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
             ],
+        ];
+    }
+
+    protected function tableFields(): array
+    {
+        return [
+            'title' => ['description' => true],
+            'slug' => [],
+            'categories' => [],
+            'tags' => ['tagType' => 'product'],
+            'relationCount' => ['label' => 'product_specifications_count', 'relation' => 'productSpecifications'],
+            'thumbnail' => [],
+            'seo' => [],
+            'is_active' => [],
+            'published_at' => [],
+            'created_at' => ['isToggledHiddenByDefault' => true],
+            'updated_at' => ['isToggledHiddenByDefault' => true],
         ];
     }
 
@@ -170,13 +181,19 @@ class Product extends Model implements Sortable
         $resourceName = 'products';
         $classname = $type == 'table' ? '\Filament\Tables\Actions\ReplicateAction' : '\Filament\Actions\ReplicateAction';
         return $classname::make()
-            ->after(function (Model $replica): void {
+            ->after(function (Model $replica, Model $ownerRecord): void {
                 $replica->slug = $replica->slug . '-' . $replica->id;
                 $replica->is_active = false;
                 $replica->save();
 
                 // 複製規格
-                ResolveProductSpecsDataToRecords::run($replica->specs, $replica, 'create');
+                $specResults = $ownerRecord->productSpecifications->pluck('spec_detail_name')->toArray();
+                foreach ($specResults as $value) {
+                    $replica->productSpecifications()->create([
+                        'spec_detail_name' => $value,
+                        'is_active' => true,
+                    ]);
+                }
             })
             ->successRedirectUrl(function (Model $replica) use ($resourceName): string {
                 $currentPanelId = Filament::getCurrentPanel()->getId();

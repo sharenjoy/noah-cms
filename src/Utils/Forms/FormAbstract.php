@@ -14,6 +14,7 @@ abstract class FormAbstract
         protected array $content,
         protected array $translatable,
         protected string $model,
+        protected $ownerRecord = null,
     ) {
         // dd($fieldName, $content, $translatable, $model);
     }

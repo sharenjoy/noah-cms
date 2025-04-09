@@ -25,7 +25,7 @@ class ResolveProductSpecsDataToRecords
     {
         if ($this->model->is_single_spec) {
             $this->model->productSpecifications()->create([
-                'spec_detail_name' => $this->model->title,
+                'spec_detail_name' => 'single_spec',
                 'is_active' => true,
             ]);
 

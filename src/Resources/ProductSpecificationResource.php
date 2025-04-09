@@ -2,15 +2,16 @@
 
 namespace Sharenjoy\NoahCms\Resources;
 
-use Sharenjoy\NoahCms\Resources\ProductSpecificationResource\Pages;
-use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
-use Sharenjoy\NoahCms\Models\ProductSpecification;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Sharenjoy\NoahCms\Models\ProductSpecification;
+use Sharenjoy\NoahCms\Resources\ProductSpecificationResource\Pages;
 use Sharenjoy\NoahCms\Resources\ProductSpecificationResource\RelationManagers\ProductRelationManager;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
 class ProductSpecificationResource extends Resource implements HasShieldPermissions
 {
@@ -50,7 +51,10 @@ class ProductSpecificationResource extends Resource implements HasShieldPermissi
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([]),
             ])
-            ->defaultSort('order_column');
+            ->groups([
+                Group::make('product_id')->label(__('noah-cms::noah-cms.product_title'))->collapsible(),
+            ])
+            ->defaultSort('created_at');
     }
 
     public static function getRelations(): array
