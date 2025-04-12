@@ -6,12 +6,14 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -23,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     use Notifiable;
     use SoftDeletes;
     use HasRoles;
+    use HasTags;
 
     protected $fillable = [
         'name',
@@ -53,13 +56,16 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                 'rules' => ['required', 'min:6'],
             ],
         ],
-        'right' => [],
+        'right' => [
+            'tags' => ['min' => 0, 'max' => 3, 'multiple' => true],
+        ],
     ];
 
     protected array $tableFields = [
         'name' => [],
         'email' => [],
         'roles' => [],
+        'tags' => ['tagType' => 'user'],
         'created_at' => [],
         'updated_at' => [],
     ];
@@ -86,6 +92,15 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             ->explode(' ')
             ->map(fn(string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this
+            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName(), $this->getTaggableTableName())
+            ->using($this->getPivotModelClassName())
+            ->where('type', 'user')
+            ->ordered();
     }
 
     /**
