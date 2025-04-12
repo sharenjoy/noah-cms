@@ -32,6 +32,7 @@ class NoahCmsPlugin implements Plugin
                 Resources\PostResource::class,
                 Resources\ProductResource::class,
                 Resources\ProductSpecificationResource::class,
+                Resources\BrandResource::class,
                 Resources\RoleResource::class,
                 Resources\TagResource::class,
                 Resources\UserResource::class,

@@ -4,9 +4,11 @@ namespace Sharenjoy\NoahCms\Models;
 
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\HtmlString;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
@@ -32,6 +34,10 @@ class ProductSpecification extends Model implements Sortable
 
     public $translatable = [
         'content',
+    ];
+
+    protected array $sort = [
+        'order_column' => 'asc',
     ];
 
     protected function formFields(): array
@@ -66,7 +72,7 @@ class ProductSpecification extends Model implements Sortable
     protected function tableFields(): array
     {
         return [
-            'product.title' => ['label' => 'product_title'],
+            'product.title' =>  ['alias' => 'belongs_to', 'label' => 'product', 'relation' => 'product'],
             'spec_detail_name' => [],
             'no' => ['label' => 'spec_no'],
             'price' => ['type' => 'number'],

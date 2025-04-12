@@ -44,7 +44,7 @@ class PostResource extends Resource implements HasShieldPermissions
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make(array_merge(static::getBulkActions(), [])),
             ])
-            ->defaultSort('order_column', 'desc');
+            ->reorderable(false);
     }
 
     public static function getRelations(): array

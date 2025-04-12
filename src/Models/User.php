@@ -70,6 +70,10 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'updated_at' => [],
     ];
 
+    protected array $sort = [
+        'created_at' => 'desc',
+    ];
+
     /**
      * Get the attributes that should be cast.
      *

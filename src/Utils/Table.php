@@ -18,7 +18,7 @@ class Table
         foreach ($table as $name => $content) {
 
             if (! is_array($content)) {
-                // 可以直接使用 Filamane form field component
+                // 可以直接使用 Filamane table column component
                 $columns[] = $content;
                 continue;
             }

@@ -7,19 +7,22 @@ use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\SchemaCollection;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
-use Sharenjoy\NoahCms\Actions\ResolveProductSpecsDataToRecords;
 use Sharenjoy\NoahCms\Enums\ProductLimit;
 use Sharenjoy\NoahCms\Enums\StockMethod;
+use Sharenjoy\NoahCms\Models\Brand;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
@@ -60,6 +63,10 @@ class Product extends Model implements Sortable
         'title',
         'description',
         'content',
+    ];
+
+    protected array $sort = [
+        'published_at' => 'desc',
     ];
 
     protected function formFields(): array
@@ -113,6 +120,20 @@ class Product extends Model implements Sortable
                 'album' => [],
                 'is_active' => ['required' => true],
                 'published_at' => ['required' => true],
+                'brand_id' => Section::make()->schema([
+                    Select::make('brand_id')
+                        ->label(__('noah-cms::noah-cms.brand'))
+                        ->relationship(
+                            name: 'brand',
+                            titleAttribute: 'title',
+                            modifyQueryUsing: fn(Builder $query) => $query->withTrashed()->sort(),
+                        )
+                        ->createOptionForm(\Sharenjoy\NoahCms\Utils\Form::make(Brand::class, 'create'))
+                        ->createOptionAction(fn(\Filament\Forms\Components\Actions\Action $action) => $action->slideOver())
+                        ->searchable()
+                        ->required()
+                        ->preload(),
+                ])->columns(1),
                 'categories' => ['required' => true],
                 'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
             ],
@@ -124,6 +145,7 @@ class Product extends Model implements Sortable
         return [
             'title' => ['description' => true],
             'slug' => [],
+            'brand.title' =>  ['alias' => 'belongs_to', 'label' => 'brand', 'relation' => 'brand'],
             'categories' => [],
             'tags' => ['tagType' => 'product'],
             'relationCount' => ['label' => 'product_specifications_count', 'relation' => 'productSpecifications'],
@@ -150,6 +172,11 @@ class Product extends Model implements Sortable
     public function productSpecifications(): HasMany
     {
         return $this->hasMany(ProductSpecification::class);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     /** SCOPES */

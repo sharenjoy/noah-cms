@@ -79,5 +79,10 @@ return [
     'no_coupon' => '不可搭配使用折價券',
     'no_point' => '不可累積點數',
     'error' => '錯誤',
+    'brand' => '品牌',
+    'products_count' => '商品數量',
+    'posts_count' => '消息數量',
+    'menus_count' => '選單數量',
+    'categories_count' => '分類數量',
 
 ];

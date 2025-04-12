@@ -39,12 +39,23 @@ trait NoahBaseResource
         if (in_array(SortableTrait::class, class_uses(static::getModel()))) {
             $table
                 ->reorderable('order_column')
-                ->defaultSort('order_column')
                 ->reorderRecordsTriggerAction(
                     fn(Action $action, bool $isReordering) => $action
                         ->button()
                         ->label($isReordering ? __('noah-cms::noah-cms.reordering_completed') : __('noah-cms::noah-cms.start_reordering')),
                 );
+        }
+
+        if (property_exists(static::getModel(), 'sort')) {
+            $table->defaultSort(function (Builder $query) {
+                $sort = app(static::getModel())->getSortColumn();
+                foreach ($sort as $column => $direction) {
+                    $query->orderBy($column, $direction);
+                }
+                return $query;
+            });
+        } else {
+            $table->defaultSort('created_at', 'desc');
         }
 
         return $table;

@@ -47,6 +47,10 @@ class Post extends Model implements Sortable
         'content',
     ];
 
+    protected array $sort = [
+        'published_at' => 'desc',
+    ];
+
     protected array $formFields = [
         'left' => [
             'title' => [

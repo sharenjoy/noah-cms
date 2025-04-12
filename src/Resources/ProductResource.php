@@ -2,15 +2,16 @@
 
 namespace Sharenjoy\NoahCms\Resources;
 
-use Sharenjoy\NoahCms\Resources\ProductResource\Pages;
-use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
-use Sharenjoy\NoahCms\Models\Product;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Sharenjoy\NoahCms\Models\Product;
+use Sharenjoy\NoahCms\Resources\ProductResource\Pages;
 use Sharenjoy\NoahCms\Resources\ProductResource\RelationManagers\ProductSpecificationsRelationManager;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
 class ProductResource extends Resource implements HasShieldPermissions
 {
@@ -52,7 +53,10 @@ class ProductResource extends Resource implements HasShieldPermissions
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make(array_merge(static::getBulkActions(), [])),
             ])
-            ->defaultSort('order_column', 'desc');
+            ->groups([
+                Group::make('brand_id')->label(__('noah-cms::noah-cms.brand'))->collapsible(),
+            ])
+            ->reorderable(false);
     }
 
     public static function getRelations(): array

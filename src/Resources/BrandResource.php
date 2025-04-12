@@ -6,22 +6,21 @@ use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
-use Sharenjoy\NoahCms\Models\ProductSpecification;
-use Sharenjoy\NoahCms\Resources\ProductSpecificationResource\Pages;
-use Sharenjoy\NoahCms\Resources\ProductSpecificationResource\RelationManagers\ProductRelationManager;
+use Sharenjoy\NoahCms\Models\Brand;
+use Sharenjoy\NoahCms\Resources\BrandResource\Pages;
+use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\ProductsRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
-class ProductSpecificationResource extends Resource implements HasShieldPermissions
+class BrandResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = ProductSpecification::class;
+    protected static ?string $model = Brand::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-square-3-stack-3d';
+    protected static ?string $navigationIcon = 'heroicon-o-lifebuoy';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 8;
 
     public static function getNavigationGroup(): ?string
     {
@@ -30,7 +29,7 @@ class ProductSpecificationResource extends Resource implements HasShieldPermissi
 
     public static function getModelLabel(): string
     {
-        return __('noah-cms::noah-cms.specification');
+        return __('noah-cms::noah-cms.brand');
     }
 
     public static function form(Form $form): Form
@@ -42,46 +41,37 @@ class ProductSpecificationResource extends Resource implements HasShieldPermissi
 
     public static function table(Table $table): Table
     {
-        $currentPanelId = \Filament\Facades\Filament::getCurrentPanel()->getId();
         $table = static::chainTableFunctions($table);
         return $table
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make(array_merge(static::getTableActions(), [])),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([]),
-            ])
-            ->groups([
-                Group::make('product_id')->label(__('noah-cms::noah-cms.product_title'))->collapsible(),
-            ])
-            ->reorderable(false);
+                Tables\Actions\BulkActionGroup::make(array_merge(static::getBulkActions(), [])),
+            ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            ProductRelationManager::class,
+            ProductsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProductSpecifications::route('/'),
-            // 'create' => Pages\CreateProductSpecification::route('/create'),
-            // 'view' => Pages\ViewProductSpecification::route('/{record}'),
-            'edit' => Pages\EditProductSpecification::route('/{record}/edit'),
+            'index' => Pages\ListBrands::route('/'),
+            'create' => Pages\CreateBrand::route('/create'),
+            'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
     }
 
     public static function getPermissionPrefixes(): array
     {
-        return [
-            'view',
-            'view_any',
-            'update',
-        ];
+        return array_merge(static::getCommonPermissionPrefixes(), []);
     }
 }

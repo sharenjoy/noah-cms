@@ -2,6 +2,7 @@
 
 namespace Sharenjoy\NoahCms\Models\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use RalphJSmit\Laravel\SEO\Support\AlternateTag;
 use Spatie\Activitylog\LogOptions;
@@ -46,5 +47,19 @@ trait CommonModelTrait
         return LogOptions::defaults()
             ->logOnly(['*']);
         // Chain fluent methods for configuration options
+    }
+
+    public function getSortColumn(): array
+    {
+        return $this->sort ?? [];
+    }
+
+    public function scopeSort($query): Builder
+    {
+        foreach ($this->sort ?? [] as $column => $direction) {
+            $query->orderBy($column, $direction);
+        }
+
+        return $query;
     }
 }

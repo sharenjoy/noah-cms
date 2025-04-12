@@ -34,6 +34,10 @@ class Tag extends Model implements Sortable
         'name',
     ];
 
+    protected array $sort = [
+        'order_column' => 'asc',
+    ];
+
     protected array $formFields = [
         'left' => [
             'name' => [

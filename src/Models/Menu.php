@@ -39,6 +39,10 @@ class Menu extends Model
         'content',
     ];
 
+    protected array $sort = [
+        'created_at' => 'desc',
+    ];
+
     protected array $formFields = [
         'left' => [
             'title' => [
@@ -68,6 +72,7 @@ class Menu extends Model
             'description' => true,
         ],
         'slug' => [],
+        'relationCount' => ['label' => 'categories_count', 'relation' => 'categories'],
         'thumbnail' => [],
         'seo' => [],
         'is_active' => [],

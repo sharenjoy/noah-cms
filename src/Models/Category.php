@@ -42,6 +42,10 @@ class Category extends Model
         'content',
     ];
 
+    protected array $sort = [
+        'created_at' => 'desc',
+    ];
+
     protected array $formFields = [
         'left' => [
             'title' => [
@@ -71,6 +75,9 @@ class Category extends Model
             'description' => true,
         ],
         'slug' => [],
+        'relationCount' => ['label' => 'products_count', 'relation' => 'products'],
+        'postRelationCount' => ['alias' => 'relationCount', 'label' => 'posts_count', 'relation' => 'posts'],
+        'menuRelationCount' => ['alias' => 'relationCount', 'label' => 'menus_count', 'relation' => 'menus'],
         'thumbnail' => [],
         'seo' => [],
         'is_active' => [],
