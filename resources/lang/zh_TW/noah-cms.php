@@ -67,7 +67,7 @@ return [
     'compare_price' => '原價',
     'cost' => '成本',
     'stock_method' => '庫存方法',
-    'product_specifications_count' => '規格數量',
+    'specifications_count' => '規格數量',
     'product_title' => '商品名稱',
     'weight' => '重量',
     'email_notification' => '信件到貨通知',
@@ -80,9 +80,22 @@ return [
     'no_point' => '不可累積點數',
     'error' => '錯誤',
     'brand' => '品牌',
+    'users_count' => '使用者數量',
     'products_count' => '商品數量',
     'posts_count' => '消息數量',
     'menus_count' => '選單數量',
     'categories_count' => '分類數量',
+    'order' => '訂單',
+    'promo' => '促銷',
+    'edit_content' => '編輯內容',
+    'view_content' => '檢視內容',
+
+    'shop' => [
+        'status' => [
+            'order' => [],
+            'shipment' => [],
+            'transaction' => [],
+        ]
+    ]
 
 ];

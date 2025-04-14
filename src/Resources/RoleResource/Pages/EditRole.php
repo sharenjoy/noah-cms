@@ -22,6 +22,21 @@ class EditRole extends EditRecord
         ];
     }
 
+    public function hasCombinedRelationManagerTabsWithContent(): bool
+    {
+        return true;
+    }
+
+    public function getContentTabIcon(): ?string
+    {
+        return 'heroicon-o-pencil-square';
+    }
+
+    public function getContentTabLabel(): ?string
+    {
+        return __('noah-cms::noah-cms.edit_content');
+    }
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $this->permissions = collect($data)

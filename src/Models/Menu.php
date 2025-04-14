@@ -2,16 +2,17 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use Sharenjoy\NoahCms\Utils\Media;
-use Sharenjoy\NoahCms\Models\Category;
-use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
-use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
+use Sharenjoy\NoahCms\Models\Category;
+use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
+use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
+use Sharenjoy\NoahCms\Utils\Media;
 use SolutionForest\FilamentTree\Concern\ModelTree;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
@@ -25,6 +26,7 @@ class Menu extends Model
     use HasTranslations;
     use HasMediaLibrary;
     use ModelTree;
+    use HasCategoryTree;
     use HasSEO;
 
     protected $casts = [
@@ -82,11 +84,6 @@ class Menu extends Model
 
     /** RELACTIONS */
 
-    public function categories(): BelongsToMany
-    {
-        return $this->belongsToMany(Category::class);
-    }
-
     /** SCOPES */
 
     /** EVENTS */
@@ -96,7 +93,7 @@ class Menu extends Model
     public function getDynamicSEOData(): SEOData
     {
         // TODO
-        $path = route('menu.detail', ['menu' => $this], false);
+        $path = route('menus.detail', ['menu' => $this], false);
 
         return new SEOData(
             title: $this->seo->getTranslation('title', app()->currentLocale()) ?: $this->title,
@@ -110,4 +107,9 @@ class Menu extends Model
     }
 
     /** OTHERS */
+
+    protected static function newFactory()
+    {
+        return \Sharenjoy\NoahCms\Database\Factories\MenuFactory::new();
+    }
 }

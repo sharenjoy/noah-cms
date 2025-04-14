@@ -29,13 +29,11 @@ return new class extends Migration
             $table->json('spec_detail_name');
             $table->string('no')->nullable()->index();
             $table->string('sku')->nullable()->index();
-            $table->string('code')->nullable();
+            $table->string('barcode')->nullable();
             $table->integer('weight')->nullable();
             $table->integer('price')->nullable();
             $table->integer('compare_price')->nullable();
             $table->integer('cost')->nullable();
-            $table->json('stock_method')->nullable();
-            $table->json('product_limit')->nullable();
             $table->text('album')->nullable();
             $table->{$fieldDataType['content']}('content')->nullable();
             $table->unsignedInteger('order_column')->nullable()->index();

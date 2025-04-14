@@ -46,5 +46,9 @@ class NoahCmsServiceProvider extends PackageServiceProvider
         \Filament\Tables\Actions\EditAction::configureUsing(function ($action) {
             return $action->slideOver();
         });
+
+        \Filament\Forms\Components\Actions\Action::configureUsing(function ($action) {
+            return $action->slideOver();
+        });
     }
 }

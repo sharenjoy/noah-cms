@@ -5,11 +5,14 @@ namespace Sharenjoy\NoahCms\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
+use Sharenjoy\NoahCms\Models\Menu;
 use Sharenjoy\NoahCms\Models\Post;
 use Sharenjoy\NoahCms\Models\Product;
+use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
 use Sharenjoy\NoahCms\Models\Traits\HasMenuTree;
@@ -87,14 +90,24 @@ class Category extends Model
 
     /** RELACTIONS */
 
-    public function posts(): BelongsToMany
+    public function posts(): MorphToMany
     {
-        return $this->belongsToMany(Post::class);
+        return $this->morphedByMany(Post::class, 'categorizable');
     }
 
-    public function products(): BelongsToMany
+    public function products(): MorphToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->morphedByMany(Product::class, 'categorizable');
+    }
+
+    public function promos(): MorphToMany
+    {
+        return $this->morphedByMany(Promo::class, 'categorizable');
+    }
+
+    public function menus(): MorphToMany
+    {
+        return $this->morphedByMany(Menu::class, 'categorizable');
     }
 
     /** SCOPES */
@@ -120,4 +133,9 @@ class Category extends Model
     }
 
     /** OTHERS */
+
+    protected static function newFactory()
+    {
+        return \Sharenjoy\NoahCms\Database\Factories\CategoryFactory::new();
+    }
 }

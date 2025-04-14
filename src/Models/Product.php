@@ -7,10 +7,8 @@ use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,8 +42,8 @@ class Product extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use HasMediaLibrary;
-    use HasTags;
     use HasCategoryTree;
+    use HasTags;
     use HasSEO;
 
     protected $casts = [
@@ -120,20 +118,7 @@ class Product extends Model implements Sortable
                 'album' => [],
                 'is_active' => ['required' => true],
                 'published_at' => ['required' => true],
-                'brand_id' => Section::make()->schema([
-                    Select::make('brand_id')
-                        ->label(__('noah-cms::noah-cms.brand'))
-                        ->relationship(
-                            name: 'brand',
-                            titleAttribute: 'title',
-                            modifyQueryUsing: fn(Builder $query) => $query->withTrashed()->sort(),
-                        )
-                        ->createOptionForm(\Sharenjoy\NoahCms\Utils\Form::make(Brand::class, 'create'))
-                        ->createOptionAction(fn(\Filament\Forms\Components\Actions\Action $action) => $action->slideOver())
-                        ->searchable()
-                        ->required()
-                        ->preload(),
-                ])->columns(1),
+                'brand_id' => ['alias' => 'belongs_to', 'relation' => 'brand'],
                 'categories' => ['required' => true],
                 'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
             ],
@@ -148,7 +133,7 @@ class Product extends Model implements Sortable
             'brand.title' =>  ['alias' => 'belongs_to', 'label' => 'brand', 'relation' => 'brand'],
             'categories' => [],
             'tags' => ['tagType' => 'product'],
-            'relationCount' => ['label' => 'product_specifications_count', 'relation' => 'productSpecifications'],
+            'relationCount' => ['label' => 'specifications_count', 'relation' => 'specifications'],
             'thumbnail' => [],
             'seo' => [],
             'is_active' => [],
@@ -169,7 +154,7 @@ class Product extends Model implements Sortable
             ->ordered();
     }
 
-    public function productSpecifications(): HasMany
+    public function specifications(): HasMany
     {
         return $this->hasMany(ProductSpecification::class);
     }
@@ -188,7 +173,7 @@ class Product extends Model implements Sortable
     public function getDynamicSEOData(): SEOData
     {
         // TODO
-        $path = route('products.detail', ['post' => $this], false);
+        $path = route('products.detail', ['product' => $this], false);
 
         return new SEOData(
             title: $this->seo->getTranslation('title', app()->currentLocale()) ?: $this->title,
@@ -203,6 +188,11 @@ class Product extends Model implements Sortable
 
     /** OTHERS */
 
+    protected static function newFactory()
+    {
+        return \Sharenjoy\NoahCms\Database\Factories\ProductFactory::new();
+    }
+
     public function getReplicateAction($type)
     {
         $resourceName = 'products';
@@ -214,9 +204,9 @@ class Product extends Model implements Sortable
                 $replica->save();
 
                 // 複製規格
-                $specResults = $ownerRecord->productSpecifications->pluck('spec_detail_name')->toArray();
+                $specResults = $ownerRecord->specifications->pluck('spec_detail_name')->toArray();
                 foreach ($specResults as $value) {
-                    $replica->productSpecifications()->create([
+                    $replica->specifications()->create([
                         'spec_detail_name' => $value,
                         'is_active' => true,
                     ]);

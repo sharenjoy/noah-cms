@@ -12,6 +12,13 @@ use Spatie\Translatable\HasTranslations;
 class PostFactory extends Factory
 {
     /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     */
+    protected $model = Post::class;
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -23,6 +30,7 @@ class PostFactory extends Factory
             'description' => $this->getDescription(),
             'content' => $this->getContent(),
             'slug' => fake()->unique()->word(10),
+            'img' => \Spatie\MediaLibrary\MediaCollections\Models\Media::inRandomOrder()->first()->id,
             'is_active' => fake()->boolean(70),
             'published_at' => now(),
         ];

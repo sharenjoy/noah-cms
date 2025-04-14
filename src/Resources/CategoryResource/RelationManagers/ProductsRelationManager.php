@@ -14,6 +14,8 @@ class ProductsRelationManager extends RelationManager
 {
     protected static string $relationship = 'products';
 
+    protected static ?string $icon = 'heroicon-o-squares-plus';
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('noah-cms::noah-cms.product');

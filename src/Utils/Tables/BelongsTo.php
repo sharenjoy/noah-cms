@@ -21,6 +21,8 @@ class BelongsTo extends TableAbstract implements TableInterface
                 ]);
             })
             ->color('primary')
+            ->limit(40)
+            ->width('1%')
             ->size(TextColumnSize::Large)
             ->weight(FontWeight::Bold)
             ->searchable()

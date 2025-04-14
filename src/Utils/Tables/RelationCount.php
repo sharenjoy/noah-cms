@@ -13,6 +13,8 @@ class RelationCount extends TableAbstract implements TableInterface
         return TextColumn::make($this->content['label'])
             ->counts($this->content['relation'])
             ->numeric()
+            ->sortable()
+            ->width('150px')
             ->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName)))
             ->toggleable(isToggledHiddenByDefault: $this->content['isToggledHiddenByDefault'] ?? false);
     }

@@ -95,7 +95,7 @@ class Brand extends Model implements Sortable
     public function getDynamicSEOData(): SEOData
     {
         // TODO
-        $path = route('brand.detail', ['brand' => $this], false);
+        $path = route('brands.detail', ['brand' => $this], false);
 
         return new SEOData(
             title: $this->seo->getTranslation('title', app()->currentLocale()) ?: $this->title,
@@ -109,6 +109,11 @@ class Brand extends Model implements Sortable
     }
 
     /** OTHERS */
+
+    protected static function newFactory()
+    {
+        return \Sharenjoy\NoahCms\Database\Factories\BrandFactory::new();
+    }
 
     public function getReplicateAction($type)
     {

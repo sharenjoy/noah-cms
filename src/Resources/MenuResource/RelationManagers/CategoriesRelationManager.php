@@ -14,6 +14,8 @@ class CategoriesRelationManager extends RelationManager
 {
     protected static string $relationship = 'categories';
 
+    protected static ?string $icon = 'heroicon-o-circle-stack';
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('noah-cms::noah-cms.category');

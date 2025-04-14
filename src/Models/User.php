@@ -6,12 +6,14 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Sharenjoy\NoahCms\Models\Address;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -87,6 +89,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         ];
     }
 
+    protected static function newFactory()
+    {
+        return \Sharenjoy\NoahCms\Database\Factories\UserFactory::new();
+    }
+
     /**
      * Get the user's initials
      */
@@ -105,6 +112,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             ->using($this->getPivotModelClassName())
             ->where('type', 'user')
             ->ordered();
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
     }
 
     /**

@@ -20,6 +20,21 @@ trait NoahViewRecord
         //
     }
 
+    public function hasCombinedRelationManagerTabsWithContent(): bool
+    {
+        return true;
+    }
+
+    public function getContentTabIcon(): ?string
+    {
+        return 'heroicon-c-eye';
+    }
+
+    public function getContentTabLabel(): ?string
+    {
+        return __('noah-cms::noah-cms.view_content');
+    }
+
     protected function recordHeaderActions(): array
     {
         $actions[] = EditAction::make();

@@ -13,6 +13,8 @@ class ProductRelationManager extends RelationManager
 {
     protected static string $relationship = 'product';
 
+    protected static ?string $icon = 'heroicon-o-square-3-stack-3d';
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('noah-cms::noah-cms.product');

@@ -30,8 +30,8 @@ class Post extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use HasMediaLibrary;
-    use HasTags;
     use HasCategoryTree;
+    use HasTags;
     use HasSEO;
 
     protected $casts = [
@@ -117,7 +117,7 @@ class Post extends Model implements Sortable
     public function getDynamicSEOData(): SEOData
     {
         // TODO
-        $path = route('news.detail', ['post' => $this], false);
+        $path = route('posts.detail', ['post' => $this], false);
 
         return new SEOData(
             title: $this->seo->getTranslation('title', app()->currentLocale()) ?: $this->title,
@@ -131,6 +131,11 @@ class Post extends Model implements Sortable
     }
 
     /** OTHERS */
+
+    protected static function newFactory()
+    {
+        return \Sharenjoy\NoahCms\Database\Factories\PostFactory::new();
+    }
 
     public function getReplicateAction($type)
     {

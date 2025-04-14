@@ -14,7 +14,9 @@ use Sharenjoy\NoahCms\Models\ProductSpecification;
 
 class ProductSpecificationsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'productSpecifications';
+    protected static string $relationship = 'specifications';
+
+    protected static ?string $icon = 'heroicon-o-square-3-stack-3d';
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {

@@ -2,13 +2,13 @@
 
 namespace Sharenjoy\NoahCms\Models\Traits;
 
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Sharenjoy\NoahCms\Models\Category;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasCategoryTree
 {
-    public function categories(): BelongsToMany
+    public function categories(): MorphToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->morphToMany(Category::class, 'categorizable');
     }
 }

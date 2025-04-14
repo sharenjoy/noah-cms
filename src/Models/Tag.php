@@ -59,6 +59,9 @@ class Tag extends Model implements Sortable
         'name' => [],
         'slug' => [],
         'type' => [],
+        'relationCount' => ['label' => 'products_count', 'relation' => 'products'],
+        'postRelationCount' => ['alias' => 'relationCount', 'label' => 'posts_count', 'relation' => 'posts'],
+        'userRelationCount' => ['alias' => 'relationCount', 'label' => 'users_count', 'relation' => 'users'],
         'seo' => [],
         'created_at' => [],
         'updated_at' => [],
@@ -67,6 +70,21 @@ class Tag extends Model implements Sortable
     public function posts()
     {
         return $this->morphedByMany(Post::class, 'taggable');
+    }
+
+    public function products()
+    {
+        return $this->morphedByMany(Product::class, 'taggable');
+    }
+
+    public function users()
+    {
+        return $this->morphedByMany(User::class, 'taggable');
+    }
+
+    protected static function newFactory()
+    {
+        return \Sharenjoy\NoahCms\Database\Factories\TagFactory::new();
     }
 
     /** SEO */

@@ -34,9 +34,9 @@ class Table
             } else {
                 // others
                 if ($name == 'title') {
-                    $field = TextColumn::make('title')->label(__('noah-cms::noah-cms.title'))->searchable()->wrap();
+                    $field = TextColumn::make('title')->label(__('noah-cms::noah-cms.title'))->limit(50)->searchable()->wrap();
                     if ($content['description'] ?? false) {
-                        $field = $field->description(fn(Model $record): string => str($record->description)->limit(150))->searchable(['title', 'description']);
+                        $field = $field->description(fn(Model $record): string => str($record->description)->limit(80))->searchable(['title', 'description']);
                     }
                     $columns[] = $field->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'thumbnail') {
@@ -82,7 +82,7 @@ class Table
                     $columns[] = TextColumn::make($name)->label(__('noah-cms::noah-cms.updated_at'))->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } else {
                     if (($content['type'] ?? []) == 'number') {
-                        $item = TextColumn::make($name)->numeric()->searchable();
+                        $item = TextColumn::make($name)->numeric()->searchable()->sortable();
                     } elseif (($content['type'] ?? []) == 'boolean') {
                         $item = IconColumn::make($name)->boolean()->sortable();
                     } else {

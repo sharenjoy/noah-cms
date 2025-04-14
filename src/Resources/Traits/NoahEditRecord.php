@@ -5,6 +5,7 @@ namespace Sharenjoy\NoahCms\Resources\Traits;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
+use Filament\Resources\Pages\ContentTabPosition;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 trait NoahEditRecord
@@ -17,6 +18,21 @@ trait NoahEditRecord
     public function updatedNoahEditRecord()
     {
         //
+    }
+
+    public function hasCombinedRelationManagerTabsWithContent(): bool
+    {
+        return true;
+    }
+
+    public function getContentTabIcon(): ?string
+    {
+        return 'heroicon-o-pencil-square';
+    }
+
+    public function getContentTabLabel(): ?string
+    {
+        return __('noah-cms::noah-cms.edit_content');
     }
 
     protected function recordHeaderActions(): array

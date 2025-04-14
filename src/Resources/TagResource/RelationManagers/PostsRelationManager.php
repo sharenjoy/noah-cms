@@ -14,6 +14,8 @@ class PostsRelationManager extends RelationManager
 {
     protected static string $relationship = 'posts';
 
+    protected static ?string $icon = 'heroicon-o-newspaper';
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('noah-cms::noah-cms.post');

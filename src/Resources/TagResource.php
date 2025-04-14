@@ -2,15 +2,17 @@
 
 namespace Sharenjoy\NoahCms\Resources;
 
-use Sharenjoy\NoahCms\Resources\TagResource\Pages;
-use Sharenjoy\NoahCms\Resources\TagResource\RelationManagers\PostsRelationManager;
-use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
-use Sharenjoy\NoahCms\Models\Tag;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Sharenjoy\NoahCms\Models\Tag;
+use Sharenjoy\NoahCms\Resources\TagResource\Pages;
+use Sharenjoy\NoahCms\Resources\TagResource\RelationManagers\PostsRelationManager;
+use Sharenjoy\NoahCms\Resources\TagResource\RelationManagers\ProductsRelationManager;
+use Sharenjoy\NoahCms\Resources\TagResource\RelationManagers\UsersRelationManager;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
 class TagResource extends Resource implements HasShieldPermissions
 {
@@ -51,6 +53,8 @@ class TagResource extends Resource implements HasShieldPermissions
     {
         return [
             PostsRelationManager::class,
+            ProductsRelationManager::class,
+            UsersRelationManager::class,
         ];
     }
 

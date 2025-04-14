@@ -39,6 +39,12 @@ return new class extends Migration
             $table->integer('order')->default(0)->index();
             $table->boolean('is_active')->default(false)->index();
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('categorizables', function (Blueprint $table) {
+            $table->foreignId('category_id');
+            $table->morphs('categorizable');
         });
     }
 
@@ -48,5 +54,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('categories');
+        Schema::dropIfExists('categorizables');
     }
 };

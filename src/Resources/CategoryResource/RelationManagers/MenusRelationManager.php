@@ -14,6 +14,8 @@ class MenusRelationManager extends RelationManager
 {
     protected static string $relationship = 'menus';
 
+    protected static ?string $icon = 'heroicon-o-bars-arrow-down';
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('noah-cms::noah-cms.menu');

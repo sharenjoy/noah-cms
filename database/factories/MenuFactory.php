@@ -3,6 +3,7 @@
 namespace Sharenjoy\NoahCms\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Sharenjoy\NoahCms\Models\Menu;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -10,6 +11,13 @@ use Spatie\Translatable\HasTranslations;
  */
 class MenuFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     */
+    protected $model = Menu::class;
+
     public function definition(): array
     {
         return [
@@ -17,6 +25,7 @@ class MenuFactory extends Factory
             'description' => $this->getDescription(),
             'content' => $this->getContent(),
             'slug' => fake()->unique()->word(10),
+            'img' => \Spatie\MediaLibrary\MediaCollections\Models\Media::inRandomOrder()->first()->id,
             'is_active' => fake()->boolean(70),
             'published_at' => now(),
         ];

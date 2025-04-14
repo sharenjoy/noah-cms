@@ -15,6 +15,8 @@ class RolesRelationManager extends RelationManager
 {
     protected static string $relationship = 'roles';
 
+    protected static ?string $icon = 'heroicon-o-shield-check';
+
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('noah-cms::noah-cms.role');

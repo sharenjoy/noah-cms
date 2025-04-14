@@ -33,7 +33,7 @@ class StoreRecordBackToProductSpecs
 
     protected function createRecord()
     {
-        $specResults = $this->model->productSpecifications->pluck('spec_detail_name')->toArray();
+        $specResults = $this->model->specifications->pluck('spec_detail_name')->toArray();
 
         if (!$this->isDuplicateCombination($this->specDetails, $specResults)) {
             $specResults[] = $this->specDetails;
@@ -52,7 +52,7 @@ class StoreRecordBackToProductSpecs
             return;
         }
 
-        $specResults = $this->model->productSpecifications->pluck('spec_detail_name')->toArray();
+        $specResults = $this->model->specifications->pluck('spec_detail_name')->toArray();
 
         if (!$this->isDuplicateCombination($this->specDetails, $specResults)) {
             $specResults[] = $this->specDetails;

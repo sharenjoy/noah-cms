@@ -11,27 +11,35 @@ use Spatie\Translatable\HasTranslations;
  */
 class BrandFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     */
+    protected $model = Brand::class;
+
     public function definition(): array
     {
         return [
-            'title' => $this->getTitle(),
+            'name' => $this->getName(),
             'description' => $this->getDescription(),
             'content' => $this->getContent(),
             'slug' => fake()->unique()->word(10),
+            'img' => \Spatie\MediaLibrary\MediaCollections\Models\Media::inRandomOrder()->first()->id,
             'is_active' => fake()->boolean(70),
         ];
     }
 
-    protected function getTitle(): array|string
+    protected function getName(): array|string
     {
         if (in_array(HasTranslations::class, class_uses(Brand::class))) {
             return [
-                'en' => fake('en')->sentence(),
-                'zh_TW' => fake()->sentence(),
+                'en' => fake('en')->word(),
+                'zh_TW' => fake()->word(),
             ];
         }
 
-        return fake()->sentence();
+        return fake()->word();
     }
 
     protected function getDescription(): array|string

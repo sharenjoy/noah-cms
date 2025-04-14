@@ -24,7 +24,7 @@ class ResolveProductSpecsDataToRecords
     protected function createRecords()
     {
         if ($this->model->is_single_spec) {
-            $this->model->productSpecifications()->create([
+            $this->model->specifications()->create([
                 'spec_detail_name' => 'single_spec',
                 'is_active' => true,
             ]);
@@ -35,7 +35,7 @@ class ResolveProductSpecsDataToRecords
         $this->generateCombinations($this->specs);
 
         foreach ($this->specResults as $result) {
-            $this->model->productSpecifications()->create([
+            $this->model->specifications()->create([
                 'spec_detail_name' => $result,
                 'is_active' => true,
             ]);
