@@ -17,9 +17,9 @@ enum OrderShipmentStatus: string implements HasLabel, HasDescription, HasIcon, H
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::New => __('noah-cms::noah-cms.shop.status.shipment.new'),
-            self::Shipped => __('noah-cms::noah-cms.shop.status.shipment.shipped'),
-            self::Delivered => __('noah-cms::noah-cms.shop.status.shipment.delivered'),
+            self::New => __('noah-cms::noah-cms.shop.status.title.shipment.new'),
+            self::Shipped => __('noah-cms::noah-cms.shop.status.title.shipment.shipped'),
+            self::Delivered => __('noah-cms::noah-cms.shop.status.title.shipment.delivered'),
         };
     }
 

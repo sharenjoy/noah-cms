@@ -1,14 +1,15 @@
 <?php
 
-namespace Sharenjoy\NoahCms\Resources;
+namespace Sharenjoy\NoahCms\Resources\Shop;
 
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Sharenjoy\NoahCms\Models\Order;
-use Sharenjoy\NoahCms\Resources\OrderResource\Pages;
+use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
 class OrderResource extends Resource implements HasShieldPermissions
@@ -31,6 +32,11 @@ class OrderResource extends Resource implements HasShieldPermissions
         return __('noah-cms::noah-cms.order');
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['user.orders', 'user.tags', 'shipment', 'shipments', 'invoice', 'transaction', 'items.specification.product']);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -42,6 +48,7 @@ class OrderResource extends Resource implements HasShieldPermissions
     {
         $table = static::chainTableFunctions($table);
         return $table
+            // ->modifyQueryUsing(fn(Builder $query) => $query->with(['user']))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
             ->actions([

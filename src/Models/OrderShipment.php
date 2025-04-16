@@ -5,6 +5,9 @@ namespace Sharenjoy\NoahCms\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Sharenjoy\NoahCms\Actions\GenerateSeriesNumber;
+use Sharenjoy\NoahCms\Enums\DeliveryProvider;
+use Sharenjoy\NoahCms\Enums\DeliveryType;
+use Sharenjoy\NoahCms\Enums\OrderShipmentStatus;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -14,7 +17,11 @@ class OrderShipment extends Model
     use CommonModelTrait;
     use LogsActivity;
 
-    protected $casts = [];
+    protected $casts = [
+        'status' => OrderShipmentStatus::class,
+        'provider' => DeliveryProvider::class,
+        'delivery_type' => DeliveryType::class,
+    ];
 
     protected array $sort = [
         'created_at' => 'desc',

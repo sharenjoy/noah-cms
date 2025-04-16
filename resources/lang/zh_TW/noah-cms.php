@@ -86,16 +86,144 @@ return [
     'menus_count' => '選單數量',
     'categories_count' => '分類數量',
     'order' => '訂單',
+    'order_sn' => '訂單編號',
+    'order_status' => '訂單狀態',
+    'order_item_counts' => '品項',
+    'order_user' => '訂購人',
+    'order_shipment' => '運送資訊',
+    'order_transaction' => '付款資訊',
+    'order_invoice' => '發票資訊',
+    'order_notes' => '備註',
     'promo' => '促銷',
     'edit_content' => '編輯內容',
     'view_content' => '檢視內容',
 
     'shop' => [
+
         'status' => [
-            'order' => [],
-            'shipment' => [],
-            'transaction' => [],
-        ]
+            'title' => [
+                'order' => [
+                    'all' => '全部訂單',
+                    'initial' => '初始中',
+                    'new' => '新訂單',
+                    'processing' => '處理中',
+                    'pending' => '暫停中',
+                    'cancelled' => '已取消',
+                    'finished' => '已完成',
+                ],
+                'shipment' => [
+                    'new' => '未出貨',
+                    'shipped' => '已出貨',
+                    'delivered' => '已送達',
+                ],
+                'transaction' => [
+                    'new' => '新交易',
+                    'pending' => '未付款',
+                    'expired' => '超過付款期限',
+                    'finished' => '已完成',
+                ],
+            ],
+
+            'description' => [
+                'order' => [
+                    'initial' => '初始中',
+                    'new' => '新訂單',
+                    'processing' => '處理中',
+                    'pending' => '暫停中',
+                    'cancelled' => '已取消',
+                    'finished' => '已完成',
+                ],
+                'shipment' => [
+                    'new' => '未出貨',
+                    'shipped' => '已出貨',
+                    'delivered' => '已送達',
+                ],
+                'transaction' => [
+                    'new' => '新交易',
+                    'pending' => '未付款',
+                    'expired' => '超過付款期限',
+                    'finished' => '已完成',
+                ],
+            ],
+        ],
+
+        'type' => [
+            'title' => [
+                'delivery' => [
+                    'address' => '宅配',
+                    'pickinstore' => '超商取貨',
+                    'pickinretail' => '門市取貨',
+                ],
+                'payment' => [
+                    'creditcard' => '信用卡',
+                    'atm' => 'ATM',
+                    'cod' => '貨到付款',
+                    'linepay' => 'LINEPay',
+                ],
+                'invoice' => [
+                    'persion' => '個人',
+                    'donate' => '捐贈',
+                    'holder' => '載具',
+                    'company' => '公司',
+                ],
+                'invoice_holder' => [
+                    'mobile' => '手機載具',
+                    'certificate' => '自然人憑證',
+                ],
+            ],
+
+            'description' => [
+                'delivery' => [
+                    'address' => '宅配',
+                    'pickinstore' => '超商取貨',
+                    'pickinretail' => '門市取貨',
+                ],
+                'payment' => [
+                    'creditcard' => '信用卡',
+                    'atm' => 'ATM',
+                    'cod' => '貨到付款',
+                    'linepay' => 'LINEPay',
+                ],
+                'invoice' => [
+                    'persion' => '個人',
+                    'donate' => '捐贈',
+                    'holder' => '載具',
+                    'company' => '公司',
+                ],
+                'invoice_holder' => [
+                    'mobile' => '手機載具',
+                    'certificate' => '自然人憑證',
+                ],
+            ],
+        ],
+
+        'provider' => [
+            'title' => [
+                'delivery' => [
+                    'kerrytj' => '大榮',
+                    'postoffice' => '郵局',
+                    'tcat' => '黑貓',
+                    'fedex' => 'Fedex',
+                ],
+                'transaction' => [
+                    'tappay' => 'TapPay',
+                    'linepay' => 'LINEPay',
+                ],
+            ],
+
+            'description' => [
+                'delivery' => [
+                    'kerrytj' => '大榮',
+                    'postoffice' => '郵局',
+                    'tcat' => '黑貓',
+                    'fedex' => 'Fedex',
+                ],
+                'transaction' => [
+                    'tappay' => 'TapPay',
+                    'linepay' => 'LINEPay',
+                ],
+            ],
+        ],
     ]
 
 ];

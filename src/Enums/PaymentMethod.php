@@ -18,20 +18,20 @@ enum PaymentMethod: string implements HasLabel, HasDescription, HasIcon, HasColo
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::CreditCard => __('noah-cms::noah-cms.shop.status.transaction.creditcard'),
-            self::ATM => __('noah-cms::noah-cms.shop.status.transaction.atm'),
-            self::COD => __('noah-cms::noah-cms.shop.status.transaction.cod'),
-            self::LINEPay => __('noah-cms::noah-cms.shop.status.transaction.linepay'),
+            self::CreditCard => __('noah-cms::noah-cms.shop.type.title.payment.creditcard'),
+            self::ATM => __('noah-cms::noah-cms.shop.type.title.payment.atm'),
+            self::COD => __('noah-cms::noah-cms.shop.type.title.payment.cod'),
+            self::LINEPay => __('noah-cms::noah-cms.shop.type.title.payment.linepay'),
         };
     }
 
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::CreditCard => '描述.',
-            self::ATM => '描述.',
-            self::COD => '描述.',
-            self::LINEPay => '描述.',
+            self::CreditCard => __('noah-cms::noah-cms.shop.type.description.payment.creditcard'),
+            self::ATM => __('noah-cms::noah-cms.shop.type.description.payment.atm'),
+            self::COD => __('noah-cms::noah-cms.shop.type.description.payment.cod'),
+            self::LINEPay => __('noah-cms::noah-cms.shop.type.description.payment.linepay'),
         };
     }
 

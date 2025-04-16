@@ -18,20 +18,20 @@ enum InvoiceType: string implements HasLabel, HasDescription, HasIcon, HasColor
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Persion => __('noah-cms::noah-cms.shop.type.invoice.persion'),
-            self::Donate => __('noah-cms::noah-cms.shop.type.invoice.donate'),
-            self::Holder => __('noah-cms::noah-cms.shop.type.invoice.holder'),
-            self::Company => __('noah-cms::noah-cms.shop.type.invoice.company'),
+            self::Persion => __('noah-cms::noah-cms.shop.type.title.invoice.persion'),
+            self::Donate => __('noah-cms::noah-cms.shop.type.title.invoice.donate'),
+            self::Holder => __('noah-cms::noah-cms.shop.type.title.invoice.holder'),
+            self::Company => __('noah-cms::noah-cms.shop.type.title.invoice.company'),
         };
     }
 
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::Persion => '描述.',
-            self::Donate => '描述.',
-            self::Holder => '描述.',
-            self::Company => '描述.',
+            self::Persion => __('noah-cms::noah-cms.shop.type.description.invoice.persion'),
+            self::Donate => __('noah-cms::noah-cms.shop.type.description.invoice.donate'),
+            self::Holder => __('noah-cms::noah-cms.shop.type.description.invoice.holder'),
+            self::Company => __('noah-cms::noah-cms.shop.type.description.invoice.company'),
         };
     }
 

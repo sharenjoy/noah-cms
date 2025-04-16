@@ -5,6 +5,9 @@ namespace Sharenjoy\NoahCms\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Sharenjoy\NoahCms\Actions\Shop\CalculatePricesAndUpdateInvoice;
+use Sharenjoy\NoahCms\Enums\DeliveryProvider;
+use Sharenjoy\NoahCms\Enums\DeliveryType;
+use Sharenjoy\NoahCms\Enums\OrderShipmentStatus;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
 use Sharenjoy\NoahCms\Models\Address;
 use Sharenjoy\NoahCms\Models\Order;
@@ -43,8 +46,9 @@ class OrderFactory extends Factory
             $specs = ProductSpecification::inRandomOrder()->limit(Arr::random([1, 2, 3, 4]))->get();
 
             $shipment = $order->shipments()->create([
-                'status' => 'new',
-                'delivery_method' => 'address',
+                'status' => Arr::random(OrderShipmentStatus::cases()),
+                'provider' => Arr::random(DeliveryProvider::cases()),
+                'delivery_type' => Arr::random(DeliveryType::cases()),
                 'name' => fake()->name(),
                 'calling_code' => '886',
                 'mobile' => fake()->phoneNumber(),

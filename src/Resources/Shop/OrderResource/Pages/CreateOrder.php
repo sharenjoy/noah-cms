@@ -1,9 +1,9 @@
 <?php
 
-namespace Sharenjoy\NoahCms\Resources\OrderResource\Pages;
+namespace Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
-use Sharenjoy\NoahCms\Resources\OrderResource;
+use Sharenjoy\NoahCms\Resources\Shop\OrderResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahCreateRecord;
 
 class CreateOrder extends CreateRecord

@@ -2,13 +2,15 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Sharenjoy\NoahCms\Actions\GenerateSeriesNumber;
-use Sharenjoy\NoahCms\Models\Address;
+use Sharenjoy\NoahCms\Enums\OrderStatus;
 use Sharenjoy\NoahCms\Models\Invoice;
 use Sharenjoy\NoahCms\Models\OrderItem;
 use Sharenjoy\NoahCms\Models\OrderShipment;
@@ -21,7 +23,9 @@ class Order extends Model
     use HasFactory;
     use LogsActivity;
 
-    protected $casts = [];
+    protected $casts = [
+        'status' => OrderStatus::class,
+    ];
 
     protected array $sort = [
         'created_at' => 'desc',
@@ -69,12 +73,46 @@ class Order extends Model
     protected function tableFields(): array
     {
         return [
+            'notes' => \Filament\Tables\Columns\IconColumn::make('notes')
+                ->label(__('noah-cms::noah-cms.order_notes'))
+                ->tooltip(fn($state) => $state)
+                ->width('1%')
+                ->alignCenter()
+                ->placeholder('-')
+                ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                ->size(\Filament\Tables\Columns\IconColumn\IconColumnSize::Medium),
+            'sn' => ['label' => 'order_sn'],
+            'status' => ['label' => 'order_status', 'model' => 'order'],
+            'order_items' => \Filament\Tables\Columns\TextColumn::make('items_count')
+                ->counts('items')
+                ->badge()
+                ->color('success')
+                ->label(__('noah-cms::noah-cms.order_item_counts'))
+                ->tooltip('點擊可快速查看品項')
+                ->action(
+                    Action::make('view_items')
+                        ->label(__('noah-cms::noah-cms.order_item_counts'))
+                        ->modal()
+                        ->modalCancelAction(false)
+                        ->modalSubmitAction(false)
+                        ->modalWidth(\Filament\Support\Enums\MaxWidth::Large)
+                        ->modalContent(fn(Order $order) => view('noah-cms::tables.columns.order-items', ['order' => $order]))
+                ),
+            'order_user' => [],
+            'order_shipment' => [],
+            'order_transaction' => [],
+            'order_invoice' => [],
             'created_at' => ['isToggledHiddenByDefault' => true],
             'updated_at' => ['isToggledHiddenByDefault' => true],
         ];
     }
 
     /** RELACTIONS */
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function items(): HasMany
     {
@@ -83,7 +121,12 @@ class Order extends Model
 
     public function shipments(): HasMany
     {
-        return $this->hasMany(OrderShipment::class);
+        return $this->hasMany(OrderShipment::class)->orderBy('created_at', 'desc');
+    }
+
+    public function shipment(): HasOne
+    {
+        return $this->hasOne(OrderShipment::class)->orderBy('created_at', 'desc');
     }
 
     public function invoice(): HasOne
@@ -91,7 +134,7 @@ class Order extends Model
         return $this->hasOne(Invoice::class);
     }
 
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class)->orderBy('created_at', 'desc');
     }
@@ -102,6 +145,11 @@ class Order extends Model
     }
 
     /** SCOPES */
+
+    public function scopeValidOrders($query): Builder
+    {
+        return $query->whereNotIn('status', [OrderStatus::Initial, OrderStatus::Cancelled]);
+    }
 
     /** EVENTS */
 

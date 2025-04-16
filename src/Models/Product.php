@@ -133,7 +133,7 @@ class Product extends Model implements Sortable
             'brand.title' =>  ['alias' => 'belongs_to', 'label' => 'brand', 'relation' => 'brand'],
             'categories' => [],
             'tags' => ['tagType' => 'product'],
-            'relationCount' => ['label' => 'specifications_count', 'relation' => 'specifications'],
+            'relation_count' => ['label' => 'specifications_count', 'relation' => 'specifications'],
             'thumbnail' => [],
             'seo' => [],
             'is_active' => [],

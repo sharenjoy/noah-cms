@@ -5,6 +5,10 @@ namespace Sharenjoy\NoahCms\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Sharenjoy\NoahCms\Enums\InvoiceDonateCode;
+use Sharenjoy\NoahCms\Enums\InvoiceHolderCode;
+use Sharenjoy\NoahCms\Enums\InvoiceHolderType;
+use Sharenjoy\NoahCms\Enums\InvoiceType;
 use Sharenjoy\NoahCms\Models\InvoicePrice;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
@@ -15,7 +19,10 @@ class Invoice extends Model
     use CommonModelTrait;
     use LogsActivity;
 
-    protected $casts = [];
+    protected $casts = [
+        'type' => InvoiceType::class,
+        'holder_type' => InvoiceHolderType::class,
+    ];
 
     protected array $sort = [
         'created_at' => 'desc',

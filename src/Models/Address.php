@@ -56,7 +56,7 @@ class Address extends Model
             'description' => true,
         ],
         'slug' => [],
-        'relationCount' => ['label' => 'categories_count', 'relation' => 'categories'],
+        'relation_count' => ['label' => 'categories_count', 'relation' => 'categories'],
         'thumbnail' => [],
         'seo' => [],
         'is_active' => [],

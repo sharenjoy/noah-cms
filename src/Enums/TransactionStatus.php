@@ -18,20 +18,20 @@ enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, Has
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::New => __('noah-cms::noah-cms.shop.status.transaction.new'),
-            self::Pending => __('noah-cms::noah-cms.shop.status.transaction.pending'),
-            self::Expired => __('noah-cms::noah-cms.shop.status.transaction.expired'),
-            self::Finished => __('noah-cms::noah-cms.shop.status.transaction.finished'),
+            self::New => __('noah-cms::noah-cms.shop.status.title.transaction.new'),
+            self::Pending => __('noah-cms::noah-cms.shop.status.title.transaction.pending'),
+            self::Expired => __('noah-cms::noah-cms.shop.status.title.transaction.expired'),
+            self::Finished => __('noah-cms::noah-cms.shop.status.title.transaction.finished'),
         };
     }
 
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::New => '描述.',
-            self::Pending => '描述.',
-            self::Expired => '描述.',
-            self::Finished => '描述.',
+            self::New => __('noah-cms::noah-cms.shop.status.description.transaction.new'),
+            self::Pending => __('noah-cms::noah-cms.shop.status.description.transaction.pending'),
+            self::Expired => __('noah-cms::noah-cms.shop.status.description.transaction.expired'),
+            self::Finished => __('noah-cms::noah-cms.shop.status.description.transaction.finished'),
         };
     }
 

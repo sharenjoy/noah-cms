@@ -16,16 +16,16 @@ enum InvoiceHolderType: string implements HasLabel, HasDescription, HasIcon, Has
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Mobile => __('noah-cms::noah-cms.shop.type.invoice_holder.mobile'),
-            self::Certificate => __('noah-cms::noah-cms.shop.type.invoice_holder.certificate'),
+            self::Mobile => __('noah-cms::noah-cms.shop.type.title.invoice_holder.mobile'),
+            self::Certificate => __('noah-cms::noah-cms.shop.type.title.invoice_holder.certificate'),
         };
     }
 
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::Mobile => '描述.',
-            self::Certificate => '描述.',
+            self::Mobile => __('noah-cms::noah-cms.shop.type.description.invoice_holder.mobile'),
+            self::Certificate => __('noah-cms::noah-cms.shop.type.description.invoice_holder.certificate'),
         };
     }
 

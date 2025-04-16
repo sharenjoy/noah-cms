@@ -75,7 +75,7 @@ class Promo extends Model implements Sortable
         return [
             'title' => ['description' => true],
             'slug' => [],
-            'relationCount' => ['label' => 'products_count', 'relation' => 'products'],
+            'relation_count' => ['label' => 'products_count', 'relation' => 'products'],
             'thumbnail' => [],
             'seo' => [],
             'is_active' => [],

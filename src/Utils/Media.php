@@ -6,14 +6,14 @@ use RalphJSmit\Filament\MediaLibrary\Media\Models\MediaLibraryItem;
 
 class Media
 {
-    public static function mediaItem(int $imageId = null)
+    public static function mediaItem(?int $imageId = null)
     {
         if (! $imageId) return;
 
         return MediaLibraryItem::find($imageId)->getItem();
     }
 
-    public static function imgUrl(int|array $imageId = null)
+    public static function imgUrl(int|array|null $imageId = null)
     {
         if (! $imageId) return;
 

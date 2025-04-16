@@ -20,35 +20,35 @@ enum OrderStatus: string implements HasLabel, HasDescription, HasIcon, HasColor
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Initial => __('noah-cms::noah-cms.shop.status.order.initial'),
-            self::New => __('noah-cms::noah-cms.shop.status.order.new'),
-            self::Processing => __('noah-cms::noah-cms.shop.status.order.processing'),
-            self::Pending => __('noah-cms::noah-cms.shop.status.order.pending'),
-            self::Cancelled => __('noah-cms::noah-cms.shop.status.order.cancelled'),
-            self::Finished => __('noah-cms::noah-cms.shop.status.order.finished'),
+            self::Initial => __('noah-cms::noah-cms.shop.status.title.order.initial'),
+            self::New => __('noah-cms::noah-cms.shop.status.title.order.new'),
+            self::Processing => __('noah-cms::noah-cms.shop.status.title.order.processing'),
+            self::Pending => __('noah-cms::noah-cms.shop.status.title.order.pending'),
+            self::Cancelled => __('noah-cms::noah-cms.shop.status.title.order.cancelled'),
+            self::Finished => __('noah-cms::noah-cms.shop.status.title.order.finished'),
         };
     }
 
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::Initial => '描述.',
-            self::New => '描述.',
-            self::Processing => '描述.',
-            self::Pending => '描述.',
-            self::Cancelled => '描述.',
-            self::Finished => '描述.',
+            self::Initial => __('noah-cms::noah-cms.shop.status.description.order.initial'),
+            self::New => __('noah-cms::noah-cms.shop.status.description.order.new'),
+            self::Processing => __('noah-cms::noah-cms.shop.status.description.order.processing'),
+            self::Pending => __('noah-cms::noah-cms.shop.status.description.order.pending'),
+            self::Cancelled => __('noah-cms::noah-cms.shop.status.description.order.cancelled'),
+            self::Finished => __('noah-cms::noah-cms.shop.status.description.order.finished'),
         };
     }
 
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::Initial => 'heroicon-o-newspaper',
-            self::New => 'heroicon-o-newspaper',
-            self::Processing => 'heroicon-c-trophy',
-            self::Pending => 'heroicon-c-trophy',
-            self::Cancelled => 'heroicon-c-trophy',
+            self::Initial => 'heroicon-o-exclamation-triangle',
+            self::New => 'heroicon-o-bolt',
+            self::Processing => 'heroicon-c-play-circle',
+            self::Pending => 'heroicon-c-play-pause',
+            self::Cancelled => 'heroicon-c-x-circle',
             self::Finished => 'heroicon-c-trophy',
         };
     }
@@ -56,12 +56,12 @@ enum OrderStatus: string implements HasLabel, HasDescription, HasIcon, HasColor
     public function getColor(): array|string|null
     {
         return match ($this) {
-            self::Initial => Color::Blue,
-            self::New => Color::Blue,
-            self::Processing => Color::Amber,
-            self::Pending => Color::Amber,
-            self::Cancelled => Color::Amber,
-            self::Finished => Color::Amber,
+            self::Initial => Color::Yellow,
+            self::New => Color::Sky,
+            self::Processing => Color::Emerald,
+            self::Pending => Color::Orange,
+            self::Cancelled => Color::Gray,
+            self::Finished => Color::Indigo,
         };
     }
 }

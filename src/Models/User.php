@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Sharenjoy\NoahCms\Models\Address;
+use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -117,6 +118,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class)->validOrders();
     }
 
     /**
