@@ -2,9 +2,11 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderItemPrice;
+use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -26,47 +28,25 @@ class OrderItem extends Model
 
     protected function formFields(): array
     {
-        return [
-            'left' => [
-                'title' => [
-                    'slug' => true,
-                    'required' => true,
-                    'rules' => ['required', 'string'],
-                    // 'localeRules' => [
-                    //     'zh_TW' => ['required', 'string', 'max:255'],
-                    //     'en' => ['required', 'string', 'max:255'],
-                    // ],
-                ],
-                'slug' => ['maxLength' => 50, 'required' => true],
-                'categories' => ['required' => true],
-                'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
-                'description' => ['required' => true, 'rules' => ['required', 'string']],
-                'content' => [
-                    'profile' => 'simple',
-                    'required' => true,
-                    'rules' => ['required'],
-                ],
-            ],
-            'right' => [
-                'img' => ['required' => true],
-                'album' => ['required' => true],
-                'is_active' => ['required' => true],
-                'published_at' => ['required' => true],
-            ],
-        ];
+        return [];
     }
 
     protected function tableFields(): array
     {
         return [
-            'title' => ['description' => true],
-            'slug' => [],
-            'categories' => [],
-            'tags' => ['tagType' => 'product'],
-            'thumbnail' => [],
-            'seo' => [],
-            'is_active' => [],
-            'published_at' => [],
+            'product.title' => ['alias' => 'belongs_to', 'label' => 'product_title', 'relation' => 'product'],
+            'productSpecification.spec_detail_name' => ['alias' => 'belongs_to', 'label' => 'spec_detail_name', 'relation' => 'productSpecification'],
+            'spec_img' => ['alias' => 'image'],
+            'price' => ['type' => 'number', 'summarize' => ['sum']],
+            'discount' => ['type' => 'number', 'summarize' => ['sum']],
+            'currency' => [],
+            'quantity' => ['type' => 'number'],
+            'order_item_subtotal' => TextColumn::make('id')
+                ->label(__('noah-cms::noah-cms.subtotal'))
+                ->sortable()
+                ->formatStateUsing(function ($state, $record) {
+                    return DisplayOrderItemPrice::run($record);
+                }),
             'created_at' => ['isToggledHiddenByDefault' => true],
             'updated_at' => ['isToggledHiddenByDefault' => true],
         ];
@@ -74,12 +54,17 @@ class OrderItem extends Model
 
     /** RELACTIONS */
 
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    public function specification(): BelongsTo
+    public function productSpecification(): BelongsTo
     {
         return $this->belongsTo(ProductSpecification::class);
     }

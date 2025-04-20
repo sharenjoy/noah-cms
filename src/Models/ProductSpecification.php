@@ -48,7 +48,7 @@ class ProductSpecification extends Model implements Sortable
                 'no' => Section::make()->schema([
                     TextInput::make('no')->placeholder(__('noah-cms::noah-cms.spec_no'))->label(__('noah-cms::noah-cms.spec_no'))->unique(ProductSpecification::class, 'no', ignoreRecord: true),
                     TextInput::make('sku')->placeholder('SKU')->label('SKU')->unique(ProductSpecification::class, 'sku', ignoreRecord: true),
-                    TextInput::make('code')->placeholder(__('noah-cms::noah-cms.spec_code'))->label(__('noah-cms::noah-cms.spec_code'))->unique(ProductSpecification::class, 'code', ignoreRecord: true),
+                    TextInput::make('barcode')->placeholder(__('noah-cms::noah-cms.spec_barcode'))->label(__('noah-cms::noah-cms.spec_barcode'))->unique(ProductSpecification::class, 'barcode', ignoreRecord: true),
                 ])->columns(3),
                 'price' => Section::make()->schema([
                     TextInput::make('price')->numeric()->placeholder(__('noah-cms::noah-cms.price'))->label(__('noah-cms::noah-cms.price'))->helperText('實際結帳價格'),
@@ -63,6 +63,7 @@ class ProductSpecification extends Model implements Sortable
                 ],
             ],
             'right' => [
+                'img' => ['required' => true],
                 'album' => [],
                 'is_active' => ['required' => true],
             ],
@@ -74,6 +75,7 @@ class ProductSpecification extends Model implements Sortable
         return [
             'product.title' =>  ['alias' => 'belongs_to', 'label' => 'product', 'relation' => 'product'],
             'spec_detail_name' => [],
+            'thumbnail' => [],
             'no' => ['label' => 'spec_no'],
             'price' => ['type' => 'number'],
             'compare_price' => ['type' => 'number'],

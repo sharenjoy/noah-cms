@@ -82,11 +82,18 @@ class Table
                     $columns[] = TextColumn::make($name)->label(__('noah-cms::noah-cms.updated_at'))->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } else {
                     if (($content['type'] ?? []) == 'number') {
-                        $item = TextColumn::make($name)->numeric()->searchable()->sortable();
+                        $summarize = [];
+                        if (isset($content['summarize']) && in_array('sum', $content['summarize'])) {
+                            $summarize[] = \Filament\Tables\Columns\Summarizers\Sum::make();
+                        }
+                        if (isset($content['summarize']) && in_array('avg', $content['summarize'])) {
+                            $summarize[] = \Filament\Tables\Columns\Summarizers\Average::make();
+                        }
+                        $item = TextColumn::make($name)->numeric()->searchable()->sortable()->summarize($summarize);
                     } elseif (($content['type'] ?? []) == 'boolean') {
                         $item = IconColumn::make($name)->boolean()->sortable();
                     } else {
-                        $item = TextColumn::make($name)->searchable();
+                        $item = TextColumn::make($name)->searchable()->placeholder('-')->sortable();
                     }
 
                     $columns[] = $item->label(__('noah-cms::noah-cms.' . ($content['label'] ?? $name)))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);

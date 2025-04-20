@@ -42,11 +42,15 @@ trait CommonModelTrait
         return $items;
     }
 
+    /**
+     * @return \Spatie\Activitylog\LogOptions
+     */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['*']);
-        // Chain fluent methods for configuration options
+            ->logOnly(['*'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     public function getSortColumn(): array

@@ -13,7 +13,7 @@ enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, Has
     case New = 'new';
     case Pending = 'pending';
     case Expired = 'expired';
-    case Finished = 'finished';
+    case Paid = 'paid';
 
     public function getLabel(): ?string
     {
@@ -21,7 +21,7 @@ enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, Has
             self::New => __('noah-cms::noah-cms.shop.status.title.transaction.new'),
             self::Pending => __('noah-cms::noah-cms.shop.status.title.transaction.pending'),
             self::Expired => __('noah-cms::noah-cms.shop.status.title.transaction.expired'),
-            self::Finished => __('noah-cms::noah-cms.shop.status.title.transaction.finished'),
+            self::Paid => __('noah-cms::noah-cms.shop.status.title.transaction.paid'),
         };
     }
 
@@ -31,7 +31,7 @@ enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, Has
             self::New => __('noah-cms::noah-cms.shop.status.description.transaction.new'),
             self::Pending => __('noah-cms::noah-cms.shop.status.description.transaction.pending'),
             self::Expired => __('noah-cms::noah-cms.shop.status.description.transaction.expired'),
-            self::Finished => __('noah-cms::noah-cms.shop.status.description.transaction.finished'),
+            self::Paid => __('noah-cms::noah-cms.shop.status.description.transaction.paid'),
         };
     }
 
@@ -41,7 +41,7 @@ enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, Has
             self::New => 'heroicon-o-newspaper',
             self::Pending => 'heroicon-o-newspaper',
             self::Expired => 'heroicon-c-trophy',
-            self::Finished => 'heroicon-c-trophy',
+            self::Paid => 'heroicon-c-trophy',
         };
     }
 
@@ -51,7 +51,7 @@ enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, Has
             self::New => Color::Blue,
             self::Pending => Color::Blue,
             self::Expired => Color::Amber,
-            self::Finished => Color::Amber,
+            self::Paid => Color::Amber,
         };
     }
 }

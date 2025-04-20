@@ -34,6 +34,7 @@ return new class extends Migration
             $table->integer('price')->nullable();
             $table->integer('compare_price')->nullable();
             $table->integer('cost')->nullable();
+            $table->integer('img')->nullable();
             $table->text('album')->nullable();
             $table->{$fieldDataType['content']}('content')->nullable();
             $table->unsignedInteger('order_column')->nullable()->index();

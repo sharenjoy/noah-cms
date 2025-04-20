@@ -18,6 +18,7 @@ class OrderTransaction extends TableAbstract implements TableInterface
             ->searchable(query: function (Builder $query, string $search): Builder {
                 return $query->whereHas('transaction', function ($query) use ($search) {
                     $query->where('sn', 'like', "%{$search}%")
+                        ->orWhere('provider', 'like', "%{$search}%")
                         ->orWhere('payment_method', 'like', "%{$search}%")
                         ->orWhere('atm_code', 'like', "%{$search}%");
                 });

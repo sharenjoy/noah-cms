@@ -9,11 +9,13 @@ use Sharenjoy\NoahCms\Enums\DeliveryProvider;
 use Sharenjoy\NoahCms\Enums\DeliveryType;
 use Sharenjoy\NoahCms\Enums\OrderShipmentStatus;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
+use Sharenjoy\NoahCms\Enums\TransactionStatus;
 use Sharenjoy\NoahCms\Models\Address;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
 use Sharenjoy\NoahCms\Models\User;
+use Spatie\Activitylog\Facades\LogBatch;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Sharenjoy\NoahCms\Models\Menu>
@@ -39,8 +41,27 @@ class OrderFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Order $order) {
+
+            // LogBatch::startBatch();
+
+            activity()
+                ->useLog('noah-cms')
+                ->performedOn($order)
+                // ->causedBy(auth()->user())
+                ->withProperties(['attributes' => $order->toArray()])
+                ->event('created')
+                ->log('created');
+
             Address::factory()->count(3)->create();
-            Product::factory()->create();
+            $product = Product::factory()->create();
+
+            activity()
+                ->useLog('noah-cms')
+                ->performedOn($product)
+                // ->causedBy(auth()->user())
+                ->withProperties(['attributes' => $product->toArray()])
+                ->event('created')
+                ->log('created');
 
             $address = Address::inRandomOrder()->first();
             $specs = ProductSpecification::inRandomOrder()->limit(Arr::random([1, 2, 3, 4]))->get();
@@ -59,13 +80,22 @@ class OrderFactory extends Factory
                 'address' => $address->address,
             ]);
 
+            activity()
+                ->useLog('noah-cms')
+                ->performedOn($shipment)
+                // ->causedBy(auth()->user())
+                ->withProperties(['attributes' => $shipment->toArray()])
+                ->event('created')
+                ->log('created');
+
             // 建立商品項目
             foreach ($specs as $spec) {
                 $specData = array_merge(Arr::except($spec->toArray(), ['id', 'product_id', 'order_column', 'is_active', 'created_at', 'updated_at']), [
                     'product_name' => $spec->product->title,
                     'product_image' => $spec->product->img,
                 ]);
-                $order->items()->create([
+                $item = $order->items()->create([
+                    'product_id' => $spec->product->id,
                     'product_specification_id' => $spec->id,
                     'order_shipment_id' => $shipment->id,
                     'type' => 'product',
@@ -75,6 +105,14 @@ class OrderFactory extends Factory
                     'currency' => 'TWD',
                     'product_details' => $specData,
                 ]);
+
+                activity()
+                    ->useLog('noah-cms')
+                    ->performedOn($item)
+                    // ->causedBy(auth()->user())
+                    ->withProperties(['attributes' => $item->toArray()])
+                    ->event('created')
+                    ->log('created');
             }
 
             $invoiceType = [
@@ -106,24 +144,37 @@ class OrderFactory extends Factory
                 'currency' => 'TWD',
             ]));
 
+            activity()
+                ->useLog('noah-cms')
+                ->performedOn($invoice)
+                // ->causedBy(auth()->user())
+                ->withProperties(['attributes' => $invoice->toArray()])
+                ->event('created')
+                ->log('created');
+
             $invoicePrices = [
                 [
+                    'order_id' => $order->id,
                     'type' => 'product',
                     'value' => $order->items->sum('price'),
                 ],
                 [
+                    'order_id' => $order->id,
                     'type' => 'delivery',
                     'value' => Arr::random([100, 0]),
                 ],
                 [
+                    'order_id' => $order->id,
                     'type' => 'product_discount',
                     'value' => $order->items->sum('discount'),
                 ],
                 [
+                    'order_id' => $order->id,
                     'type' => 'shoppingmoney',
                     'value' => Arr::random([-100, 0, -200, -50]),
                 ],
                 [
+                    'order_id' => $order->id,
                     'type' => 'point',
                     'value' => Arr::random([-100, 0, 0, 0, 0, 0, -200, -50]),
                     'content' => '使用點數3000點',
@@ -131,12 +182,28 @@ class OrderFactory extends Factory
             ];
 
             foreach ($invoicePrices as $price) {
-                $invoice->prices()->create($price);
+                $invoicePrice = $invoice->prices()->create($price);
+                activity()
+                    ->useLog('noah-cms')
+                    ->performedOn($invoicePrice)
+                    // ->causedBy(auth()->user())
+                    ->withProperties(['attributes' => $invoicePrice->toArray()])
+                    ->event('created')
+                    ->log('created');
             }
 
+            $oldInvoice = $invoice->toArray();
             CalculatePricesAndUpdateInvoice::run($invoice);
 
-            $order->transaction()->create([
+            activity()
+                ->useLog('noah-cms')
+                ->performedOn($invoice)
+                // ->causedBy(auth()->user())
+                ->withProperties(['old' => $oldInvoice, 'attributes' => $invoice->toArray()])
+                ->event('updated')
+                ->log('updated');
+
+            $transaction = $order->transaction()->create([
                 'invoice_id' => $invoice->id,
                 'status' => 'new',
                 'provider' => 'tappay',
@@ -144,6 +211,16 @@ class OrderFactory extends Factory
                 'total_price' => $invoice->total_price,
                 'currency' => $invoice->currency,
             ]);
+
+            activity()
+                ->useLog('noah-cms')
+                ->performedOn($transaction)
+                // ->causedBy(auth()->user())
+                ->withProperties(['attributes' => $transaction->toArray()])
+                ->event('created')
+                ->log('created');
+
+            // LogBatch::endBatch();
         });
     }
 }

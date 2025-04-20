@@ -2,6 +2,7 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Sharenjoy\NoahCms\Actions\GenerateSeriesNumber;
@@ -42,31 +43,11 @@ class OrderShipment extends Model
     {
         return [
             'left' => [
-                'title' => [
-                    'slug' => true,
-                    'required' => true,
-                    'rules' => ['required', 'string'],
-                    // 'localeRules' => [
-                    //     'zh_TW' => ['required', 'string', 'max:255'],
-                    //     'en' => ['required', 'string', 'max:255'],
-                    // ],
-                ],
-                'slug' => ['maxLength' => 50, 'required' => true],
-                'categories' => ['required' => true],
-                'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
-                'description' => ['required' => true, 'rules' => ['required', 'string']],
-                'content' => [
-                    'profile' => 'simple',
-                    'required' => true,
-                    'rules' => ['required'],
-                ],
+                'provider' => Select::make('provider')
+                    ->label(__('noah-cms::noah-cms.delivery_provider'))
+                    ->options(DeliveryProvider::class),
             ],
-            'right' => [
-                'img' => ['required' => true],
-                'album' => ['required' => true],
-                'is_active' => ['required' => true],
-                'published_at' => ['required' => true],
-            ],
+            'right' => [],
         ];
     }
 

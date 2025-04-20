@@ -9,7 +9,7 @@ class GenerateSeriesNumber
 {
     use AsAction;
 
-    public function handle(string $model, ?string $prefix = null, $strLeng = 5)
+    public function handle(string $model, ?string $prefix = null, $strLeng = 4)
     {
         $date = date('Ymd');
         $key = $model . '_sn:' . $date;

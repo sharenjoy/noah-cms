@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Sharenjoy\NoahCms\Actions\GenerateSeriesNumber;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
 use Sharenjoy\NoahCms\Models\Invoice;
+use Sharenjoy\NoahCms\Models\InvoicePrice;
 use Sharenjoy\NoahCms\Models\OrderItem;
 use Sharenjoy\NoahCms\Models\OrderShipment;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
@@ -44,30 +45,7 @@ class Order extends Model
 
     protected function formFields(): array
     {
-        return [
-            'left' => [
-                'title' => [
-                    'slug' => true,
-                    'required' => true,
-                    'rules' => ['required', 'string'],
-                ],
-                'slug' => ['maxLength' => 50, 'required' => true],
-                'categories' => ['required' => true],
-                'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
-                'description' => ['required' => true, 'rules' => ['required', 'string']],
-                'content' => [
-                    'profile' => 'simple',
-                    'required' => true,
-                    'rules' => ['required'],
-                ],
-            ],
-            'right' => [
-                'img' => ['required' => true],
-                'album' => ['required' => true],
-                'is_active' => ['required' => true],
-                'published_at' => ['required' => true],
-            ],
-        ];
+        return [];
     }
 
     protected function tableFields(): array
@@ -79,9 +57,10 @@ class Order extends Model
                 ->width('1%')
                 ->alignCenter()
                 ->placeholder('-')
-                ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                ->sortable()
+                ->icon('heroicon-o-document-text')
                 ->size(\Filament\Tables\Columns\IconColumn\IconColumnSize::Medium),
-            'sn' => ['label' => 'order_sn'],
+            'sn' => ['alias' => 'order_sn', 'label' => 'order_sn'],
             'status' => ['label' => 'order_status', 'model' => 'order'],
             'order_items' => \Filament\Tables\Columns\TextColumn::make('items_count')
                 ->counts('items')
@@ -89,6 +68,7 @@ class Order extends Model
                 ->color('success')
                 ->label(__('noah-cms::noah-cms.order_item_counts'))
                 ->tooltip('點擊可快速查看品項')
+                ->sortable()
                 ->action(
                     Action::make('view_items')
                         ->label(__('noah-cms::noah-cms.order_item_counts'))
@@ -102,8 +82,7 @@ class Order extends Model
             'order_shipment' => [],
             'order_transaction' => [],
             'order_invoice' => [],
-            'created_at' => ['isToggledHiddenByDefault' => true],
-            'updated_at' => ['isToggledHiddenByDefault' => true],
+            'dates' => [],
         ];
     }
 
@@ -132,6 +111,11 @@ class Order extends Model
     public function invoice(): HasOne
     {
         return $this->hasOne(Invoice::class);
+    }
+
+    public function invoicePrices(): HasMany
+    {
+        return $this->hasMany(InvoicePrice::class);
     }
 
     public function transactions(): HasMany

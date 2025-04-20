@@ -19,7 +19,7 @@ class Filter
     private static string $model;
     private static ?string $resourceModel;
 
-    public static function make(string $model, string $resourceModel = null): array
+    public static function make(string $model, ?string $resourceModel = null): array
     {
         static::$model = $model;
         static::$resourceModel = $resourceModel;

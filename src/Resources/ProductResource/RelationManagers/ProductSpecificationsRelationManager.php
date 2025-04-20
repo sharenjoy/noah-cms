@@ -60,7 +60,7 @@ class ProductSpecificationsRelationManager extends RelationManager
         }
 
         return $table
-            ->recordTitle(fn(ProductSpecification $record): string => "({$record->id}) {$record->title}")
+            ->recordTitle(fn(ProductSpecification $record): string => "({$record->id}) {$record->no}")
             ->heading(__('noah-cms::noah-cms.specification'))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(ProductSpecification::class))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(ProductSpecification::class))

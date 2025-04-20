@@ -2,23 +2,25 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Sharenjoy\NoahCms\Enums\InvoicePriceType;
 use Sharenjoy\NoahCms\Models\Invoice;
+use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
-use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
-use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
-use Sharenjoy\NoahCms\Models\Traits\HasTags;
+use Sharenjoy\NoahCms\Models\User;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Translatable\HasTranslations;
 
 class InvoicePrice extends Model
 {
     use CommonModelTrait;
     use LogsActivity;
 
-    protected $casts = [];
+    protected $casts = [
+        'type' => InvoicePriceType::class,
+    ];
 
     protected array $sort = [
         'created_at' => 'desc',
@@ -26,53 +28,33 @@ class InvoicePrice extends Model
 
     protected function formFields(): array
     {
-        return [
-            'left' => [
-                'title' => [
-                    'slug' => true,
-                    'required' => true,
-                    'rules' => ['required', 'string'],
-                    // 'localeRules' => [
-                    //     'zh_TW' => ['required', 'string', 'max:255'],
-                    //     'en' => ['required', 'string', 'max:255'],
-                    // ],
-                ],
-                'slug' => ['maxLength' => 50, 'required' => true],
-                'categories' => ['required' => true],
-                'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
-                'description' => ['required' => true, 'rules' => ['required', 'string']],
-                'content' => [
-                    'profile' => 'simple',
-                    'required' => true,
-                    'rules' => ['required'],
-                ],
-            ],
-            'right' => [
-                'img' => ['required' => true],
-                'album' => ['required' => true],
-                'is_active' => ['required' => true],
-                'published_at' => ['required' => true],
-            ],
-        ];
+        return [];
     }
 
     protected function tableFields(): array
     {
         return [
-            'title' => ['description' => true],
-            'slug' => [],
-            'categories' => [],
-            'tags' => ['tagType' => 'product'],
-            'thumbnail' => [],
-            'seo' => [],
-            'is_active' => [],
-            'published_at' => [],
-            'created_at' => ['isToggledHiddenByDefault' => true],
+            'promo.title' => ['alias' => 'belongs_to', 'label' => 'promo', 'relation' => 'promo'],
+            'user.name' => ['alias' => 'belongs_to', 'label' => 'administrator', 'relation' => 'user', 'relation_column' => 'admin_id'],
+            'type' => TextColumn::make('type')
+                ->label(__('noah-cms::noah-cms.invoice_price_type'))
+                ->sortable()
+                ->searchable()
+                ->badge(InvoicePriceType::class),
+            'value' => ['type' => 'number', 'label' => 'invoice_price_value', 'summarize' => ['sum']],
+            'invoice.currency' => ['label' => 'currency'],
+            'content' => [],
+            'created_at' => ['isToggledHiddenByDefault' => false],
             'updated_at' => ['isToggledHiddenByDefault' => true],
         ];
     }
 
     /** RELACTIONS */
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
 
     public function invoice(): BelongsTo
     {
@@ -82,6 +64,11 @@ class InvoicePrice extends Model
     public function promo(): BelongsTo
     {
         return $this->belongsTo(Promo::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'admin_id');
     }
 
     /** SCOPES */

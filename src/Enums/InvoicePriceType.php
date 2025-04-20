@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum InvoicePriceType: string implements HasLabel, HasDescription, HasIcon, HasColor
+enum InvoicePriceType: string implements HasLabel, HasDescription, HasColor
 {
     case Product = 'product';
     case ProductDiscount = 'product_discount';
@@ -20,12 +20,12 @@ enum InvoicePriceType: string implements HasLabel, HasDescription, HasIcon, HasC
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Product => __('noah-cms::noah-cms.shop.type.invoice_price.product'),
-            self::ProductDiscount => __('noah-cms::noah-cms.shop.type.invoice_price.product_discount'),
-            self::Delivery => __('noah-cms::noah-cms.shop.type.invoice_price.delivery'),
-            self::Shoppingmoney => __('noah-cms::noah-cms.shop.type.invoice_price.shoppingmoney'),
-            self::Point => __('noah-cms::noah-cms.shop.type.invoice_price.point'),
-            self::Promo => __('noah-cms::noah-cms.shop.type.invoice_price.promo'),
+            self::Product => __('noah-cms::noah-cms.shop.type.title.invoice_price.product'),
+            self::ProductDiscount => __('noah-cms::noah-cms.shop.type.title.invoice_price.product_discount'),
+            self::Delivery => __('noah-cms::noah-cms.shop.type.title.invoice_price.delivery'),
+            self::Shoppingmoney => __('noah-cms::noah-cms.shop.type.title.invoice_price.shoppingmoney'),
+            self::Point => __('noah-cms::noah-cms.shop.type.title.invoice_price.point'),
+            self::Promo => __('noah-cms::noah-cms.shop.type.title.invoice_price.promo'),
         };
     }
 
@@ -41,27 +41,15 @@ enum InvoicePriceType: string implements HasLabel, HasDescription, HasIcon, HasC
         };
     }
 
-    public function getIcon(): ?string
-    {
-        return match ($this) {
-            self::Product => 'heroicon-o-newspaper',
-            self::ProductDiscount => 'heroicon-o-newspaper',
-            self::Delivery => 'heroicon-c-trophy',
-            self::Shoppingmoney => 'heroicon-c-trophy',
-            self::Point => 'heroicon-c-trophy',
-            self::Promo => 'heroicon-c-trophy',
-        };
-    }
-
     public function getColor(): array|string|null
     {
         return match ($this) {
-            self::Product => Color::Blue,
-            self::ProductDiscount => Color::Blue,
-            self::Delivery => Color::Amber,
-            self::Shoppingmoney => Color::Amber,
-            self::Point => Color::Amber,
-            self::Promo => Color::Amber,
+            self::Product => Color::Violet,
+            self::ProductDiscount => Color::Orange,
+            self::Delivery => Color::Violet,
+            self::Shoppingmoney => Color::Orange,
+            self::Point => Color::Orange,
+            self::Promo => Color::Orange,
         };
     }
 }
