@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('invoice_prices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('invoice_id')->constrained()->onDelete('cascade');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('promo_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('admin_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->string('type', 50)->index();
             $table->decimal('value', 10, 2);
             $table->text('content')->nullable();
