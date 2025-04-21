@@ -25,7 +25,6 @@
         "filament/spatie-laravel-translatable-plugin": "^3.2",
         "illuminate/contracts": "^10.0||^11.0||^12.0",
         "lorisleiva/laravel-actions": "^2.9",
-        "lwwcas/laravel-countries": "^4.12",
         "mcamara/laravel-localization": "^2.2",
         "mvenghaus/filament-plugin-translatable-inline": "^3.0",
         "noxoua/filament-activity-log": "^2.2",
