@@ -115,6 +115,9 @@ return [
     'subtotal' => '小計',
     'administrator' => '管理者',
     'timeline' => '事件狀態紀錄',
+    'currency_code' => '幣別',
+    'symbol' => 'Symbol',
+    'exchange_rate' => '匯率(與基準幣別之匯率)',
 
     'activity' => [
         'title' => [
