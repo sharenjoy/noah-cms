@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderItemPrice;
+use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderShipmentDetail;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayTransactionPrice;
 use Sharenjoy\NoahCms\Enums\InvoiceType;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
@@ -20,14 +21,13 @@ use Sharenjoy\NoahCms\Models\Invoice;
 use Sharenjoy\NoahCms\Models\InvoicePrice;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\OrderItem;
+use Sharenjoy\NoahCms\Models\OrderShipment;
 use Sharenjoy\NoahCms\Models\Transaction;
-use Sharenjoy\NoahCms\Models\User;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\InvoicePricesRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\OrderItemsRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\UserRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
-use Sharenjoy\NoahCms\Resources\UserResource;
 
 class OrderResource extends Resource implements HasShieldPermissions
 {
@@ -63,7 +63,6 @@ class OrderResource extends Resource implements HasShieldPermissions
     {
         $table = static::chainTableFunctions($table);
         return $table
-            // ->modifyQueryUsing(fn(Builder $query) => $query->with(['user']))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
             ->filters([
                 SelectFilter::make('status')
@@ -112,13 +111,9 @@ class OrderResource extends Resource implements HasShieldPermissions
                         Timeline::make()
                             ->searchable()
                             ->hiddenLabel()
-                            ->attributeLabel('status', __('noah-cms::noah-cms.status'))
-                            ->attributeLabel('price', __('noah-cms::noah-cms.price'))
-                            ->attributeLabel('discount', __('noah-cms::noah-cms.discount'))
-                            ->attributeLabel('total_price', __('noah-cms::noah-cms.total_price'))
-                            ->withRelations(['items', 'invoice', 'transaction', 'invoicePrices'])
+                            ->withRelations(['items', 'invoice', 'transaction', 'invoicePrices', 'shipment'])
                             ->getRecordTitleUsing(OrderItem::class, function (OrderItem $model) {
-                                return $model->product->title . '(' . implode(',', $model->product_details['spec_detail_name']) . ') x ' . $model->quantity . ' ' . __('noah-cms::noah-cms.item_subtotal') . ' ' . DisplayOrderItemPrice::run($model);
+                                return $model->product->title . '(' . implode(',', $model->product_details['spec_detail_name']) . ') x ' . $model->quantity . ' ' . __('noah-cms::noah-cms.activity.label.item_subtotal') . ' ' . DisplayOrderItemPrice::run($model);
                             })
                             ->getRecordTitleUsing(Invoice::class, function (Invoice $model) {
                                 return $model->type->getLabel();
@@ -129,7 +124,32 @@ class OrderResource extends Resource implements HasShieldPermissions
                             ->getRecordTitleUsing(Transaction::class, function (Transaction $model) {
                                 return $model->status->getLabel() . ' ' . $model->provider->getLabel() . ' ' . $model->payment_method->getLabel() . ' ' . DisplayTransactionPrice::run($model);
                             })
-                            ->eventDescription('published', "The subject name is :subject.title, the causer name is :causer.name and Laravel is :properties.status"),
+                            ->getRecordTitleUsing(OrderShipment::class, function (OrderShipment $model) {
+                                return $model->provider->getLabel() . ' ' . $model->delivery_type->getLabel() . ' ' . str_replace('<br>', ' ', DisplayOrderShipmentDetail::run($model));
+                            })
+                            ->attributeLabel('delivery_type', __('noah-cms::noah-cms.activity.label.delivery_type'))
+                            ->attributeLabel('name', __('noah-cms::noah-cms.activity.label.name'))
+                            ->attributeLabel('calling_code', __('noah-cms::noah-cms.activity.label.calling_code'))
+                            ->attributeLabel('mobile', __('noah-cms::noah-cms.activity.label.mobile'))
+                            ->attributeLabel('country', __('noah-cms::noah-cms.activity.label.country'))
+                            ->attributeLabel('postcode', __('noah-cms::noah-cms.activity.label.postcode'))
+                            ->attributeLabel('city', __('noah-cms::noah-cms.activity.label.city'))
+                            ->attributeLabel('district', __('noah-cms::noah-cms.activity.label.district'))
+                            ->attributeLabel('address', __('noah-cms::noah-cms.activity.label.address'))
+                            ->attributeLabel('pickup_store_no', __('noah-cms::noah-cms.activity.label.pickup_store_no'))
+                            ->attributeLabel('pickup_store_name', __('noah-cms::noah-cms.activity.label.pickup_store_name'))
+                            ->attributeLabel('pickup_store_address', __('noah-cms::noah-cms.activity.label.pickup_store_address'))
+                            ->attributeLabel('pickup_retail_name', __('noah-cms::noah-cms.activity.label.pickup_retail_name'))
+                            ->attributeLabel('postoffice_delivery_code', __('noah-cms::noah-cms.activity.label.postoffice_delivery_code'))
+                            ->attributeLabel('provider', __('noah-cms::noah-cms.activity.label.provider'))
+                            ->attributeLabel('status', __('noah-cms::noah-cms.activity.label.status'))
+                            ->attributeLabel('price', __('noah-cms::noah-cms.activity.label.price'))
+                            ->attributeLabel('discount', __('noah-cms::noah-cms.activity.label.discount'))
+                            ->attributeLabel('total_price', __('noah-cms::noah-cms.activity.label.total_price'))
+                            ->attributeLabel('donate_code', __('noah-cms::noah-cms.activity.label.donate_code'))
+                            ->attributeLabel('company_title', __('noah-cms::noah-cms.activity.label.company_title'))
+                            ->attributeLabel('company_code', __('noah-cms::noah-cms.activity.label.company_code'))
+                            ->attributeLabel('type', __('noah-cms::noah-cms.activity.label.type')),
                     ])
                     ->collapsible()
                     ->columnSpanFull(),
