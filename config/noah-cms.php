@@ -20,4 +20,6 @@ return [
         'seo' => env('FEATURE_TOGGLE_SEO', true),
     ],
 
+    'donate_code' => [],
+
 ];
