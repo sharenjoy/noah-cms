@@ -27,7 +27,6 @@
         "lorisleiva/laravel-actions": "^2.9",
         "mcamara/laravel-localization": "^2.2",
         "mvenghaus/filament-plugin-translatable-inline": "^3.0",
-        "nnjeim/world": "^1.1",
         "noxoua/filament-activity-log": "^2.2",
         "outerweb/filament-settings": "^1.2",
         "outerweb/filament-translatable-fields": "^2.0",
