@@ -149,7 +149,8 @@ class OrderResource extends Resource implements HasShieldPermissions
                             ->attributeLabel('donate_code', __('noah-cms::noah-cms.activity.label.donate_code'))
                             ->attributeLabel('company_title', __('noah-cms::noah-cms.activity.label.company_title'))
                             ->attributeLabel('company_code', __('noah-cms::noah-cms.activity.label.company_code'))
-                            ->attributeLabel('type', __('noah-cms::noah-cms.activity.label.type')),
+                            ->attributeLabel('type', __('noah-cms::noah-cms.activity.label.type'))
+                            ->attributeLabel('payment_method', __('noah-cms::noah-cms.activity.label.payment_method')),
                     ])
                     ->collapsible()
                     ->columnSpanFull(),

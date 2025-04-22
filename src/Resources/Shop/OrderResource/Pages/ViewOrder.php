@@ -13,10 +13,14 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Get;
 use Filament\Resources\Pages\ViewRecord;
+use Sharenjoy\NoahCms\Actions\Shop\FetchAddressRelatedSelectOptions;
+use Sharenjoy\NoahCms\Actions\Shop\FetchCountryRelatedSelectOptions;
 use Sharenjoy\NoahCms\Enums\DeliveryProvider;
 use Sharenjoy\NoahCms\Enums\DeliveryType;
 use Sharenjoy\NoahCms\Enums\InvoiceHolderType;
 use Sharenjoy\NoahCms\Enums\InvoiceType;
+use Sharenjoy\NoahCms\Enums\PaymentMethod;
+use Sharenjoy\NoahCms\Enums\TransactionProvider;
 use Sharenjoy\NoahCms\Models\OrderShipment;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahViewRecord;
@@ -42,7 +46,7 @@ class ViewOrder extends ViewRecord
                             Grid::make(2)
                                 ->schema([
                                     Select::make('provider')
-                                        ->label(__('noah-cms::noah-cms.activity.label.delivery_provider'))
+                                        ->label(__('noah-cms::noah-cms.activity.label.provider'))
                                         ->options(DeliveryProvider::class)
                                         ->required()
                                         ->live(),
@@ -61,7 +65,11 @@ class ViewOrder extends ViewRecord
                         ->schema([
                             Grid::make(2)
                                 ->schema([
-                                    TextInput::make('calling_code')->label(__('noah-cms::noah-cms.activity.label.calling_code'))->required(),
+                                    Select::make('calling_code')
+                                        ->label(__('noah-cms::noah-cms.activity.label.calling_code'))
+                                        ->options(FetchCountryRelatedSelectOptions::run('calling_code'))
+                                        ->searchable()
+                                        ->required(),
                                     TextInput::make('mobile')->label(__('noah-cms::noah-cms.activity.label.mobile'))->required(),
                                 ]),
                             Grid::make(1)
@@ -76,14 +84,30 @@ class ViewOrder extends ViewRecord
                         ->schema([
                             Grid::make(2)
                                 ->schema([
-                                    TextInput::make('country')->label(__('noah-cms::noah-cms.activity.label.country'))->required(),
+                                    Select::make('country')
+                                        ->label(__('noah-cms::noah-cms.activity.label.country'))
+                                        ->options(FetchCountryRelatedSelectOptions::run('country'))
+                                        ->searchable()
+                                        ->required()
+                                        ->live(),
                                     TextInput::make('postcode')->label(__('noah-cms::noah-cms.activity.label.postcode'))->required(),
-                                    TextInput::make('city')->label(__('noah-cms::noah-cms.activity.label.city'))->required(),
-                                    TextInput::make('district')->label(__('noah-cms::noah-cms.activity.label.district'))->required(),
+                                    Select::make('city')
+                                        ->label(__('noah-cms::noah-cms.activity.label.city'))
+                                        ->visible(fn(Get $get): bool => $get('country') == 'Taiwan')
+                                        ->options(FetchAddressRelatedSelectOptions::run('city'))
+                                        ->searchable()
+                                        ->required()
+                                        ->live(),
+                                    Select::make('district')
+                                        ->label(__('noah-cms::noah-cms.activity.label.district'))
+                                        ->options(fn(Get $get) => FetchAddressRelatedSelectOptions::run('district', $get('city')))
+                                        ->searchable()
+                                        ->required()
+                                        ->visible(fn(Get $get): bool => $get('country') == 'Taiwan'),
                                 ]),
                             Grid::make(1)
                                 ->schema([
-                                    TextInput::make('address')->label(__('noah-cms::noah-cms.activity.label.address'))->required(),
+                                    Textarea::make('address')->rows(2)->label(__('noah-cms::noah-cms.activity.label.address'))->required(),
                                 ]),
                         ])->visible(fn(Get $get): bool => $get('delivery_type') == DeliveryType::Address->value),
 
@@ -91,11 +115,14 @@ class ViewOrder extends ViewRecord
                         ->extraAttributes(['style' => 'background-color: #f8f8f8'])
                         ->columnSpanFull()
                         ->schema([
-                            Grid::make(1)
+                            Grid::make(2)
                                 ->schema([
                                     TextInput::make('pickup_store_no')->label(__('noah-cms::noah-cms.activity.label.pickup_store_no'))->required(),
                                     TextInput::make('pickup_store_name')->label(__('noah-cms::noah-cms.activity.label.pickup_store_name'))->required(),
-                                    TextInput::make('pickup_store_address')->label(__('noah-cms::noah-cms.activity.label.pickup_store_address'))->required(),
+                                ]),
+                            Grid::make(1)
+                                ->schema([
+                                    Textarea::make('pickup_store_address')->rows(2)->label(__('noah-cms::noah-cms.activity.label.pickup_store_address'))->required(),
                                 ]),
                         ])->visible(fn(Get $get): bool => $get('delivery_type') == DeliveryType::Pickinstore->value),
 
@@ -202,6 +229,56 @@ class ViewOrder extends ViewRecord
                     $record->invoice->update($data);
                 })
                 ->requiresConfirmation(),
+
+            Action::make('editTransaction')
+                ->label('編輯付款資訊')
+                ->modalHeading('編輯付款資訊')
+                ->icon('heroicon-o-cube-transparent')
+                ->form([
+                    Section::make('付款方式')
+                        ->extraAttributes(['style' => 'background-color: #f8f8f8'])
+                        ->columnSpanFull()
+                        ->schema([
+                            Grid::make(2)
+                                ->schema([
+                                    Select::make('provider')
+                                        ->label(__('noah-cms::noah-cms.activity.label.provider'))
+                                        ->options(TransactionProvider::class)
+                                        ->required()
+                                        ->live(),
+
+                                    Select::make('payment_method')
+                                        ->label(__('noah-cms::noah-cms.activity.label.payment_method'))
+                                        ->options(PaymentMethod::class)
+                                        ->required()
+                                        ->live(),
+                                ]),
+                        ]),
+
+                    Section::make('ATM')
+                        ->extraAttributes(['style' => 'background-color: #f8f8f8'])
+                        ->columnSpanFull()
+                        ->schema([
+                            Grid::make(2)
+                                ->schema([
+                                    TextInput::make('atm_code')
+                                        ->required()
+                                        ->label(__('noah-cms::noah-cms.activity.label.atm_code')),
+                                    TextInput::make('expired_at')
+                                        ->required()
+                                        ->label(__('noah-cms::noah-cms.activity.label.expired_at')),
+                                ]),
+                        ])
+                        ->visible(fn(Get $get): bool => $get('payment_method') == PaymentMethod::ATM->value),
+                ])
+                ->mountUsing(function (ComponentContainer $form, $record) {
+                    $form->fill($record->transaction->toArray());
+                })
+                ->action(function (array $data, $record) {
+                    $record->transaction->update($data);
+                })
+                ->requiresConfirmation(),
+
             ActionGroup::make([]),
         ];
     }
