@@ -2,14 +2,18 @@
 
 namespace Sharenjoy\NoahCms\Resources\Shop;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Blade;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderItemPrice;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderShipmentDetail;
@@ -80,11 +84,26 @@ class OrderResource extends Resource implements HasShieldPermissions
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
+                    Tables\Actions\Action::make('view_order_info_list')
+                        ->icon('heroicon-o-document-text')
+                        ->label(__('noah-cms::noah-cms.view_order_info_list'))
+                        ->url(function ($record) {
+                            return self::getUrl('info-list', ['record' => $record]);
+                        }),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    //
+                    Tables\Actions\BulkAction::make('view_order_info_list')
+                        ->label(__('noah-cms::noah-cms.view_order_info_list'))
+                        ->action(function ($records) {
+                            return redirect()->route('filament.' . Filament::getCurrentPanel()->getId() . '.resources.shop.orders.info-list', [
+                                'record' => $records->first()->id,
+                                'ids' => $records->pluck('id')->toArray(),
+                            ]);
+                        })
+                        ->requiresConfirmation()
+                        ->color('primary'),
                 ]),
             ])
             ->reorderable(false);
@@ -174,6 +193,7 @@ class OrderResource extends Resource implements HasShieldPermissions
             'create' => Pages\CreateOrder::route('/create'),
             // 'edit' => Pages\EditOrder::route('/{record}/edit'),
             // 'invoice' => Pages\Invoice::route('/{record}/invoice'),
+            'info-list' => Pages\ViewOrderInfoList::route('/{record}/info-list'),
         ];
     }
 

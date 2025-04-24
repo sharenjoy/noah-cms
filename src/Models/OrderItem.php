@@ -3,8 +3,10 @@
 namespace Sharenjoy\NoahCms\Models;
 
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Number;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderItemPrice;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
@@ -20,6 +22,12 @@ class OrderItem extends Model
         'preorder' => 'boolean',
         'quantity' => 'integer',
         'product_details' => 'json',
+    ];
+
+    protected $appends = [
+        'price_discounted',
+        'subtotal_price',
+        'subtotal',
     ];
 
     protected array $sort = [
@@ -79,4 +87,29 @@ class OrderItem extends Model
     /** EVENTS */
 
     /** OTHERS */
+
+    protected function priceDiscounted(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => $attributes['price'] + $attributes['discount']
+        );
+    }
+
+    protected function subtotalPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => ($attributes['price'] + $attributes['discount']) * $attributes['quantity']
+        );
+    }
+
+    protected function subtotal(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value, $attributes) {
+                $price = ($attributes['price'] + $attributes['discount']) * $attributes['quantity'];
+                $precision = Country::where('currency_code', $attributes['currency'])->first()->currency_decimals ?? 2;
+                return Number::currency($price, $attributes['currency'], precision: $precision);
+            },
+        );
+    }
 }

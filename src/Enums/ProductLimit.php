@@ -6,9 +6,12 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
 enum ProductLimit: string implements HasLabel, HasIcon, HasColor
 {
+    use BaseEnum;
+
     case Deliveryhome = 'deliveryhome';
     case Pickinstore = 'pickinstore';
     case International = 'international';

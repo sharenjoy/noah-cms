@@ -7,9 +7,12 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
 enum InvoicePriceType: string implements HasLabel, HasDescription, HasColor
 {
+    use BaseEnum;
+
     case Product = 'product';
     case ProductDiscount = 'product_discount';
     case Delivery = 'delivery';

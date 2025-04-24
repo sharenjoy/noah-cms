@@ -21,7 +21,7 @@ class DisplayOrderShipmentDetail
                 $detail = $shipment->address . '<br>' . $shipment->postcode . ' ' . $shipment->country;
             }
         } elseif ($shipment->delivery_type == DeliveryType::Pickinstore) {
-            $detail = $shipment->pickup_store_no . '<br>' . $shipment->pickup_store_name . '<br>' . $shipment->pickup_store_address;
+            $detail = $shipment->pickup_store_no . ' ' . $shipment->pickup_store_name . '<br>' . $shipment->pickup_store_address;
         } elseif ($shipment->delivery_type == DeliveryType::Pickinretail) {
             $detail = $shipment->pickup_retail_name;
         }

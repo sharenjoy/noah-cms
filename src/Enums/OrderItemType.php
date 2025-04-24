@@ -7,9 +7,12 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
 enum OrderItemType: string implements HasLabel, HasDescription, HasIcon, HasColor
 {
+    use BaseEnum;
+
     case Product = 'product';
     case Group = 'group';
     case Freegift = 'freegift';

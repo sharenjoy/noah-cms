@@ -7,9 +7,12 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
 enum StockMethod: string implements HasLabel, HasDescription, HasIcon, HasColor
 {
+    use BaseEnum;
+
     case Notification = 'notification';
     case Preorderable = 'preorderable';
 

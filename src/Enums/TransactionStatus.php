@@ -7,9 +7,12 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
 enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, HasColor
 {
+    use BaseEnum;
+
     case New = 'new';
     case Pending = 'pending';
     case Expired = 'expired';

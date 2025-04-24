@@ -6,9 +6,12 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
 enum TagType: string implements HasLabel, HasIcon, HasColor
 {
+    use BaseEnum;
+
     case Post = 'post';
     case Product = 'product';
     case User = 'user';

@@ -13,6 +13,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('noah-cms')
+            ->hasRoute('web')
             ->hasConfigFile([
                 'activitylog',
                 'filament-activity-log',

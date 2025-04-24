@@ -118,6 +118,8 @@ return [
     'currency_code' => '幣別',
     'symbol' => 'Symbol',
     'exchange_rate' => '匯率(與基準幣別之匯率)',
+    'view_invoice' => '檢視發票(列印)',
+    'view_order_info_list' => '檢視訂單明細(列印)',
 
     'activity' => [
         'title' => [

@@ -18,6 +18,7 @@
     "require": {
         "php": "^8.4",
         "awcodes/filament-tiptap-editor": "^3.0",
+        "barryvdh/laravel-dompdf": "^3.1",
         "bezhansalleh/filament-shield": "^3.3",
         "codewithdennis/filament-select-tree": "^3.1",
         "filament/filament": "^3.3",
@@ -53,6 +54,9 @@
         "pestphp/pest-plugin-laravel": "^3.0"
     },
     "autoload": {
+        "files": [
+            "src/Utils/helpers.php"
+        ],
         "psr-4": {
             "Sharenjoy\\NoahCms\\": "src/",
             "Sharenjoy\\NoahCms\\Database\\Factories\\": "database/factories/"

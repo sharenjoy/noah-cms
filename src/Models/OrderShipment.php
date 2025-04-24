@@ -3,6 +3,7 @@
 namespace Sharenjoy\NoahCms\Models;
 
 use Filament\Forms\Components\Select;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Sharenjoy\NoahCms\Actions\GenerateSeriesNumber;
@@ -22,6 +23,11 @@ class OrderShipment extends Model
         'status' => OrderShipmentStatus::class,
         'provider' => DeliveryProvider::class,
         'delivery_type' => DeliveryType::class,
+    ];
+
+    protected $appends = [
+        'delivery_method',
+        'call',
     ];
 
     protected array $sort = [
@@ -79,4 +85,18 @@ class OrderShipment extends Model
     /** EVENTS */
 
     /** OTHERS */
+
+    protected function deliveryMethod(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => DeliveryProvider::getLabelInArray($attributes['provider']) . ' ' . DeliveryType::getLabelInArray($attributes['delivery_type']),
+        );
+    }
+
+    protected function call(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => '+' . $attributes['calling_code'] . ' ' . $attributes['mobile']
+        );
+    }
 }
