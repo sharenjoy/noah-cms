@@ -5,6 +5,7 @@ namespace Sharenjoy\NoahCms\Models;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,10 @@ class ProductSpecification extends Model implements Sortable
         'spec_detail_name' => 'json',
         'album' => 'array',
         'is_active' => 'boolean',
+    ];
+
+    protected $appends = [
+        'spec',
     ];
 
     public $translatable = [
@@ -97,4 +102,11 @@ class ProductSpecification extends Model implements Sortable
     /** EVENTS */
 
     /** OTHERS */
+
+    protected function spec(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => join(',', json_decode($attributes['spec_detail_name'], true))
+        );
+    }
 }

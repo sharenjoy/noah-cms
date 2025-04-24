@@ -1,7 +1,7 @@
 <div class="fi-ta-text grid w-full gap-y-1 px-3 py-4">
     <ul class="grid gap-1">
         <li>
-            <div class="font-bold text-sm" style="color: #3a3a3a">{{ \Sharenjoy\NoahCms\Actions\Shop\DisplayTransactionPrice::run(transaction: $getState()) }}</div>
+            <div class="font-bold text-sm" style="color: #3a3a3a">{{ currency_format($getState()->total_price, $getState()->currency) }}</div>
         </li>
         <li class="flex justify-start gap-1 py-1">
             <div class="w-fit"><x-filament::badge size="sm" color="gray">{{ $getState()->provider->getLabel() }}</x-filament::badge></div>

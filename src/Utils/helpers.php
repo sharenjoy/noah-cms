@@ -1,17 +1,25 @@
 <?php
 
-if (!function_exists('format_currency')) {
-    function format_currency($amount, $symbol = '$')
+if (!function_exists('noah_setting')) {
+    function noah_setting(string $key): mixed
     {
-        return $symbol . number_format($amount, 2);
+        $setting = setting($key);
+        $locale = app()->getLocale();
+
+        if (is_array($setting)) {
+            if (isset($setting[$locale])) {
+                return $setting[$locale];
+            }
+            return $setting;
+        }
+
+        return setting($key);
     }
 }
 
-if (!function_exists('enum_to_array')) {
-    function enum_to_array(string $enumClass): array
+if (!function_exists('media_url')) {
+    function media_url($ids): mixed
     {
-        return collect($enumClass::cases())
-            ->mapWithKeys(fn($case) => [$case->value => $case->name])
-            ->toArray();
+        return \Sharenjoy\NoahCms\Utils\Media::imgUrl($ids);
     }
 }

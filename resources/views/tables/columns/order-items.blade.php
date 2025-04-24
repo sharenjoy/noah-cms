@@ -16,7 +16,7 @@
             </div>
             <div class="">
                 <h3 class="text-sm font-medium text-gray-700">Qty: {{ $item->quantity }}</h3>
-                <h3 class="text-sm font-medium text-gray-700">{{ \Sharenjoy\NoahCms\Actions\Shop\DisplayOrderItemPrice::run(orderItem: $item) }}</h3>
+                <h3 class="text-sm font-medium text-gray-700">{{ currency_format($item->subtotal, $item->currency) }}</h3>
             </div>
         </li>
         @endforeach

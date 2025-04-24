@@ -11,7 +11,7 @@ class CalculatePricesAndUpdateInvoice
 
     public function handle(Invoice $invoice)
     {
-        $invoicePrices = $invoice->prices()->get();
+        $invoicePrices = $invoice->prices;
 
         $data = [
             'price' => 0,

@@ -4,9 +4,11 @@ namespace Sharenjoy\NoahCms\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use Sharenjoy\NoahCms\Actions\Shop\CalculateOrderItemToInvoicePrices;
 use Sharenjoy\NoahCms\Actions\Shop\CalculatePricesAndUpdateInvoice;
 use Sharenjoy\NoahCms\Enums\DeliveryProvider;
 use Sharenjoy\NoahCms\Enums\DeliveryType;
+use Sharenjoy\NoahCms\Enums\InvoicePriceType;
 use Sharenjoy\NoahCms\Enums\OrderShipmentStatus;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
 use Sharenjoy\NoahCms\Enums\TransactionStatus;
@@ -99,7 +101,7 @@ class OrderFactory extends Factory
                     'product_specification_id' => $spec->id,
                     'order_shipment_id' => $shipment->id,
                     'type' => 'product',
-                    'quantity' => 1,
+                    'quantity' => Arr::random([1, 2, 3]),
                     'price' => $spec->price ?? Arr::random([1000, 1200, 1800, 1500, 3000, 3500, 800, 1350, 3750, 300, 550]),
                     'discount' => Arr::random([0, 0, 0, 0, 0, 0, 0, -50, -100, -200]),
                     'currency' => 'TWD',
@@ -156,17 +158,17 @@ class OrderFactory extends Factory
                 [
                     'order_id' => $order->id,
                     'type' => 'product',
-                    'value' => $order->items->sum('price'),
+                    'value' => CalculateOrderItemToInvoicePrices::run($order, InvoicePriceType::Product),
+                ],
+                [
+                    'order_id' => $order->id,
+                    'type' => 'product_discount',
+                    'value' => CalculateOrderItemToInvoicePrices::run($order, InvoicePriceType::ProductDiscount),
                 ],
                 [
                     'order_id' => $order->id,
                     'type' => 'delivery',
                     'value' => Arr::random([100, 0]),
-                ],
-                [
-                    'order_id' => $order->id,
-                    'type' => 'product_discount',
-                    'value' => $order->items->sum('discount'),
                 ],
                 [
                     'order_id' => $order->id,

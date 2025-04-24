@@ -4,9 +4,13 @@ namespace Sharenjoy\NoahCms\Pages\Settings;
 
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Closure;
+use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Outerweb\FilamentSettings\Filament\Pages\Settings as BaseSettings;
+use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 
 class Settings extends BaseSettings
 {
@@ -31,30 +35,57 @@ class Settings extends BaseSettings
                     Tabs\Tab::make('General')
                         ->label(__('noah-cms::noah-cms.general'))
                         ->schema([
-                            TextInput::make('general.app_name')
-                                ->label(__('noah-cms::noah-cms.website_name'))
-                                ->required()
-                                ->translatable(true, null, [
-                                    'en' => ['required', 'string', 'max:255'],
-                                    'zh_TW' => ['required', 'string', 'max:255'],
-                                ]),
+                            Section::make()->schema([
+                                TextInput::make('general.app_name')
+                                    ->label(__('noah-cms::noah-cms.website_name'))
+                                    ->required()
+                                    ->translatable(true, null, [
+                                        'en' => ['string', 'max:255'],
+                                        'zh_TW' => ['required', 'string', 'max:255'],
+                                    ]),
+                                MediaPicker::make('general.logo')->label('Logo(品牌/公司)')->showFileName(),
+                                TextInput::make('general.contact_email')
+                                    ->label('Email(聯絡信箱)')
+                                    ->required(),
+                                TextInput::make('general.contact_phone')
+                                    ->label('聯絡電話')
+                                    ->required(),
+                                TextInput::make('general.contact_address')
+                                    ->label('聯絡地址')
+                                    ->translatable(true, null, [
+                                        'en' => ['string', 'max:255'],
+                                        'zh_TW' => ['string', 'max:255'],
+                                    ]),
+                            ])->columns(1),
+                        ]),
+                    Tabs\Tab::make('order')
+                        ->label('訂單相關')
+                        ->schema([
+                            Section::make()->schema([
+                                Textarea::make('order.order_info_list.notice')
+                                    ->label('訂單明細-注意事項')
+                                    ->rows(4)
+                                    ->translatable(true, null, [
+                                        'zh_TW' => ['required'],
+                                    ]),
+                            ]),
                         ]),
                     Tabs\Tab::make('SEO')
                         ->schema([
-                            TextInput::make('seo.title')
-                                ->label(__('noah-cms::noah-cms.seo_title'))
-                                ->required()
-                                ->translatable(true, null, [
-                                    'en' => ['required', 'string', 'max:255'],
-                                    'zh_TW' => ['required', 'string', 'max:255'],
-                                ]),
-                            TextInput::make('seo.description')
-                                ->label(__('noah-cms::noah-cms.seo_description'))
-                                ->required()
-                                ->translatable(true, null, [
-                                    'en' => ['required', 'string', 'max:255'],
-                                    'zh_TW' => ['required', 'string', 'max:255'],
-                                ]),
+                            Section::make()->schema([
+                                TextInput::make('seo.title')
+                                    ->label(__('noah-cms::noah-cms.seo_title'))
+                                    ->translatable(true, null, [
+                                        'en' => ['string', 'max:255'],
+                                        'zh_TW' => ['string', 'max:255'],
+                                    ]),
+                                TextInput::make('seo.description')
+                                    ->label(__('noah-cms::noah-cms.seo_description'))
+                                    ->translatable(true, null, [
+                                        'en' => ['string', 'max:255'],
+                                        'zh_TW' => ['string', 'max:255'],
+                                    ]),
+                            ]),
                         ]),
                 ]),
         ];

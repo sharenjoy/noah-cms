@@ -2,25 +2,18 @@
 
 namespace Sharenjoy\NoahCms\Resources\Shop;
 
-use Barryvdh\DomPDF\Facade\Pdf;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Blade;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
-use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderItemPrice;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderShipmentDetail;
-use Sharenjoy\NoahCms\Actions\Shop\DisplayTransactionPrice;
-use Sharenjoy\NoahCms\Enums\InvoiceType;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
-use Sharenjoy\NoahCms\Enums\TransactionStatus;
 use Sharenjoy\NoahCms\Models\Invoice;
 use Sharenjoy\NoahCms\Models\InvoicePrice;
 use Sharenjoy\NoahCms\Models\Order;
@@ -132,7 +125,7 @@ class OrderResource extends Resource implements HasShieldPermissions
                             ->hiddenLabel()
                             ->withRelations(['items', 'invoice', 'transaction', 'invoicePrices', 'shipment'])
                             ->getRecordTitleUsing(OrderItem::class, function (OrderItem $model) {
-                                return $model->product->title . '(' . implode(',', $model->product_details['spec_detail_name']) . ') x ' . $model->quantity . ' ' . __('noah-cms::noah-cms.activity.label.item_subtotal') . ' ' . DisplayOrderItemPrice::run($model);
+                                return $model->product->title . '(' . implode(',', $model->product_details['spec_detail_name']) . ') x ' . $model->quantity . ' ' . __('noah-cms::noah-cms.activity.label.item_subtotal') . ' ' . currency_format($model->subtotal, $model->currency);
                             })
                             ->getRecordTitleUsing(Invoice::class, function (Invoice $model) {
                                 return $model->type->getLabel();
@@ -141,7 +134,7 @@ class OrderResource extends Resource implements HasShieldPermissions
                                 return $model->type->getLabel() . ' ' . $model->value;
                             })
                             ->getRecordTitleUsing(Transaction::class, function (Transaction $model) {
-                                return $model->status->getLabel() . ' ' . $model->provider->getLabel() . ' ' . $model->payment_method->getLabel() . ' ' . DisplayTransactionPrice::run($model);
+                                return $model->status->getLabel() . ' ' . $model->provider->getLabel() . ' ' . $model->payment_method->getLabel() . ' ' . currency_format($model->total_price, $model->currency);
                             })
                             ->getRecordTitleUsing(OrderShipment::class, function (OrderShipment $model) {
                                 return $model->provider->getLabel() . ' ' . $model->delivery_type->getLabel() . ' ' . str_replace('<br>', ' ', DisplayOrderShipmentDetail::run($model));
