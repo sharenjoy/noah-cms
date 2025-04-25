@@ -11,7 +11,7 @@ trait BaseEnum
             ->toArray();
     }
 
-    public static function getLabelInArray($value): string|null
+    public static function getLabelOptions($value): string|null
     {
         $labels = static::toArray();
 

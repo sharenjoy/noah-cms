@@ -2,6 +2,7 @@
 
 namespace Sharenjoy\NoahCms;
 
+use Illuminate\Support\Facades\Gate;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
 use Sharenjoy\NoahCms\Models;
 use Spatie\LaravelPackageTools\Package;
@@ -41,6 +42,8 @@ class NoahCmsServiceProvider extends PackageServiceProvider
     public function packageBooted()
     {
         \Illuminate\Database\Eloquent\Model::unguard();
+
+        Gate::policy(\Sharenjoy\NoahCms\Models\ShippableOrder::class, \Sharenjoy\NoahCms\Policies\ShippableOrderPolicy::class);
 
         \Filament\Tables\Actions\CreateAction::configureUsing(function ($action) {
             return $action->slideOver();

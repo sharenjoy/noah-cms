@@ -86,6 +86,10 @@ return [
     'menus_count' => '選單數量',
     'categories_count' => '分類數量',
     'order' => '訂單',
+    'shipped_order' => '已出貨',
+    'delivered_order' => '已送達',
+    'shippable_order' => '可出貨',
+    'new_order' => '新訂單',
     'order_sn' => '訂單編號',
     'order_status' => '訂單狀態',
     'order_items' => '訂單品項',
@@ -119,7 +123,9 @@ return [
     'symbol' => 'Symbol',
     'exchange_rate' => '匯率(與基準幣別之匯率)',
     'view_invoice' => '檢視發票(列印)',
-    'view_order_info_list' => '檢視訂單明細(列印)',
+    'view_order_info_list' => '訂單明細(列印/下載)',
+    'view_order_picking_list' => '揀貨單(列印/下載)',
+    'order_item_weight' => '含包裝商品重量(g)',
 
     'activity' => [
         'title' => [

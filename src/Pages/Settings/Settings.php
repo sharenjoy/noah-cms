@@ -68,6 +68,13 @@ class Settings extends BaseSettings
                                     ->translatable(true, null, [
                                         'zh_TW' => ['required'],
                                     ]),
+                                Textarea::make('order.picking_list.notice')
+                                    ->label('揀貨單-注意事項')
+                                    ->rows(4)
+                                    ->translatable(true, null, [
+                                        'zh_TW' => ['required'],
+                                    ]),
+
                             ]),
                         ]),
                     Tabs\Tab::make('SEO')

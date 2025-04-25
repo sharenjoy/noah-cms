@@ -6,6 +6,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Sharenjoy\NoahCms\Actions\Shop\CalculateOrderItemTotalWeight;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
@@ -39,9 +40,9 @@ class OrderItem extends Model
     protected function tableFields(): array
     {
         return [
+            'spec_img' => ['alias' => 'image'],
             'product.title' => ['alias' => 'belongs_to', 'label' => 'product_title', 'relation' => 'product'],
             'productSpecification.spec_detail_name' => ['alias' => 'belongs_to', 'label' => 'spec_detail_name', 'relation' => 'productSpecification'],
-            'spec_img' => ['alias' => 'image'],
             'price' => ['type' => 'number', 'summarize' => ['sum']],
             'discount' => ['type' => 'number', 'summarize' => ['sum']],
             'currency' => [],
@@ -51,6 +52,12 @@ class OrderItem extends Model
                 ->sortable()
                 ->formatStateUsing(function ($state, $record) {
                     return currency_format($record->subtotal, $record->currency);
+                }),
+            'weight' => TextColumn::make('id')
+                ->label(__('noah-cms::noah-cms.order_item_weight'))
+                ->sortable()
+                ->formatStateUsing(function ($state, $record) {
+                    return number_format($record->productSpecification->weight * $record->quantity) . '(g)';
                 }),
             'created_at' => ['isToggledHiddenByDefault' => true],
             'updated_at' => ['isToggledHiddenByDefault' => true],

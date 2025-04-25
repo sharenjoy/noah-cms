@@ -201,7 +201,7 @@ class OrderFactory extends Factory
                 ->useLog('noah-cms')
                 ->performedOn($invoice)
                 // ->causedBy(auth()->user())
-                ->withProperties(['old' => $oldInvoice, 'attributes' => $invoice->toArray()])
+                ->withProperties(['old' => $oldInvoice, 'attributes' => Arr::except($invoice->toArray(), ['prices'])])
                 ->event('updated')
                 ->log('updated');
 

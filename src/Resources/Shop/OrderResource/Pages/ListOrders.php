@@ -7,6 +7,7 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Colors\Color;
 use Illuminate\Database\Eloquent\Builder;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
+use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahListRecords;
 
@@ -26,16 +27,14 @@ class ListOrders extends ListRecords
         $tabs = [];
 
         $tabs['all'] = Tab::make('ALL')
-            ->badge(5)
+            ->badge(fn() => Order::allEstablished()->count())
             ->label(__('noah-cms::noah-cms.shop.status.title.order.all'))
-            ->badgeColor(Color::Amber)
             ->modifyQueryUsing(fn(Builder $query) => $query)
             ->icon('');
 
-        foreach (OrderStatus::cases() as $case) {
+        foreach (OrderStatus::getShowableCases() as $case) {
             $tabs[$case->value] = Tab::make($case->getLabel())
-                ->badge(5)
-                ->badgeColor(Color::Amber)
+                ->badge(fn() => Order::where('status', $case->value)->count())
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('status', $case->value))
                 ->icon($case->getIcon());
         }

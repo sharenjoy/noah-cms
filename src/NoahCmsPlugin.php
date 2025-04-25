@@ -38,6 +38,11 @@ class NoahCmsPlugin implements Plugin
                 Resources\TagResource::class,
                 Resources\UserResource::class,
                 Resources\Shop\OrderResource::class,
+                Resources\Shop\NewOrderResource::class,
+                Resources\Shop\ShippableOrderResource::class,
+                Resources\Shop\ShippedOrderResource::class,
+                Resources\Shop\DeliveredOrderResource::class,
+
             ])
             ->pages([
                 Activities::class,

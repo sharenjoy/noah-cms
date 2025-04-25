@@ -48,7 +48,7 @@ enum OrderStatus: string implements HasLabel, HasDescription, HasIcon, HasColor
     {
         return match ($this) {
             self::Initial => 'heroicon-o-exclamation-triangle',
-            self::New => 'heroicon-o-bolt',
+            self::New => 'heroicon-o-shopping-cart',
             self::Processing => 'heroicon-c-play-circle',
             self::Pending => 'heroicon-c-play-pause',
             self::Cancelled => 'heroicon-c-x-circle',
@@ -66,5 +66,17 @@ enum OrderStatus: string implements HasLabel, HasDescription, HasIcon, HasColor
             self::Cancelled => Color::Gray,
             self::Finished => Color::Indigo,
         };
+    }
+
+    public static function getShowableCases(): array
+    {
+        return [
+            // self::Initial,
+            self::New,
+            self::Processing,
+            self::Pending,
+            self::Cancelled,
+            self::Finished,
+        ];
     }
 }

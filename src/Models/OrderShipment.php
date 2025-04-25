@@ -89,7 +89,7 @@ class OrderShipment extends Model
     protected function deliveryMethod(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => DeliveryProvider::getLabelInArray($attributes['provider']) . ' ' . DeliveryType::getLabelInArray($attributes['delivery_type']),
+            get: fn($value, $attributes) => DeliveryProvider::getLabelOptions($attributes['provider']) . ' ' . DeliveryType::getLabelOptions($attributes['delivery_type']),
         );
     }
 
