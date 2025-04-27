@@ -42,7 +42,7 @@ class NoahCmsPlugin implements Plugin
                 Resources\Shop\ShippableOrderResource::class,
                 Resources\Shop\ShippedOrderResource::class,
                 Resources\Shop\DeliveredOrderResource::class,
-
+                Resources\Shop\IssuedOrderResource::class,
             ])
             ->pages([
                 Activities::class,

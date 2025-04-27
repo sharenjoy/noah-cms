@@ -8,6 +8,7 @@ use Sharenjoy\NoahCms\Resources\Shop\OrderResource;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\EditInvoiceAction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\EditShipmentAction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\EditTransactionAction;
+use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\UpdateOrderStatusAction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\ViewOrderInfoListAction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\ViewOrderPickingListAction;
 use Sharenjoy\NoahCms\Resources\Traits\NoahViewRecord;
@@ -22,6 +23,7 @@ class ViewOrder extends ViewRecord
     {
         return [
             ActionGroup::make([
+                UpdateOrderStatusAction::make(),
                 EditShipmentAction::make(),
                 EditInvoiceAction::make(),
                 EditTransactionAction::make(),

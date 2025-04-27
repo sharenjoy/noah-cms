@@ -2,7 +2,6 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +14,6 @@ use Sharenjoy\NoahCms\Enums\OrderStatus;
 use Sharenjoy\NoahCms\Enums\TransactionStatus;
 use Sharenjoy\NoahCms\Models\Invoice;
 use Sharenjoy\NoahCms\Models\InvoicePrice;
-use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\OrderItem;
 use Sharenjoy\NoahCms\Models\OrderShipment;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
@@ -128,11 +126,16 @@ class BaseOrder extends Model
 
     /** SCOPES */
 
+    // 非取消已成立的訂單
     public function scopeValidOrders($query): Builder
     {
-        return $query->whereNotIn('status', [OrderStatus::Initial, OrderStatus::Cancelled]);
+        return $query->whereNotIn('status', [
+            OrderStatus::Initial,
+            OrderStatus::Cancelled
+        ]);
     }
 
+    // 已成立的訂單
     public function scopeAllEstablished($query): Builder
     {
         return $query->whereNotIn('status', [
@@ -147,6 +150,28 @@ class BaseOrder extends Model
         ]);
     }
 
+    public function scopePending($query): Builder
+    {
+        return $query->whereIn('status', [
+            OrderStatus::Pending,
+        ]);
+    }
+
+    public function scopeCancelled($query): Builder
+    {
+        return $query->whereIn('status', [
+            OrderStatus::Cancelled,
+        ]);
+    }
+
+    public function scopeFinished($query): Builder
+    {
+        return $query->whereIn('status', [
+            OrderStatus::Finished,
+        ]);
+    }
+
+    // 可出貨訂單
     public function scopeShippable($query): Builder
     {
         return $query->whereIn('status', [
@@ -158,6 +183,7 @@ class BaseOrder extends Model
         });
     }
 
+    // 已出貨訂單
     public function scopeShipped($query): Builder
     {
         return $query->whereIn('status', [
@@ -167,6 +193,7 @@ class BaseOrder extends Model
         });
     }
 
+    // 已送達訂單
     public function scopeDelivered($query): Builder
     {
         return $query->whereIn('status', [
@@ -176,20 +203,85 @@ class BaseOrder extends Model
         });
     }
 
-    public function scopeShouldProcessQuery($query)
+    // 退貨/退款/取消中訂單
+    public function scopeIssued($query): Builder
     {
-        $query->where(function ($query) {
-            $query->whereIn('status', ['paid'])
-                ->orWhere(function ($query) {
-                    $query->whereIn('status', ['established'])->whereIn('payment_method', ['cod']);
-                })
-                ->orWhere(function ($query) {
-                    $query->whereIn('status', ['established'])->whereRelation('invoice', 'total_amount', 0);
-                })
-                ->orWhere(function ($query) {
-                    $query->whereIn('status', ['established'])->whereRelation('batch.invoice', 'total_amount', 0);
+        return $query->where('status', OrderStatus::Processing)
+            ->where(function ($query) {
+                $query->whereHas('shipment', function ($query) {
+                    $query->whereIn('status', [
+                        OrderShipmentStatus::Returning,
+                        OrderShipmentStatus::Returned,
+                    ]);
+                })->orWhereHas('transaction', function ($query) {
+                    $query->whereIn('status', [
+                        TransactionStatus::Refunding,
+                        TransactionStatus::Refunded,
+                    ]);
                 });
-        });
+            });
+    }
+
+    public function getCurrentScope(): ?string
+    {
+        if ($this->status === OrderStatus::New) {
+            return 'new';
+        }
+
+        if (
+            $this->status === OrderStatus::Processing &&
+            $this->shipment &&
+            in_array($this->shipment->status, [OrderShipmentStatus::New]) &&
+            ($this->transaction && ($this->transaction->status === TransactionStatus::Paid || $this->transaction->total_price == 0))
+        ) {
+            return 'shippable';
+        }
+
+        if (
+            $this->status === OrderStatus::Processing &&
+            $this->shipment &&
+            in_array($this->shipment->status, [OrderShipmentStatus::Shipped])
+        ) {
+            return 'shipped';
+        }
+
+        if (
+            $this->status === OrderStatus::Processing &&
+            $this->shipment &&
+            in_array($this->shipment->status, [OrderShipmentStatus::Delivered])
+        ) {
+            return 'delivered';
+        }
+
+        if (
+            $this->status === OrderStatus::Processing &&
+            (
+                ($this->shipment && in_array($this->shipment->status, [
+                    OrderShipmentStatus::Returning,
+                    OrderShipmentStatus::Returned,
+                ])) ||
+                ($this->transaction && in_array($this->transaction->status, [
+                    TransactionStatus::Refunding,
+                    TransactionStatus::Refunded,
+                ]))
+            )
+        ) {
+            return 'issued';
+        }
+
+        if ($this->status === OrderStatus::Pending) {
+            return 'pending';
+        }
+
+        if ($this->status === OrderStatus::Cancelled) {
+            return 'cancelled';
+        }
+
+        if ($this->status === OrderStatus::Finished) {
+            return 'finished';
+        }
+
+        return null;
     }
 
     /** EVENTS */
@@ -199,5 +291,17 @@ class BaseOrder extends Model
     protected static function newFactory()
     {
         return \Sharenjoy\NoahCms\Database\Factories\OrderFactory::new();
+    }
+
+    /**
+     * Spatie Activity Log 會自動呼叫 model 的 getMorphClass() 來決定 subject_type
+     * 你如果覆寫這個 method，就能指定寫進 log 的是什麼類別
+     * 所以不管外面操作的是 NewOrder、IssuedOrder，
+     * log 記錄時都統一成 \Sharenjoy\NoahCms\Models\Order
+     * @return string
+     */
+    public function getMorphClass()
+    {
+        return \Sharenjoy\NoahCms\Models\Order::class; // 你想要寫入 activity_log 裡的 class 名稱
     }
 }

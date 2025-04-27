@@ -3,6 +3,8 @@
 namespace Sharenjoy\NoahCms\Models;
 
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +14,7 @@ use Sharenjoy\NoahCms\Enums\DeliveryType;
 use Sharenjoy\NoahCms\Enums\OrderShipmentStatus;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Tables\Columns\OrderShipmentColumn;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class OrderShipment extends Model
@@ -60,15 +63,38 @@ class OrderShipment extends Model
     protected function tableFields(): array
     {
         return [
-            'title' => ['description' => true],
-            'slug' => [],
-            'categories' => [],
-            'tags' => ['tagType' => 'product'],
-            'thumbnail' => [],
-            'seo' => [],
-            'is_active' => [],
-            'published_at' => [],
-            'created_at' => ['isToggledHiddenByDefault' => true],
+            // 'promo.title' => ['alias' => 'belongs_to', 'label' => 'promo', 'relation' => 'promo'],
+            // 'user.name' => ['alias' => 'belongs_to', 'label' => 'administrator', 'relation' => 'user', 'relation_column' => 'admin_id'],
+            'provider' => TextColumn::make('provider')
+                ->label(__('noah-cms::noah-cms.activity.label.provider'))
+                ->sortable()
+                ->searchable()
+                ->badge(DeliveryProvider::class),
+            'delivery_type' => TextColumn::make('delivery_type')
+                ->label(__('noah-cms::noah-cms.activity.label.delivery_type'))
+                ->sortable()
+                ->searchable()
+                ->badge(DeliveryType::class),
+            'status' => TextColumn::make('status')
+                ->label(__('noah-cms::noah-cms.order_shipment_status'))
+                ->sortable()
+                ->searchable()
+                ->badge(OrderShipmentStatus::class),
+            'shipment' => OrderShipmentColumn::make('')
+                ->searchable(query: function (Builder $query, string $search): Builder {
+                    return $query->whereHas('shipment', function ($query) use ($search) {
+                        $query->where('sn', 'like', "%{$search}%")
+                            ->orWhere('name', 'like', "%{$search}%")
+                            ->orWhere('mobile', 'like', "%{$search}%")
+                            ->orWhere('country', 'like', "%{$search}%")
+                            ->orWhere('city', 'like', "%{$search}%")
+                            ->orWhere('district', 'like', "%{$search}%")
+                            ->orWhere('address', 'like', "%{$search}%")
+                            ->orWhere('postoffice_delivery_code', 'like', "%{$search}%");
+                    });
+                })
+                ->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName))),
+            'created_at' => ['isToggledHiddenByDefault' => false],
             'updated_at' => ['isToggledHiddenByDefault' => true],
         ];
     }

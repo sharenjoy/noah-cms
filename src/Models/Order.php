@@ -2,19 +2,15 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use Filament\Tables\Actions\Action;
 use Sharenjoy\NoahCms\Models\BaseOrder;
+use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\ViewOrderItemsAction;
 
 class Order extends BaseOrder
 {
+    protected $table = 'orders';
+
     public function viewOrderItemsAction()
     {
-        return Action::make('view_items')
-            ->label(__('noah-cms::noah-cms.order_item_counts'))
-            ->modal()
-            ->modalCancelAction(false)
-            ->modalSubmitAction(false)
-            ->modalWidth(\Filament\Support\Enums\MaxWidth::Large)
-            ->modalContent(fn(Order $order) => view('noah-cms::tables.columns.order-items', ['order' => $order]));
+        return ViewOrderItemsAction::make(fn(Order $order) => view('noah-cms::tables.columns.order-items', ['order' => $order]));
     }
 }

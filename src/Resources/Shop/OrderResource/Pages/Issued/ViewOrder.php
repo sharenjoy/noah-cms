@@ -1,10 +1,10 @@
 <?php
 
-namespace Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Delivered;
+namespace Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Issued;
 
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
-use Sharenjoy\NoahCms\Resources\Shop\DeliveredOrderResource;
+use Sharenjoy\NoahCms\Resources\Shop\IssuedOrderResource;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\UpdateOrderStatusAction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\ViewOrderInfoListAction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\ViewOrderPickingListAction;
@@ -14,15 +14,15 @@ class ViewOrder extends ViewRecord
 {
     use NoahViewRecord;
 
-    protected static string $resource = DeliveredOrderResource::class;
+    protected static string $resource = IssuedOrderResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
             ActionGroup::make([
                 UpdateOrderStatusAction::make(),
-                ViewOrderInfoListAction::make(resource: 'delivered-orders'),
-                ViewOrderPickingListAction::make(resource: 'delivered-orders'),
+                ViewOrderInfoListAction::make(resource: 'issued-orders'),
+                ViewOrderPickingListAction::make(resource: 'issued-orders'),
             ])
                 ->label('更多操作')
                 ->icon('heroicon-m-ellipsis-vertical')

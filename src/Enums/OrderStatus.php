@@ -79,4 +79,11 @@ enum OrderStatus: string implements HasLabel, HasDescription, HasIcon, HasColor
             self::Finished,
         ];
     }
+
+    public static function getShowableOptions(): array
+    {
+        return collect(self::getShowableCases())
+            ->mapWithKeys(fn($case) => [$case->value => $case->getLabel()])
+            ->toArray();
+    }
 }

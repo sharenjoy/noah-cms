@@ -2,8 +2,8 @@
 
 namespace Sharenjoy\NoahCms\Resources\Shop\Traits;
 
-use Filament\Facades\Filament;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
@@ -11,7 +11,10 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderShipmentDetail;
+use Sharenjoy\NoahCms\Enums\InvoiceType;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
+use Sharenjoy\NoahCms\Enums\TransactionStatus;
+use Sharenjoy\NoahCms\Infolists\Components\OrderEntry;
 use Sharenjoy\NoahCms\Models\Invoice;
 use Sharenjoy\NoahCms\Models\InvoicePrice;
 use Sharenjoy\NoahCms\Models\OrderItem;
@@ -19,8 +22,10 @@ use Sharenjoy\NoahCms\Models\OrderShipment;
 use Sharenjoy\NoahCms\Models\Transaction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\InvoicePricesRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\OrderItemsRelationManager;
+use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\OrderShipmentsRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\UserRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
+use Spatie\Activitylog\Models\Activity;
 
 trait OrderableResource
 {
@@ -51,22 +56,22 @@ trait OrderableResource
                     ->label(__('noah-cms::noah-cms.order_status'))
                     ->options(OrderStatus::class),
                 // SelectFilter::make('transaction')
-                //     ->label(__('noah-cms::noah-cms.transaction_type'))
+                //     ->label(__('noah-cms::noah-cms.transaction_status'))
                 //     ->options(collect(TransactionStatus::cases())
                 //         ->mapWithKeys(fn($case) => [$case->value => $case->getLabel()])
                 //         ->toArray())
                 //     // ->relationship('transaction', 'status')
-                //     ->query(function (Builder $query, $value = null) {
+                //     ->query(function (Builder $query, ?string $value = null) {
                 //         if (! filled($value)) {
                 //             return $query; // 直接跳過，不加條件
                 //         }
                 //         // dd($value);
-                //         $query->whereHas('transaction', fn($q) => $q->where('status', $value));
+                //         return $query->whereHas('transaction', fn($q) => $q->where('status', $value));
                 //     }),
                 // SelectFilter::make('invoice')
                 //     ->label(__('noah-cms::noah-cms.invoice_type'))
-                //     ->relationship('invoice', 'type')
-                //     ->options(InvoiceType::class),
+                //     ->relationship('invoice', 'typeable')
+                //     ->options(InvoiceType::toArray()),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -95,9 +100,9 @@ trait OrderableResource
     {
         return $infolist
             ->schema([
-                \Filament\Infolists\Components\Section::make(__('noah-cms::noah-cms.order'))
+                Section::make(__('noah-cms::noah-cms.order'))
                     ->schema([
-                        \Sharenjoy\NoahCms\Infolists\Components\OrderEntry::make(''),
+                        OrderEntry::make(''),
                     ])
                     ->collapsible()
                     ->columnSpanFull(),
@@ -107,12 +112,26 @@ trait OrderableResource
                 //     ])
                 //     ->collapsible()
                 //     ->columnSpanFull(),
-                \Filament\Infolists\Components\Section::make(__('noah-cms::noah-cms.timeline'))
+                Section::make(__('noah-cms::noah-cms.timeline'))
                     ->schema([
                         Timeline::make()
                             ->searchable()
                             ->hiddenLabel()
                             ->withRelations(['items', 'invoice', 'transaction', 'invoicePrices', 'shipment'])
+                            ->eventDescriptions(
+                                descriptions: [
+                                    'updated-order-status' => function (Activity $activity) {
+                                        $options = OrderStatus::getShowableOptions();
+                                        $log = "**{$activity->causer->name}** 更新了 **狀態** 從 " . $options[$activity->properties['old']['status']] . ' 變更為 **' . $options[$activity->properties['attributes']['status']] . '**';
+                                        if ($activity->properties['notes'] ?? null) {
+                                            $log .= ' **備註** ' . $activity->properties['notes'];
+                                        }
+                                        return $log;
+                                    },
+                                ]
+                            )
+                            ->itemIcon('updated-order-status', 'heroicon-o-arrows-right-left')
+                            ->itemIconColor('updated-order-status', 'warning')
                             ->getRecordTitleUsing(OrderItem::class, function (OrderItem $model) {
                                 return $model->product->title . '(' . implode(',', $model->product_details['spec_detail_name']) . ') x ' . $model->quantity . ' ' . __('noah-cms::noah-cms.activity.label.item_subtotal') . ' ' . currency_format($model->subtotal, $model->currency);
                             })
@@ -148,6 +167,8 @@ trait OrderableResource
                             ->attributeLabel('discount', __('noah-cms::noah-cms.activity.label.discount'))
                             ->attributeLabel('total_price', __('noah-cms::noah-cms.activity.label.total_price'))
                             ->attributeLabel('donate_code', __('noah-cms::noah-cms.activity.label.donate_code'))
+                            ->attributeLabel('holder_code', __('noah-cms::noah-cms.activity.label.holder_code'))
+                            ->attributeLabel('holder_type', __('noah-cms::noah-cms.activity.label.holder_type'))
                             ->attributeLabel('company_title', __('noah-cms::noah-cms.activity.label.company_title'))
                             ->attributeLabel('company_code', __('noah-cms::noah-cms.activity.label.company_code'))
                             ->attributeLabel('type', __('noah-cms::noah-cms.activity.label.type'))
@@ -163,6 +184,7 @@ trait OrderableResource
         return [
             OrderItemsRelationManager::class,
             InvoicePricesRelationManager::class,
+            OrderShipmentsRelationManager::class,
             UserRelationManager::class,
         ];
     }
