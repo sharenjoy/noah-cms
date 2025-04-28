@@ -8,22 +8,22 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Sharenjoy\NoahCms\Models\OrderShipment;
+use Sharenjoy\NoahCms\Models\Transaction;
 
-class OrderShipmentsRelationManager extends RelationManager
+class TransactionsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'shipments';
+    protected static string $relationship = 'transactions';
 
-    protected static ?string $icon = 'heroicon-o-truck';
+    protected static ?string $icon = 'heroicon-o-cube-transparent';
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('noah-cms::noah-cms.order_shipment');
+        return __('noah-cms::noah-cms.order_transaction');
     }
 
     protected static function getRecordLabel(): ?string
     {
-        return __('noah-cms::noah-cms.order_shipment');
+        return __('noah-cms::noah-cms.order_transaction');
     }
 
     public static function getEloquentQuery(): Builder
@@ -35,16 +35,16 @@ class OrderShipmentsRelationManager extends RelationManager
     {
         return $form
             ->columns(3)
-            ->schema(\Sharenjoy\NoahCms\Utils\Form::make(OrderShipment::class, $form->getOperation()));
+            ->schema(\Sharenjoy\NoahCms\Utils\Form::make(Transaction::class, $form->getOperation()));
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->heading(__('noah-cms::noah-cms.order_shipment'))
+            ->heading(__('noah-cms::noah-cms.order_transaction'))
             ->searchable(false)
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(OrderShipment::class))
-            // ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(OrderShipment::class, Role::class))
+            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Transaction::class))
+            // ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Transaction::class, Role::class))
             ->headerActions([
                 // Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['name', 'email'])->multiple(),
             ])

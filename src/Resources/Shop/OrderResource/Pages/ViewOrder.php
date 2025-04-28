@@ -21,12 +21,13 @@ class ViewOrder extends ViewRecord
 
     protected function getHeaderActions(): array
     {
+
         return [
             ActionGroup::make([
-                UpdateOrderStatusAction::make(),
-                EditShipmentAction::make(),
-                EditInvoiceAction::make(),
-                EditTransactionAction::make(),
+                UpdateOrderStatusAction::make(order: $this->record),
+                EditShipmentAction::make(order: $this->record),
+                EditInvoiceAction::make(order: $this->record),
+                EditTransactionAction::make(order: $this->record),
                 ViewOrderInfoListAction::make('orders'),
                 ViewOrderPickingListAction::make('orders'),
             ])

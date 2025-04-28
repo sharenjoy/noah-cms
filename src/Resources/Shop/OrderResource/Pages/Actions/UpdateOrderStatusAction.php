@@ -12,10 +12,11 @@ use Filament\Notifications\Notification;
 use Sharenjoy\NoahCms\Actions\Shop\OrderStatusRedirector;
 use Sharenjoy\NoahCms\Actions\Shop\OrderStatusUpdater;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
+use Sharenjoy\NoahCms\Models\BaseOrder;
 
 class UpdateOrderStatusAction
 {
-    public static function make()
+    public static function make(BaseOrder $order = null)
     {
         return Action::make('updateOrderStatusAction')
             ->label('更新訂單狀態')

@@ -9,7 +9,7 @@ use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
-enum TransactionProvider: string implements HasLabel, HasDescription, HasIcon, HasColor
+enum TransactionProvider: string implements HasLabel, HasDescription, HasColor
 {
     use BaseEnum;
 
@@ -29,14 +29,6 @@ enum TransactionProvider: string implements HasLabel, HasDescription, HasIcon, H
         return match ($this) {
             self::TapPay => __('noah-cms::noah-cms.shop.provider.description.transaction.tappay'),
             self::LINEPay => __('noah-cms::noah-cms.shop.provider.description.transaction.linepay'),
-        };
-    }
-
-    public function getIcon(): ?string
-    {
-        return match ($this) {
-            self::TapPay => 'heroicon-o-newspaper',
-            self::LINEPay => 'heroicon-o-newspaper',
         };
     }
 

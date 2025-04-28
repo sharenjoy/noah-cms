@@ -2,6 +2,7 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Sharenjoy\NoahCms\Actions\ChargeExpireDateSetting;
@@ -48,50 +49,26 @@ class Transaction extends Model
 
     protected function formFields(): array
     {
-        return [
-            'left' => [
-                'title' => [
-                    'slug' => true,
-                    'required' => true,
-                    'rules' => ['required', 'string'],
-                    // 'localeRules' => [
-                    //     'zh_TW' => ['required', 'string', 'max:255'],
-                    //     'en' => ['required', 'string', 'max:255'],
-                    // ],
-                ],
-                'slug' => ['maxLength' => 50, 'required' => true],
-                'categories' => ['required' => true],
-                'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
-                'description' => ['required' => true, 'rules' => ['required', 'string']],
-                'content' => [
-                    'profile' => 'simple',
-                    'required' => true,
-                    'rules' => ['required'],
-                ],
-            ],
-            'right' => [
-                'img' => ['required' => true],
-                'album' => ['required' => true],
-                'is_active' => ['required' => true],
-                'published_at' => ['required' => true],
-            ],
-        ];
+        return [];
     }
 
     protected function tableFields(): array
     {
         return [
-            'title' => ['description' => true],
-            'slug' => [],
-            'categories' => [],
-            'tags' => ['tagType' => 'product'],
-            'thumbnail' => [],
-            'seo' => [],
-            'is_active' => [],
-            'published_at' => [],
-            'created_at' => ['isToggledHiddenByDefault' => true],
-            'updated_at' => ['isToggledHiddenByDefault' => true],
-        ];
+            'provider' => TextColumn::make('provider')
+                ->label(__('noah-cms::noah-cms.activity.label.provider'))
+                ->sortable()
+                ->searchable()
+                ->badge(TransactionProvider::class),
+            'payment_method' => TextColumn::make('payment_method')
+                ->label(__('noah-cms::noah-cms.activity.label.payment_method'))
+                ->sortable()
+                ->searchable()
+                ->badge(PaymentMethod::class),
+            'status' => ['label' => 'activity.label.status', 'model' => 'Payment'],
+            'order_transaction' => ['alias' => 'OrderTransaction', 'label' => 'order_transaction'],
+            'dates' => [],
+        ];;
     }
 
     /** RELACTIONS */

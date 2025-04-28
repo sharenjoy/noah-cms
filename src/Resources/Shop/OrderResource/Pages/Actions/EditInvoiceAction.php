@@ -11,10 +11,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Sharenjoy\NoahCms\Enums\InvoiceHolderType;
 use Sharenjoy\NoahCms\Enums\InvoiceType;
+use Sharenjoy\NoahCms\Models\BaseOrder;
 
 class EditInvoiceAction
 {
-    public static function make()
+    public static function make(BaseOrder $order = null)
     {
         return Action::make('editInvoice')
             ->label('編輯發票資訊')

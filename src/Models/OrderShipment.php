@@ -63,8 +63,6 @@ class OrderShipment extends Model
     protected function tableFields(): array
     {
         return [
-            // 'promo.title' => ['alias' => 'belongs_to', 'label' => 'promo', 'relation' => 'promo'],
-            // 'user.name' => ['alias' => 'belongs_to', 'label' => 'administrator', 'relation' => 'user', 'relation_column' => 'admin_id'],
             'provider' => TextColumn::make('provider')
                 ->label(__('noah-cms::noah-cms.activity.label.provider'))
                 ->sortable()
@@ -75,27 +73,9 @@ class OrderShipment extends Model
                 ->sortable()
                 ->searchable()
                 ->badge(DeliveryType::class),
-            'status' => TextColumn::make('status')
-                ->label(__('noah-cms::noah-cms.order_shipment_status'))
-                ->sortable()
-                ->searchable()
-                ->badge(OrderShipmentStatus::class),
-            'shipment' => OrderShipmentColumn::make('')
-                ->searchable(query: function (Builder $query, string $search): Builder {
-                    return $query->whereHas('shipment', function ($query) use ($search) {
-                        $query->where('sn', 'like', "%{$search}%")
-                            ->orWhere('name', 'like', "%{$search}%")
-                            ->orWhere('mobile', 'like', "%{$search}%")
-                            ->orWhere('country', 'like', "%{$search}%")
-                            ->orWhere('city', 'like', "%{$search}%")
-                            ->orWhere('district', 'like', "%{$search}%")
-                            ->orWhere('address', 'like', "%{$search}%")
-                            ->orWhere('postoffice_delivery_code', 'like', "%{$search}%");
-                    });
-                })
-                ->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName))),
-            'created_at' => ['isToggledHiddenByDefault' => false],
-            'updated_at' => ['isToggledHiddenByDefault' => true],
+            'status' => ['label' => 'order_shipment_status', 'model' => 'OrderShipment'],
+            'shipment' => ['alias' => 'OrderShipment', 'label' => 'order_shipment'],
+            'dates' => [],
         ];
     }
 

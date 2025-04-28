@@ -35,8 +35,8 @@ class ListOrders extends ListRecords
         foreach (OrderStatus::getShowableCases() as $case) {
             $tabs[$case->value] = Tab::make($case->getLabel())
                 ->badge(fn() => Order::where('status', $case->value)->count())
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', $case->value))
-                ->icon($case->getIcon());
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', $case->value));
+            // ->icon($case->getIcon());
         }
 
         return $tabs;

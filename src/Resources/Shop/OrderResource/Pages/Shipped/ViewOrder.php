@@ -20,7 +20,7 @@ class ViewOrder extends ViewRecord
     {
         return [
             ActionGroup::make([
-                UpdateOrderStatusAction::make(),
+                UpdateOrderStatusAction::make(order: $this->record),
                 ViewOrderInfoListAction::make(resource: 'shipped-orders'),
                 ViewOrderPickingListAction::make(resource: 'shipped-orders'),
             ])

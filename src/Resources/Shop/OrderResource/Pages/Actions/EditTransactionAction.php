@@ -11,10 +11,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Sharenjoy\NoahCms\Enums\PaymentMethod;
 use Sharenjoy\NoahCms\Enums\TransactionProvider;
+use Sharenjoy\NoahCms\Models\BaseOrder;
 
 class EditTransactionAction
 {
-    public static function make()
+    public static function make(BaseOrder $order = null)
     {
         return Action::make('editTransaction')
             ->label('編輯付款資訊')

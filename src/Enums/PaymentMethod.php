@@ -9,7 +9,7 @@ use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
-enum PaymentMethod: string implements HasLabel, HasDescription, HasIcon, HasColor
+enum PaymentMethod: string implements HasLabel, HasDescription, HasColor
 {
     use BaseEnum;
 
@@ -38,21 +38,11 @@ enum PaymentMethod: string implements HasLabel, HasDescription, HasIcon, HasColo
         };
     }
 
-    public function getIcon(): ?string
-    {
-        return match ($this) {
-            self::CreditCard => 'heroicon-o-newspaper',
-            self::ATM => 'heroicon-o-newspaper',
-            self::COD => 'heroicon-c-trophy',
-            self::LINEPay => 'heroicon-c-trophy',
-        };
-    }
-
     public function getColor(): array|string|null
     {
         return match ($this) {
-            self::CreditCard => Color::Blue,
-            self::ATM => Color::Blue,
+            self::CreditCard => Color::Amber,
+            self::ATM => Color::Amber,
             self::COD => Color::Amber,
             self::LINEPay => Color::Amber,
         };

@@ -9,7 +9,7 @@ use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
-enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, HasColor
+enum TransactionStatus: string implements HasLabel, HasDescription, HasColor
 {
     use BaseEnum;
 
@@ -44,27 +44,15 @@ enum TransactionStatus: string implements HasLabel, HasDescription, HasIcon, Has
         };
     }
 
-    public function getIcon(): ?string
-    {
-        return match ($this) {
-            self::New => 'heroicon-o-newspaper',
-            self::Pending => 'heroicon-o-newspaper',
-            self::Expired => 'heroicon-c-trophy',
-            self::Paid => 'heroicon-c-trophy',
-            self::Refunding => 'heroicon-c-trophy',
-            self::Refunded => 'heroicon-c-trophy',
-        };
-    }
-
     public function getColor(): array|string|null
     {
         return match ($this) {
             self::New => Color::Blue,
             self::Pending => Color::Blue,
-            self::Expired => Color::Amber,
-            self::Paid => Color::Amber,
-            self::Refunding => Color::Amber,
-            self::Refunded => Color::Amber,
+            self::Expired => Color::Blue,
+            self::Paid => Color::Blue,
+            self::Refunding => Color::Blue,
+            self::Refunded => Color::Blue,
         };
     }
 }

@@ -14,10 +14,11 @@ use Sharenjoy\NoahCms\Actions\Shop\FetchAddressRelatedSelectOptions;
 use Sharenjoy\NoahCms\Actions\Shop\FetchCountryRelatedSelectOptions;
 use Sharenjoy\NoahCms\Enums\DeliveryProvider;
 use Sharenjoy\NoahCms\Enums\DeliveryType;
+use Sharenjoy\NoahCms\Models\BaseOrder;
 
 class EditShipmentAction
 {
-    public static function make()
+    public static function make(BaseOrder $order = null)
     {
         return Action::make('editShipment')
             ->label('編輯運送資訊')

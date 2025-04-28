@@ -11,9 +11,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderShipmentDetail;
-use Sharenjoy\NoahCms\Enums\InvoiceType;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
-use Sharenjoy\NoahCms\Enums\TransactionStatus;
 use Sharenjoy\NoahCms\Infolists\Components\OrderEntry;
 use Sharenjoy\NoahCms\Models\Invoice;
 use Sharenjoy\NoahCms\Models\InvoicePrice;
@@ -23,6 +21,7 @@ use Sharenjoy\NoahCms\Models\Transaction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\InvoicePricesRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\OrderItemsRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\OrderShipmentsRelationManager;
+use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\TransactionsRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\UserRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 use Spatie\Activitylog\Models\Activity;
@@ -184,7 +183,8 @@ trait OrderableResource
         return [
             OrderItemsRelationManager::class,
             InvoicePricesRelationManager::class,
-            OrderShipmentsRelationManager::class,
+            // OrderShipmentsRelationManager::class,
+            // TransactionsRelationManager::class,
             UserRelationManager::class,
         ];
     }

@@ -5,11 +5,10 @@ namespace Sharenjoy\NoahCms\Enums;
 use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
-use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
-enum DeliveryType: string implements HasLabel, HasDescription, HasIcon, HasColor
+enum DeliveryType: string implements HasLabel, HasDescription, HasColor
 {
     use BaseEnum;
 
@@ -35,21 +34,12 @@ enum DeliveryType: string implements HasLabel, HasDescription, HasIcon, HasColor
         };
     }
 
-    public function getIcon(): ?string
-    {
-        return match ($this) {
-            self::Address => 'heroicon-o-newspaper',
-            self::Pickinstore => 'heroicon-o-newspaper',
-            self::Pickinretail => 'heroicon-c-trophy',
-        };
-    }
-
     public function getColor(): array|string|null
     {
         return match ($this) {
             self::Address => Color::Blue,
             self::Pickinstore => Color::Blue,
-            self::Pickinretail => Color::Amber,
+            self::Pickinretail => Color::Blue,
         };
     }
 }
