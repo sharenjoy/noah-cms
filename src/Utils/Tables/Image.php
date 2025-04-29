@@ -17,7 +17,7 @@ class Image extends TableAbstract implements TableInterface
             ->size($content['size'] ?? 40)
             ->alignCenter()
             ->defaultImageUrl(function ($record) {
-                return Media::imgUrl($record->product_details['img']) ?? asset('vendor/noah-cms/images/placeholder.svg');
+                return Media::imgUrl($record->product_details['img'] ?? null) ?? asset('vendor/noah-cms/images/placeholder.svg');
             })
             ->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
     }

@@ -109,4 +109,9 @@ class ProductSpecification extends Model implements Sortable
             get: fn($value, $attributes) => join(',', json_decode($attributes['spec_detail_name'], true))
         );
     }
+
+    public function getLabelAttribute()
+    {
+        return "{$this->no} {$this->product->title} ({$this->spec})";
+    }
 }

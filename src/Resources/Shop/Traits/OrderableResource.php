@@ -132,7 +132,7 @@ trait OrderableResource
                             ->itemIcon('updated-order-status', 'heroicon-o-arrows-right-left')
                             ->itemIconColor('updated-order-status', 'warning')
                             ->getRecordTitleUsing(OrderItem::class, function (OrderItem $model) {
-                                return $model->product->title . '(' . implode(',', $model->product_details['spec_detail_name']) . ') x ' . $model->quantity . ' ' . __('noah-cms::noah-cms.activity.label.item_subtotal') . ' ' . currency_format($model->subtotal, $model->currency);
+                                return $model->product->title . '(' . implode(',', $model->product_details['spec_detail_name'] ?? []) . ') x ' . $model->quantity . ' ' . __('noah-cms::noah-cms.activity.label.item_subtotal') . ' ' . currency_format($model->subtotal, $model->currency);
                             })
                             ->getRecordTitleUsing(Invoice::class, function (Invoice $model) {
                                 return $model->type->getLabel();

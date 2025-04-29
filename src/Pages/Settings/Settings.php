@@ -5,6 +5,7 @@ namespace Sharenjoy\NoahCms\Pages\Settings;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Closure;
 use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
@@ -61,7 +62,22 @@ class Settings extends BaseSettings
                     Tabs\Tab::make('order')
                         ->label('訂單相關')
                         ->schema([
-                            Section::make()->schema([
+                            Section::make('運費相關')->schema([
+                                TextInput::make('order.delivery_free_limit')
+                                    ->label('免運金額')
+                                    ->numeric()
+                                    ->required(),
+                                KeyValue::make('order.delivery_price')
+                                    ->label('運費設定')
+                                    ->addable(false)   // 禁止新增
+                                    ->deletable(false) // 禁止刪除
+                                    ->keyLabel('地區')
+                                    ->valueLabel('運費')
+                                    ->required()
+                                    ->columnSpanFull(),
+
+                            ]),
+                            Section::make('注意事項')->schema([
                                 Textarea::make('order.order_info_list.notice')
                                     ->label('訂單明細-注意事項')
                                     ->rows(4)
