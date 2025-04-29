@@ -69,8 +69,16 @@
                         <li><div class="text-md" style="color: #6e6e6e">{{ $shipment->calling_code }} {{ $shipment->mobile }}</div></li>
                         <li><div class="text-sm" style="color: #6e6e6e">{{ number_format(\Sharenjoy\NoahCms\Actions\Shop\CalculateOrderItemTotalWeight::run($order)) }}(g)總重量</div></li>
                         <li class="flex justify-start gap-1 py-1">
-                            <div class="w-fit"><x-filament::badge color="gray">{{ $shipment->provider->getLabel() }}</x-filament::badge></div>
-                            <div class="w-fit"><x-filament::badge color="info">{{ $shipment->delivery_type->getLabel() }}</x-filament::badge></div>
+                            <div class="w-fit">
+                                <div class="flex gap-1">
+                                    <x-filament::avatar
+                                        src="{{ asset('vendor/noah-cms/images/'.$shipment->provider->value.'.png') }}"
+                                        size="sm"
+                                    />
+                                    <x-filament::badge color="gray">{{ $shipment->provider->getLabel() }}</x-filament::badge>
+                                    <x-filament::badge color="info">{{ $shipment->delivery_type->getLabel() }}</x-filament::badge>
+                                </div>
+                            </div>
                         </li>
                         <li>
                             <div class="text-md" style="color: #6e6e6e"> {!! \Sharenjoy\NoahCms\Actions\Shop\DisplayOrderShipmentDetail::run(shipment: $shipment) !!}</div>

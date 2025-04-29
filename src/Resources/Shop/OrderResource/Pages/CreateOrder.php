@@ -54,19 +54,41 @@ class CreateOrder extends CreateRecord
             ->columns(null);
     }
 
+    protected function handleRecordCreation(array $data): Model
+    {
+        DB::beginTransaction();
+
+        try {
+            $data = $this->form->getState();
+            $order = OrderCreator::run($data);
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $order;
+    }
+
     protected function afterCreate(): void
     {
         /** @var Order $order */
         $order = $this->record;
 
+        // $recipients = [
+        //     Auth::user(), // 當前登入的使用者
+        //     $order->user, // 訂單的購買人
+        // ];
+
         Notification::make()
             ->title('新訂單建立成功')
             ->icon('heroicon-o-shopping-bag')
+            ->body("{$order->user->name} 訂購了 {$order->items->count()} 個商品")
             ->actions([
                 Action::make('View')
                     ->url(OrderResource::getUrl('view', ['record' => $order])),
-            ])
-            ->sendToDatabase(Auth::user());
+            ]);
+        // ->sendToDatabase($recipients);
     }
 
     /** @return Step[] */
@@ -153,23 +175,5 @@ class CreateOrder extends CreateRecord
             Step::make('選擇發票類型')->schema(EditInvoiceAction::form('create')),
             Step::make('選擇付款方式')->schema(EditTransactionAction::form('create')),
         ];
-    }
-
-    protected function handleRecordCreation(array $data): Model
-    {
-        DB::beginTransaction();
-
-        try {
-            $data = $this->form->getState();
-            $order = OrderCreator::run($data);
-            DB::commit();
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
-        // dd($order, $data);
-
-        return $order;
     }
 }

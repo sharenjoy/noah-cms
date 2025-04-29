@@ -304,6 +304,7 @@ return [
                     'postoffice' => '郵局',
                     'tcat' => '黑貓',
                     'fedex' => 'Fedex',
+                    'dhl' => 'DHL',
                 ],
                 'transaction' => [
                     'tappay' => 'TapPay',
@@ -317,6 +318,7 @@ return [
                     'postoffice' => '郵局',
                     'tcat' => '黑貓',
                     'fedex' => 'Fedex',
+                    'dhl' => 'DHL',
                 ],
                 'transaction' => [
                     'tappay' => 'TapPay',
