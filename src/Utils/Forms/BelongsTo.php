@@ -11,7 +11,7 @@ class BelongsTo extends FormAbstract implements FormInterface
     {
         $this->field = Select::make($this->fieldName)
             ->label(__('noah-cms::noah-cms.' . $this->content['relation']))
-            ->prefixIcon('heroicon-o-lifebuoy')
+            ->prefixIcon('heroicon-o-arrows-right-left')
             ->relationship(
                 name: $this->content['relation'],
                 titleAttribute: $this->content['title'] ?? 'title',

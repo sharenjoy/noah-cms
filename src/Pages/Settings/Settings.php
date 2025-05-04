@@ -4,12 +4,16 @@ namespace Sharenjoy\NoahCms\Pages\Settings;
 
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Closure;
-use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Get;
+use Illuminate\Support\HtmlString;
 use Outerweb\FilamentSettings\Filament\Pages\Settings as BaseSettings;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 
@@ -19,7 +23,7 @@ class Settings extends BaseSettings
 
     protected static ?int $navigationSort = 47;
 
-    protected static ?string $navigationIcon = 'heroicon-m-cog-8-tooth';
+    protected static ?string $navigationIcon = 'heroicon-o-cog-8-tooth';
 
     public static function getNavigationGroup(): string
     {
@@ -75,7 +79,6 @@ class Settings extends BaseSettings
                                     ->valueLabel('運費')
                                     ->required()
                                     ->columnSpanFull(),
-
                             ]),
                             Section::make('注意事項')->schema([
                                 Textarea::make('order.order_info_list.notice')
@@ -90,6 +93,72 @@ class Settings extends BaseSettings
                                     ->translatable(true, null, [
                                         'zh_TW' => ['required'],
                                     ]),
+
+                            ]),
+                        ]),
+                    Tabs\Tab::make('promo')
+                        ->label('促銷相關')
+                        ->schema([
+                            Section::make('折扣設定')->schema([
+                                Radio::make('order.decimal_point_calculate_type')
+                                    ->label(__('noah-cms::noah-cms.shop.promo.title.decimal_point_calculate_type'))
+                                    ->options([
+                                        'floor' => '無條件捨去',
+                                        'ceil' => '無條件進位',
+                                        'round' => '四捨五入',
+                                    ])
+                                    ->inline()
+                                    ->inlineLabel(false),
+                                Fieldset::make('百分比折抵方式')
+                                    ->columns(1)
+                                    ->schema([
+                                        Radio::make('order.discount_percent_amount_type')
+                                            ->label(__('noah-cms::noah-cms.shop.promo.title.discount_percent_amount_type'))
+                                            ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.discount_percent_amount_type')))
+                                            ->options([
+                                                'entire' => '整筆訂單金額計算折抵',
+                                                'product' => '只有符合商品合計金額計算折抵',
+                                            ])
+                                            ->inline()
+                                            ->inlineLabel(false)
+                                            ->live(),
+                                        Radio::make('order.discount_percent_calculate_type')
+                                            ->label(__('noah-cms::noah-cms.shop.promo.title.discount_percent_calculate_type'))
+                                            ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.discount_percent_calculate_type')))
+                                            ->options([
+                                                'combined' => '疊加折抵',
+                                                'devided' => '分開折抵',
+                                            ])
+                                            ->inline()
+                                            ->inlineLabel(false)
+                                            ->visible(fn(Get $get): bool => $get('order.discount_percent_amount_type') == 'entire'),
+
+                                    ]),
+
+                            ]),
+                            Section::make('折扣碼條件設定(此區塊保留給維護工程人員使用)')->schema([
+                                Repeater::make('order.promo_conditions')
+                                    ->label('折扣碼條件')
+                                    ->schema([
+                                        TextInput::make('name')
+                                            ->label('條件名稱')
+                                            ->required()
+                                            ->placeholder('輸入條件名稱'),
+
+                                        Textarea::make('code')
+                                            ->label('條件程式碼')
+                                            ->rows(5)
+                                            ->required()
+                                            ->placeholder('輸入條件程式碼')
+                                            ->readOnly(fn($state): bool => filled($state)), // 僅在「編輯」狀態時不能改,
+                                    ])
+                                    ->addActionLabel('新增條件') // 自訂新增按鈕的文字
+                                    ->collapsible(false) // 允許展開/摺疊每個項目
+                                    ->defaultItems(1) // 預設新增一個條件
+                                    ->deletable(false) // 禁止刪除
+                                    ->reorderable(false)
+                                    ->minItems(1) // 最少需要一個條件
+                                    ->maxItems(10), // 最多允許 10 個條件
 
                             ]),
                         ]),

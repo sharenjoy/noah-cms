@@ -78,9 +78,9 @@ class ProductSpecification extends Model implements Sortable
     protected function tableFields(): array
     {
         return [
+            'thumbnail' => [],
             'product.title' =>  ['alias' => 'belongs_to', 'label' => 'product', 'relation' => 'product'],
             'spec_detail_name' => [],
-            'thumbnail' => [],
             'no' => ['label' => 'spec_no'],
             'price' => ['type' => 'number'],
             'compare_price' => ['type' => 'number'],

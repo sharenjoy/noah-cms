@@ -25,6 +25,7 @@ use Sharenjoy\NoahCms\Models\ProductSpecification;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
+use Sharenjoy\NoahCms\Models\Traits\HasPromos;
 use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Sharenjoy\NoahCms\Utils\JsonLD;
 use Sharenjoy\NoahCms\Utils\Media;
@@ -128,18 +129,18 @@ class Product extends Model implements Sortable
     protected function tableFields(): array
     {
         return [
+            'thumbnail' => [],
             'title' => ['description' => true],
             'slug' => [],
             'brand.title' =>  ['alias' => 'belongs_to', 'label' => 'brand', 'relation' => 'brand'],
             'categories' => [],
             'tags' => ['tagType' => 'product'],
             'relation_count' => ['label' => 'specifications_count', 'relation' => 'specifications'],
-            'thumbnail' => [],
-            'seo' => [],
             'is_active' => [],
             'published_at' => [],
             'created_at' => ['isToggledHiddenByDefault' => true],
             'updated_at' => ['isToggledHiddenByDefault' => true],
+            'seo' => [],
         ];
     }
 

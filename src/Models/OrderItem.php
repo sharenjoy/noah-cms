@@ -6,16 +6,17 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Sharenjoy\NoahCms\Actions\Shop\CalculateOrderItemTotalWeight;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Models\Traits\HasPromos;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class OrderItem extends Model
 {
     use CommonModelTrait;
     use LogsActivity;
+    use HasPromos;
 
     protected $casts = [
         'preorder' => 'boolean',

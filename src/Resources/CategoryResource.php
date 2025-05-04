@@ -12,7 +12,6 @@ use Sharenjoy\NoahCms\Resources\CategoryResource\Pages;
 use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\MenusRelationManager;
 use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\PostsRelationManager;
 use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\ProductsRelationManager;
-use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\PromosRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
 class CategoryResource extends Resource implements HasShieldPermissions
@@ -55,7 +54,6 @@ class CategoryResource extends Resource implements HasShieldPermissions
         return [
             ProductsRelationManager::class,
             PostsRelationManager::class,
-            PromosRelationManager::class,
             MenusRelationManager::class,
         ];
     }

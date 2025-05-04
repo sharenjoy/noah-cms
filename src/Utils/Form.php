@@ -32,7 +32,7 @@ class Form
         static::$model = $model;
         static::$operation = $operation;
         static::$ownerRecord = $ownerRecord;
-        static::$translatable = $modelInstance->translatable;
+        static::$translatable = $modelInstance->translatable ?? [];
 
         $form = $modelInstance->getFormFields();
         $schemas = [];

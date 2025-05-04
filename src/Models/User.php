@@ -2,9 +2,11 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -34,11 +36,16 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'name',
         'email',
         'password',
+        'birthday',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $appends = [
+        'age',
     ];
 
     public $translatable = [];
@@ -151,5 +158,14 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function canImpersonate()
     {
         return true;
+    }
+
+    public function age(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->birthday
+                ? Carbon::parse($this->birthday)->age
+                : null,
+        );
     }
 }

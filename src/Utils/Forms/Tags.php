@@ -12,7 +12,7 @@ class Tags extends FormAbstract implements FormInterface
             ->label(__('noah-cms::noah-cms.tag'))
             ->preload()
             ->prefixIcon('heroicon-c-tag')
-            ->relationship(name: $this->fieldName, titleAttribute: 'name')
+            ->relationship(name: $this->content['relation'] ?? $this->fieldName, titleAttribute: 'name')
             ->searchable(['name', 'slug']);
 
         if ($this->content['multiple'] ?? false) {

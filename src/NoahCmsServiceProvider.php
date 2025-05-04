@@ -3,7 +3,9 @@
 namespace Sharenjoy\NoahCms;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schedule;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
+use Sharenjoy\NoahCms\Console\Commands\UpdateObjectiveTargets;
 use Sharenjoy\NoahCms\Models;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -33,7 +35,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ->discoversMigrations()
             ->hasAssets()
             ->hasCommands([
-                // NoahCmsCommand::class
+                UpdateObjectiveTargets::class
             ]);
     }
 
@@ -42,6 +44,8 @@ class NoahCmsServiceProvider extends PackageServiceProvider
     public function packageBooted()
     {
         \Illuminate\Database\Eloquent\Model::unguard();
+
+        Schedule::command('noah-cms:update-objective-targets')->dailyAt('01:00');
 
         Gate::policy(\Sharenjoy\NoahCms\Models\ShippableOrder::class, \Sharenjoy\NoahCms\Policies\ShippableOrderPolicy::class);
 

@@ -2,9 +2,6 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use Sharenjoy\NoahCms\Utils\Media;
-use Sharenjoy\NoahCms\Models\Post;
-use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use ArrayAccess;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as DbCollection;
@@ -15,6 +12,10 @@ use Illuminate\Support\Collection;
 use Overtrue\Pinyin\Pinyin;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
+use Sharenjoy\NoahCms\Models\Post;
+use Sharenjoy\NoahCms\Models\Promo;
+use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Utils\Media;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -80,6 +81,11 @@ class Tag extends Model implements Sortable
     public function users()
     {
         return $this->morphedByMany(User::class, 'taggable');
+    }
+
+    public function promos()
+    {
+        return $this->morphedByMany(Promo::class, 'taggable');
     }
 
     protected static function newFactory()

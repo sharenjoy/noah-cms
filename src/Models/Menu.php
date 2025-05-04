@@ -4,14 +4,13 @@ namespace Sharenjoy\NoahCms\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
-use Sharenjoy\NoahCms\Models\Category;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
+use Sharenjoy\NoahCms\Models\Traits\HasPromos;
 use Sharenjoy\NoahCms\Utils\Media;
 use SolutionForest\FilamentTree\Concern\ModelTree;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -27,6 +26,7 @@ class Menu extends Model
     use HasMediaLibrary;
     use ModelTree;
     use HasCategoryTree;
+    use HasPromos;
     use HasSEO;
 
     protected $casts = [

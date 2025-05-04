@@ -92,6 +92,8 @@ class Table
                         $item = TextColumn::make($name)->numeric()->searchable()->sortable()->summarize($summarize);
                     } elseif (($content['type'] ?? []) == 'boolean') {
                         $item = IconColumn::make($name)->boolean()->sortable();
+                    } elseif (($content['type'] ?? []) == 'date') {
+                        $item = TextColumn::make($name)->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable();
                     } else {
                         $item = TextColumn::make($name)->searchable()->placeholder('-')->sortable();
                     }

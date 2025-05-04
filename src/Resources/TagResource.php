@@ -20,7 +20,7 @@ class TagResource extends Resource implements HasShieldPermissions
 
     protected static ?string $model = Tag::class;
 
-    protected static ?string $navigationIcon = 'heroicon-c-tag';
+    protected static ?string $navigationIcon = 'heroicon-o-hashtag';
 
     public static function getModelLabel(): string
     {

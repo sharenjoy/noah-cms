@@ -100,11 +100,6 @@ class Category extends Model
         return $this->morphedByMany(Product::class, 'categorizable');
     }
 
-    public function promos(): MorphToMany
-    {
-        return $this->morphedByMany(Promo::class, 'categorizable');
-    }
-
     public function menus(): MorphToMany
     {
         return $this->morphedByMany(Menu::class, 'categorizable');

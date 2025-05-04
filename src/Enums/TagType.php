@@ -15,6 +15,7 @@ enum TagType: string implements HasLabel, HasIcon, HasColor
     case Post = 'post';
     case Product = 'product';
     case User = 'user';
+    case Promo = 'promo';
 
     public function getLabel(): ?string
     {
@@ -22,6 +23,7 @@ enum TagType: string implements HasLabel, HasIcon, HasColor
             self::Post => __('noah-cms::noah-cms.post'),
             self::Product => __('noah-cms::noah-cms.product'),
             self::User => __('noah-cms::noah-cms.user'),
+            self::Promo => __('noah-cms::noah-cms.promo'),
         };
     }
 
@@ -31,6 +33,7 @@ enum TagType: string implements HasLabel, HasIcon, HasColor
             self::Post => 'heroicon-o-newspaper',
             self::Product => 'heroicon-c-trophy',
             self::User => 'heroicon-c-users',
+            self::Promo => 'heroicon-c-tag',
         };
     }
 
@@ -40,6 +43,7 @@ enum TagType: string implements HasLabel, HasIcon, HasColor
             self::Post => Color::Blue,
             self::Product => Color::Amber,
             self::User => Color::Orange,
+            self::Promo => Color::Orange,
         };
     }
 }

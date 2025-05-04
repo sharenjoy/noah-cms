@@ -14,27 +14,27 @@ enum PromoType: string implements HasLabel, HasDescription, HasIcon, HasColor
     use BaseEnum;
 
     case Coupon = 'coupon';
-    case Fullpiece = 'fullpiece';
-    case Fullquota = 'fullquota';
-    case Deliveryfree = 'deliveryfree';
+    case MinQuantity = 'minquantity';
+    case MinSpend = 'minspend';
+    case DeliveryFree = 'deliveryfree';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Coupon => __('noah-cms::noah-cms.shop.type.promo.coupon'),
-            self::Fullpiece => __('noah-cms::noah-cms.shop.type.promo.fullpiece'),
-            self::Fullquota => __('noah-cms::noah-cms.shop.type.promo.fullquota'),
-            self::Deliveryfree => __('noah-cms::noah-cms.shop.type.promo.deliveryfree'),
+            self::Coupon => __('noah-cms::noah-cms.shop.type.title.promo.coupon'),
+            self::MinQuantity => __('noah-cms::noah-cms.shop.type.title.promo.minquantity'),
+            self::MinSpend => __('noah-cms::noah-cms.shop.type.title.promo.minspend'),
+            self::DeliveryFree => __('noah-cms::noah-cms.shop.type.title.promo.deliveryfree'),
         };
     }
 
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::Coupon => '描述.',
-            self::Fullpiece => '描述.',
-            self::Fullquota => '描述.',
-            self::Deliveryfree => '描述.',
+            self::Coupon => __('noah-cms::noah-cms.shop.type.description.promo.coupon'),
+            self::MinQuantity => __('noah-cms::noah-cms.shop.type.description.promo.minquantity'),
+            self::MinSpend => __('noah-cms::noah-cms.shop.type.description.promo.minspend'),
+            self::DeliveryFree => __('noah-cms::noah-cms.shop.type.description.promo.deliveryfree'),
         };
     }
 
@@ -42,9 +42,9 @@ enum PromoType: string implements HasLabel, HasDescription, HasIcon, HasColor
     {
         return match ($this) {
             self::Coupon => 'heroicon-o-newspaper',
-            self::Fullpiece => 'heroicon-c-trophy',
-            self::Fullquota => 'heroicon-c-trophy',
-            self::Deliveryfree => 'heroicon-c-trophy',
+            self::MinQuantity => 'heroicon-c-trophy',
+            self::MinSpend => 'heroicon-c-trophy',
+            self::DeliveryFree => 'heroicon-c-trophy',
         };
     }
 
@@ -52,9 +52,9 @@ enum PromoType: string implements HasLabel, HasDescription, HasIcon, HasColor
     {
         return match ($this) {
             self::Coupon => Color::Blue,
-            self::Fullpiece => Color::Amber,
-            self::Fullquota => Color::Amber,
-            self::Deliveryfree => Color::Amber,
+            self::MinQuantity => Color::Amber,
+            self::MinSpend => Color::Amber,
+            self::DeliveryFree => Color::Amber,
         };
     }
 }

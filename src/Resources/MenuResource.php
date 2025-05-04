@@ -2,15 +2,16 @@
 
 namespace Sharenjoy\NoahCms\Resources;
 
-use Sharenjoy\NoahCms\Resources\MenuResource\Pages;
-use Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers\CategoriesRelationManager;
-use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
-use Sharenjoy\NoahCms\Models\Menu;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Sharenjoy\NoahCms\Models\Menu;
+use Sharenjoy\NoahCms\Resources\MenuResource\Pages;
+use Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers\CategoriesRelationManager;
+use Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers\PromosRelationManager;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
 class MenuResource extends Resource implements HasShieldPermissions
 {
@@ -50,7 +51,8 @@ class MenuResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            CategoriesRelationManager::class
+            CategoriesRelationManager::class,
+            PromosRelationManager::class,
         ];
     }
 

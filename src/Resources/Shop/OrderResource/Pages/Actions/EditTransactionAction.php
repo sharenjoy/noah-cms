@@ -57,24 +57,24 @@ class EditTransactionAction
                         ]),
                 ]),
 
-            Section::make('ATM')
-                ->extraAttributes($extraAttributes)
-                ->columnSpanFull()
-                ->schema([
-                    Grid::make(2)
-                        ->schema([
-                            TextInput::make('transaction.atm_code')
-                                ->required()
-                                ->label(__('noah-cms::noah-cms.activity.label.atm_code')),
-                            DateTimePicker::make('transaction.expired_at')
-                                ->required()
-                                ->prefixIcon('heroicon-o-clock')
-                                ->format('Y-m-d H:i:s')
-                                ->native(false)
-                                ->label(__('noah-cms::noah-cms.activity.label.expired_at')),
-                        ]),
-                ])
-                ->visible(fn(Get $get): bool => $get('transaction.payment_method') == PaymentMethod::ATM->value),
+            // Section::make('ATM')
+            //     ->extraAttributes($extraAttributes)
+            //     ->columnSpanFull()
+            //     ->schema([
+            //         Grid::make(2)
+            //             ->schema([
+            //                 TextInput::make('transaction.atm_code')
+            //                     ->required()
+            //                     ->label(__('noah-cms::noah-cms.activity.label.atm_code')),
+            //                 DateTimePicker::make('transaction.expired_at')
+            //                     ->required()
+            //                     ->prefixIcon('heroicon-o-clock')
+            //                     ->format('Y-m-d H:i:s')
+            //                     ->native(false)
+            //                     ->label(__('noah-cms::noah-cms.activity.label.expired_at')),
+            //             ]),
+            //     ])
+            //     ->visible(fn(Get $get): bool => $get('transaction.payment_method') == PaymentMethod::ATM->value),
         ];
     }
 }

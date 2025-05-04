@@ -37,14 +37,23 @@ class OrderCreator
                 'product_image' => $item['product']['img'],
             ]);
 
+            $comparePrice = $item['productSpecification']['compare_price'] ?? 0;
+            $discount = 0;
+            $productPrice = $item['price'];
+
+            if ($comparePrice > $productPrice) {
+                $discount = $item['price'] - $comparePrice;
+                $productPrice = $comparePrice;
+            }
+
             $order->items()->create([
                 'product_id' => $item['product']['id'],
                 'product_specification_id' => $item['product_specification_id'],
                 'order_shipment_id' => $shipment->id,
                 'type' => 'product',
                 'quantity' => $item['quantity'],
-                'price' => $item['price'],
-                'discount' => $item['discount'] ?? 0,
+                'price' => $productPrice,
+                'discount' => $discount,
                 'currency' => $currency,
                 'product_details' => $specData,
             ]);

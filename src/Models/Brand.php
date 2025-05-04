@@ -68,14 +68,14 @@ class Brand extends Model implements Sortable
     protected function tableFields(): array
     {
         return [
+            'thumbnail' => [],
             'title' => ['description' => true],
             'slug' => [],
             'relation_count' => ['label' => 'products_count', 'relation' => 'products'],
-            'thumbnail' => [],
-            'seo' => [],
             'is_active' => [],
             'created_at' => ['isToggledHiddenByDefault' => true],
             'updated_at' => ['isToggledHiddenByDefault' => true],
+            'seo' => [],
         ];
     }
 

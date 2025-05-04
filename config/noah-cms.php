@@ -20,6 +20,10 @@ return [
         'seo' => env('FEATURE_TOGGLE_SEO', true),
     ],
 
+    'promo' => [
+        'conditions_decrypter' => env('PROMO_CONDITIONS_DECRYPTER', 'ronaldiscreator'),
+    ],
+
     'donate_code' => [],
 
 ];
