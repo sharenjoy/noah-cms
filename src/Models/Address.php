@@ -2,12 +2,15 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Get;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Sharenjoy\NoahCms\Models\Order;
-use Sharenjoy\NoahCms\Models\OrderShipment;
+use Sharenjoy\NoahCms\Actions\Shop\FetchAddressRelatedSelectOptions;
+use Sharenjoy\NoahCms\Actions\Shop\FetchCountryRelatedSelectOptions;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -24,45 +27,90 @@ class Address extends Model
     public $translatable = [];
 
     protected array $sort = [
+        'is_default' => 'desc',
         'created_at' => 'desc',
     ];
 
-    protected array $formFields = [
-        'left' => [
-            'title' => [
-                'slug' => true,
-                'required' => true,
-                'rules' => ['required', 'string'],
-                // 'localeRules' => [
-                //     'zh_TW' => ['required', 'string', 'max:255'],
-                //     'en' => ['required', 'string', 'max:255'],
-                // ],
-            ],
-            'slug' => ['maxLength' => 50, 'required' => true],
-            'description' => [],
-            'content' => [
-                'profile' => 'simple',
-            ],
-        ],
-        'right' => [
-            'img' => [],
-            'album' => [],
-            'is_active' => ['required' => true],
-        ],
-    ];
+    protected static function booted()
+    {
+        static::saved(function (Address $address) {
+            // 如果 is_default 為 true，將同一 user 的其他地址的 is_default 設為 false
+            if ($address->is_default) {
+                Address::where('user_id', $address->user_id)
+                    ->where('id', '!=', $address->id) // 排除當前地址
+                    ->update(['is_default' => false]);
+            }
+        });
 
-    protected array $tableFields = [
-        'title' => [
-            'description' => true,
-        ],
-        'slug' => [],
-        'relation_count' => ['label' => 'categories_count', 'relation' => 'categories'],
-        'thumbnail' => [],
-        'seo' => [],
-        'is_active' => [],
-        'created_at' => [],
-        'updated_at' => [],
-    ];
+        // 當地址刪除時，處理 is_default 邏輯
+        static::deleted(function (Address $address) {
+            if ($address->is_default) {
+                $firstAddress = Address::where('user_id', $address->user_id)
+                    ->orderBy('created_at', 'asc')
+                    ->first();
+
+                if ($firstAddress) {
+                    $firstAddress->update(['is_default' => true]);
+                }
+            }
+        });
+    }
+
+    protected function formFields(): array
+    {
+        return [
+            'left' => [
+                'country' => Select::make('country')
+                    ->label(__('noah-cms::noah-cms.activity.label.country'))
+                    ->options(FetchCountryRelatedSelectOptions::run('country'))
+                    ->searchable()
+                    ->required()
+                    ->live(),
+                'postcode' => TextInput::make('postcode')
+                    ->label(__('noah-cms::noah-cms.activity.label.postcode'))
+                    ->placeholder('100')
+                    ->required(),
+                'city' => Select::make('city')
+                    ->label(__('noah-cms::noah-cms.activity.label.city'))
+                    ->visible(fn(Get $get): bool => $get('country') == 'Taiwan')
+                    ->placeholder('台北市')
+                    ->options(FetchAddressRelatedSelectOptions::run('city'))
+                    ->searchable()
+                    ->required()
+                    ->live(),
+                'district' => Select::make('district')
+                    ->label(__('noah-cms::noah-cms.activity.label.district'))
+                    ->options(fn(Get $get) => FetchAddressRelatedSelectOptions::run('district', $get('city')))
+                    ->placeholder('中正區')
+                    ->searchable()
+                    ->required()
+                    ->visible(fn(Get $get): bool => $get('country') == 'Taiwan'),
+                'address' => Textarea::make('address')
+                    ->columnSpanFull()
+                    ->label(__('noah-cms::noah-cms.activity.label.address'))
+                    ->placeholder('中正路1號')
+                    ->rows(2)
+                    ->required(),
+            ],
+            'right' => [
+                'is_default' => ['alias' => 'yesno'],
+            ],
+        ];
+    }
+
+    protected function tableFields(): array
+    {
+        return [
+            'country' => ['label' => 'activity.label.country'],
+            'postcode' => ['label' => 'activity.label.postcode'],
+            'city' => ['label' => 'activity.label.city'],
+            'district' => ['label' => 'activity.label.district'],
+            'address' => ['label' => 'activity.label.address'],
+            'is_default' => ['type' => 'boolean'],
+            'created_at' => ['isToggledHiddenByDefault' => true],
+            'updated_at' => ['isToggledHiddenByDefault' => true],
+        ];
+    }
 
     /** RELACTIONS */
 

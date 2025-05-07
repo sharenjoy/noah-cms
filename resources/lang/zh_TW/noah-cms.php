@@ -138,6 +138,9 @@ return [
     'show_up' => '顯示/露出',
     'start_generate' => '開始產生',
     'age' => '年齡',
+    'sn' => '編號',
+    'address' => '地址',
+    'is_default' => '預設地址',
 
     'activity' => [
         'title' => [
@@ -218,6 +221,12 @@ return [
                     'finished' => '已完成',
                     'failed' => '失敗',
                 ],
+                'user_coupon' => [
+                    'assigned' => '配發成功',
+                    'saved' => '儲存成功',
+                    'useing' => '使用中',
+                    'used' => '已使用',
+                ],
             ],
 
             'description' => [
@@ -249,6 +258,12 @@ return [
                     'processing' => '產生中',
                     'finished' => '已完成',
                     'failed' => '失敗',
+                ],
+                'user_coupon' => [
+                    'assigned' => '配發成功',
+                    'saved' => '儲存成功',
+                    'useing' => '使用中',
+                    'used' => '已使用',
                 ],
             ],
         ],
@@ -432,6 +447,13 @@ return [
                 'user_parameters' => '使用者參數',
                 'age_end' => '年齡上限',
                 'age_start' => '年齡下限',
+                'birthday' => '生日',
+                'notallowed_generatable' => '此折扣碼目前狀態不允許配發折扣碼給會員',
+                'notallowed_generatable_to_user' => '此折扣碼目前狀態不允許配發折扣碼給此會員',
+                'generate_success' => '成功配發折扣碼給會員',
+                'generate_failed' => '折扣碼配發失敗',
+                'no_condition_code' => '找不到篩選會員條件的程式碼',
+                'has_coupon_already' => '會員已經有此折扣碼了',
             ],
             'help' => [
                 'min_order_amount' => '<div style="color:;">訂單需高於此設定金額，此促銷才可生效。</div>',

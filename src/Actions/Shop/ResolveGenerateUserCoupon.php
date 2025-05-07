@@ -1,0 +1,180 @@
+<?php
+
+namespace Sharenjoy\NoahCms\Actions\Shop;
+
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Collection;
+use Lorisleiva\Actions\Concerns\AsAction;
+use Sharenjoy\NoahCms\Actions\Shop\GetPromoConditionEventUser;
+use Sharenjoy\NoahCms\Enums\UserCouponStatus;
+use Sharenjoy\NoahCms\Exceptions\UserHasPromoCouponAlready;
+use Sharenjoy\NoahCms\Exceptions\UserNotAllowPromoCouponAssigned;
+use Sharenjoy\NoahCms\Models\Promo;
+use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Models\UserCoupon;
+use Sharenjoy\NoahCms\Resources\Shop\CouponPromoResource;
+
+class ResolveGenerateUserCoupon
+{
+    use AsAction;
+
+    protected Promo $promo;
+    protected Collection $users;
+    protected string $divider = '::';
+    protected $userId;
+
+    /**
+     * @param Promo $promo
+     * @param int|null $userId 如果有傳入使用者ID，就只判斷這個使用者是否符合條件事件篩選
+     * @return array
+     */
+    public function handle(Promo $promo, $userId = null): array
+    {
+        if (!$promo->generatable) {
+            return [false, __('noah-cms::noah-cms.shop.promo.title.notallowed_generatable')];
+        }
+
+        try {
+            $this->promo = $promo;
+            $this->users = GetPromoConditionEventUser::run($promo);
+
+            // 如果有傳入使用者ID，就只判斷這個使用者是否符合條件事件篩選
+            if ($userId) {
+                $this->userId = $userId;
+                $this->users = $this->users->where('id', $userId);
+
+                if ($this->users->isEmpty()) {
+                    throw new UserNotAllowPromoCouponAssigned(
+                        __('noah-cms::noah-cms.shop.promo.title.notallowed_generatable_to_user')
+                    );
+                }
+            }
+
+            $method = 'generate' . ucfirst($this->promo->auto_generate_type->value) . 'Coupon';
+            $this->$method();
+        } catch (UserNotAllowPromoCouponAssigned $e) {
+            return [false, $e->getMessage()];
+        } catch (UserHasPromoCouponAlready $e) {
+            return [false, $e->getMessage()];
+        } catch (\Exception $e) {
+            Notification::make()
+                ->danger()
+                ->title(__('noah-cms::noah-cms.shop.promo.title.generate_failed'))
+                ->body($e->getMessage())
+                ->actions([
+                    Action::make('View')->url(CouponPromoResource::getUrl('edit', ['record' => $promo])),
+                ])
+                ->sendToDatabase(User::query()->superAdmin()->get());
+
+            return [false, __('noah-cms::noah-cms.shop.promo.title.generate_failed')];
+        }
+
+        return [true, __('noah-cms::noah-cms.shop.promo.title.generate_success')];
+    }
+
+    protected function generateNeverCoupon()
+    {
+        $codes = UserCoupon::query()
+            ->where('promo_id', $this->promo->id)
+            ->get()->pluck('code')->toArray();
+        $prefixCode = $this->promo->code . $this->divider;
+
+        // 如果已經有這個優惠券，就不需要再產生了
+        foreach ($this->users as $user) {
+            $code = $prefixCode . $user->id;
+            if (in_array($code, $codes)) {
+                if ($this->userId) throw new UserHasPromoCouponAlready;
+                continue;
+            }
+            $this->createUserCoupon($code, $user);
+        }
+    }
+
+    protected function generateYearlyCoupon()
+    {
+        // 如果是每年自動產生優惠券，且今天的日期符合自動產生的日期，就產生優惠券
+        if (now()->format('m-d') != $this->promo->auto_generate_date) {
+            return;
+        }
+
+        // 產生優惠券的前綴碼
+        $prefixCode = $this->promo->code . $this->divider . now()->format('Y') . $this->divider;
+        // 取得已經產生的優惠券
+        $codes = UserCoupon::query()
+            ->where('promo_id', $this->promo->id)
+            ->where('code', 'like', $prefixCode . '%') // 使用 like 篩選符合 prefixCode 的優惠券
+            ->get()->pluck('code')->toArray();
+
+        foreach ($this->users as $user) {
+            $code = $prefixCode . $user->id;
+            if (in_array($code, $codes)) {
+                if ($this->userId) throw new UserHasPromoCouponAlready;
+                continue;
+            }
+            $this->createUserCoupon($code, $user);
+        }
+    }
+
+    protected function generateMonthlyCoupon()
+    {
+        if (now()->format('d') != $this->promo->auto_generate_day) {
+            return;
+        }
+
+        // 產生優惠券的前綴碼
+        $prefixCode = $this->promo->code . $this->divider . now()->format('Ym') . $this->divider;
+        // 取得已經產生的優惠券
+        $codes = UserCoupon::query()
+            ->where('promo_id', $this->promo->id)
+            ->where('code', 'like', $prefixCode . '%') // 使用 like 篩選符合 prefixCode 的優惠券
+            ->get()->pluck('code')->toArray();
+
+        foreach ($this->users as $user) {
+            $code = $prefixCode . $user->id;
+            if (in_array($code, $codes)) {
+                if ($this->userId) throw new UserHasPromoCouponAlready;
+                continue;
+            }
+            $this->createUserCoupon($code, $user);
+        }
+    }
+
+    protected function generateEverydayCoupon()
+    {
+        $prefixCode = $this->promo->code . $this->divider . now()->format('Ymd') . $this->divider;
+
+        $codes = UserCoupon::query()
+            ->where('promo_id', $this->promo->id)
+            ->where('code', 'like', $prefixCode . '%') // 使用 like 篩選符合 prefixCode 的優惠券
+            ->get()->pluck('code')->toArray();
+
+        foreach ($this->users as $user) {
+            $code = $prefixCode . $user->id;
+            if (in_array($code, $codes)) {
+                if ($this->userId) throw new UserHasPromoCouponAlready;
+                continue;
+            }
+            $this->createUserCoupon($code, $user);
+        }
+    }
+
+    protected function createUserCoupon($code, $user)
+    {
+        // 產生優惠券
+        UserCoupon::create([
+            'promo_id' => $this->promo->id,
+            'user_id' => $user->id,
+            'status' => UserCouponStatus::Assigned->value,
+            'code' => $code,
+            'forever' => $this->promo->forever,
+            'started_at' => $this->promo->forever ? null : $this->promo->started_at,
+            'expired_at' => $this->promo->forever ? null : $this->promo->expired_at,
+        ]);
+    }
+
+    public function asJob(Promo $promo): void
+    {
+        $this->handle($promo);
+    }
+}

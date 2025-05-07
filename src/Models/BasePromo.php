@@ -63,6 +63,7 @@ class BasePromo extends Model
     protected $appends = [
         'online',
         'show_up',
+        'generatable',
     ];
 
     public $translatable = [
@@ -272,6 +273,34 @@ class BasePromo extends Model
                 }
 
                 return $this->display_expired_at->gt(now());
+            },
+        );
+    }
+
+    /**
+     * 這個優惠券是否可以產生
+     * @return Attribute
+     */
+    public function generatable(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if (! $this->is_active) {
+                    return false;
+                }
+
+                if (! $this->auto_assign_to_user) {
+                    return false;
+                }
+
+                if ($this->forever ?? false) {
+                    return true;
+                }
+
+                $now = now();
+
+                return ($this->started_at === null || $this->started_at->lte($now)) &&
+                    ($this->expired_at === null || $this->expired_at->gte($now));
             },
         );
     }

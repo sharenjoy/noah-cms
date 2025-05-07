@@ -1,6 +1,6 @@
 <?php
 
-namespace Sharenjoy\NoahCms\Console\Commands;
+namespace Sharenjoy\NoahCms\Commands;
 
 use Illuminate\Console\Command;
 use Sharenjoy\NoahCms\Actions\Shop\ResolveObjectiveTarget;

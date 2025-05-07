@@ -20,6 +20,7 @@ use Sharenjoy\NoahCms\Enums\PromoType;
 use Sharenjoy\NoahCms\Models\CouponPromo;
 use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Resources\Shop\CouponPromoResource\Pages;
+use Sharenjoy\NoahCms\Resources\Shop\CouponPromoResource\RelationManagers\UserCouponsRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\Traits\PromoableResource;
 
 class CouponPromoResource extends Resource implements HasShieldPermissions
@@ -87,6 +88,7 @@ class CouponPromoResource extends Resource implements HasShieldPermissions
                         ->inlineLabel(false),
                 ]),
             Section::make('折扣碼事件設定')
+                ->visible(fn(Get $get): bool => $get('forever'))
                 ->schema([
                     Select::make('auto_generate_type')
                         ->label(__('noah-cms::noah-cms.shop.promo.title.auto_generate_type'))
@@ -120,6 +122,13 @@ class CouponPromoResource extends Resource implements HasShieldPermissions
                         ->options(GetPromoAutoGenerateEvent::run())
                         ->visible(fn(Get $get): bool => $get('auto_generate_type') !== 'never' && $get('auto_generate_type') !== ''),
                 ]),
+        ];
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            UserCouponsRelationManager::class,
         ];
     }
 

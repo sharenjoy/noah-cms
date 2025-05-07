@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Sharenjoy\NoahCms\Enums\PromoAutoGenerateType;
 use Sharenjoy\NoahCms\Models\Promo;
 use Spatie\Translatable\HasTranslations;
 
@@ -56,7 +57,7 @@ return new class extends Migration
             $table->tinyInteger('per_user_limit')->nullable();   // 每人可使用次數
 
             $table->string('auto_generate_event')->nullable();
-            $table->string('auto_generate_type')->nullable();
+            $table->string('auto_generate_type')->default(PromoAutoGenerateType::Never->value);
             $table->string('auto_generate_date')->nullable(); // 每年的哪一天
             $table->string('auto_generate_day')->nullable(); // 每月的幾號
             $table->boolean('auto_assign_to_user')->default(false);

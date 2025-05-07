@@ -45,8 +45,8 @@
                         <li><div class="font-bold text-md" style="color: #3a3a3a">{{ $user->name }}</div></li>
                         <li><div class="text-md" style="color: #6e6e6e">{{ $user->email }}</div></li>
                         <li><div class="text-md" style="color: #6e6e6e">{{ $user->phone }}</div></li>
-                        @if ($user->orders->count())
-                        <li><div class="w-fit"><x-filament::badge color="gray">訂單 {{ $user->orders->count() }}</x-filament::badge></div></li>
+                        @if ($user->validOrders->count())
+                        <li><div class="w-fit"><x-filament::badge color="gray">訂單 {{ $user->validOrders->count() }}</x-filament::badge></div></li>
                         @endif
                         @if($user->tags->count())
                         <li class="py-1">

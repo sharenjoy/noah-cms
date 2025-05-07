@@ -2,10 +2,6 @@
 
 namespace Sharenjoy\NoahCms\Resources;
 
-use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
-use Sharenjoy\NoahCms\Resources\UserResource\Pages;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\RolesRelationManager;
-use Sharenjoy\NoahCms\Models\User;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Forms\Form;
@@ -13,6 +9,14 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
+use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
+use Sharenjoy\NoahCms\Resources\UserResource\Pages;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\AddressesRelationManager;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\ObjectivesRelationManager;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\OrdersRelationManager;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\RolesRelationManager;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\UserCouponsRelationManager;
 
 class UserResource extends Resource implements HasShieldPermissions
 {
@@ -61,6 +65,10 @@ class UserResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
+            OrdersRelationManager::class,
+            UserCouponsRelationManager::class,
+            ObjectivesRelationManager::class,
+            AddressesRelationManager::class,
             RolesRelationManager::class,
         ];
     }

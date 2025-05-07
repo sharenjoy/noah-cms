@@ -27,9 +27,9 @@ class ListOrders extends ListRecords
         $tabs = [];
 
         $tabs['all'] = Tab::make('ALL')
-            ->badge(fn() => Order::allEstablished()->count())
+            ->badge(fn() => Order::establishedOrders()->count())
             ->label(__('noah-cms::noah-cms.shop.status.title.order.all'))
-            ->modifyQueryUsing(fn(Builder $query) => $query)
+            ->modifyQueryUsing(fn(Builder $query) => $query->establishedOrders())
             ->icon('');
 
         foreach (OrderStatus::getShowableCases() as $case) {

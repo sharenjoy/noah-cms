@@ -37,7 +37,7 @@ trait OrderableResource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(['user.orders', 'user.tags', 'shipment', 'shipments', 'invoice', 'transaction', 'items']);
+        return parent::getEloquentQuery()->with(['user.orders', 'user.validOrders', 'user.tags', 'shipment', 'shipments', 'invoice', 'transaction', 'items']);
     }
 
     public static function form(Form $form): Form

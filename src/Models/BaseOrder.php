@@ -136,7 +136,7 @@ class BaseOrder extends Model
     }
 
     // 已成立的訂單
-    public function scopeAllEstablished($query): Builder
+    public function scopeEstablishedOrders($query): Builder
     {
         return $query->whereNotIn('status', [
             OrderStatus::Initial,

@@ -2,6 +2,8 @@
 
 namespace Sharenjoy\NoahCms\Actions\Shop;
 
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Lorisleiva\Actions\Decorators\JobDecorator;
 use Sharenjoy\NoahCms\Enums\ObjectiveStatus;
@@ -9,19 +11,11 @@ use Sharenjoy\NoahCms\Enums\ObjectiveType;
 use Sharenjoy\NoahCms\Models\Objective;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Resources\Shop\ObjectiveResource;
 
 class ResolveObjectiveTarget
 {
     use AsAction;
-
-    // public function configureJob(JobDecorator $job): void
-    // {
-    //     $job->onConnection('my_connection')
-    //         ->onQueue('my_queue')
-    //         ->through(['my_middleware'])
-    //         ->chain(['my_chain'])
-    //         ->delay(60);
-    // }
 
     public function handle(Objective $objective): void
     {
@@ -38,6 +32,15 @@ class ResolveObjectiveTarget
             // TODO: Log error
             $objective->status = ObjectiveStatus::Failed;
             $objective->save();
+
+            Notification::make()
+                ->danger()
+                ->title('產生目標對象時發生錯誤')
+                ->body($th->getMessage())
+                ->actions([
+                    Action::make('View')->url(ObjectiveResource::getUrl('edit', ['record' => $objective])),
+                ])
+                ->sendToDatabase(User::query()->superAdmin()->get());
         }
 
         $objective->status = ObjectiveStatus::Finished;

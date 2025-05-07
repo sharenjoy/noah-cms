@@ -13,6 +13,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Get;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 use Outerweb\FilamentSettings\Filament\Pages\Settings as BaseSettings;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
@@ -136,31 +137,31 @@ class Settings extends BaseSettings
                                     ]),
 
                             ]),
-                            Section::make('折扣碼條件設定(此區塊保留給維護工程人員使用)')->schema([
-                                Repeater::make('order.promo_conditions')
-                                    ->label('折扣碼條件')
-                                    ->schema([
-                                        TextInput::make('name')
-                                            ->label('條件名稱')
-                                            ->required()
-                                            ->placeholder('輸入條件名稱'),
+                            Section::make('折扣碼條件設定(此區塊保留給維護工程人員使用)')
+                                ->visible(fn(): bool => Auth::user()->isSuperAdminAndCreater())
+                                ->schema([
+                                    Repeater::make('order.promo_conditions')
+                                        ->label('折扣碼條件')
+                                        ->schema([
+                                            TextInput::make('name')
+                                                ->label('條件名稱')
+                                                ->required()
+                                                ->placeholder('輸入條件名稱'),
 
-                                        Textarea::make('code')
-                                            ->label('條件程式碼')
-                                            ->rows(5)
-                                            ->required()
-                                            ->placeholder('輸入條件程式碼')
-                                            ->readOnly(fn($state): bool => filled($state)), // 僅在「編輯」狀態時不能改,
-                                    ])
-                                    ->addActionLabel('新增條件') // 自訂新增按鈕的文字
-                                    ->collapsible(false) // 允許展開/摺疊每個項目
-                                    ->defaultItems(1) // 預設新增一個條件
-                                    ->deletable(false) // 禁止刪除
-                                    ->reorderable(false)
-                                    ->minItems(1) // 最少需要一個條件
-                                    ->maxItems(10), // 最多允許 10 個條件
+                                            Textarea::make('code')
+                                                ->label('條件程式碼')
+                                                ->rows(5)
+                                                ->required()
+                                                ->placeholder('輸入條件程式碼')
+                                        ])
+                                        ->addActionLabel('新增條件') // 自訂新增按鈕的文字
+                                        ->collapsible(false) // 允許展開/摺疊每個項目
+                                        ->defaultItems(1) // 預設新增一個條件
+                                        ->deletable(true) // 禁止刪除
+                                        ->reorderable(true)
+                                        ->minItems(1), // 最少需要一個條件
 
-                            ]),
+                                ]),
                         ]),
                     Tabs\Tab::make('SEO')
                         ->schema([

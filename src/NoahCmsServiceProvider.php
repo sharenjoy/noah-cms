@@ -2,10 +2,10 @@
 
 namespace Sharenjoy\NoahCms;
 
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schedule;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
-use Sharenjoy\NoahCms\Console\Commands\UpdateObjectiveTargets;
+use Sharenjoy\NoahCms\Commands\GenerateCouponPromos;
+use Sharenjoy\NoahCms\Commands\UpdateObjectiveTargets;
 use Sharenjoy\NoahCms\Models;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -35,7 +35,8 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ->discoversMigrations()
             ->hasAssets()
             ->hasCommands([
-                UpdateObjectiveTargets::class
+                UpdateObjectiveTargets::class,
+                GenerateCouponPromos::class,
             ]);
     }
 
@@ -46,8 +47,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
         \Illuminate\Database\Eloquent\Model::unguard();
 
         Schedule::command('noah-cms:update-objective-targets')->dailyAt('01:00');
-
-        Gate::policy(\Sharenjoy\NoahCms\Models\ShippableOrder::class, \Sharenjoy\NoahCms\Policies\ShippableOrderPolicy::class);
+        Schedule::command('noah-cms:generate-coupon-promos')->dailyAt('21:10');
 
         \Filament\Tables\Actions\CreateAction::configureUsing(function ($action) {
             return $action->slideOver();

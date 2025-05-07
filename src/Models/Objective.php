@@ -61,7 +61,7 @@ class Objective extends Model
 
     public function users(): MorphToMany
     {
-        return $this->morphedByMany(User::class, 'objectiveable');
+        return $this->morphedByMany(User::class, 'objectiveable')->with(['validOrders']);
     }
 
     public function products(): MorphToMany
