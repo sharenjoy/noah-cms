@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // 所屬會員
             $table->string('status'); // 狀態（例如 new、used、expired）
             $table->string('code')->unique()->index();           // 專屬折扣碼（例如 BDAY-2025-0001）
-            $table->boolean('forever')->default(false); // 是否永久有效
             $table->timestamp('started_at')->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->timestamps();

@@ -22,7 +22,7 @@ class MinQuantityPromoResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
-    protected static ?int $navigationSort = 24;
+    protected static ?int $navigationSort = 26;
 
     public static function getModelLabel(): string
     {

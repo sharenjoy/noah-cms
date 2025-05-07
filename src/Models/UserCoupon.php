@@ -17,7 +17,6 @@ class UserCoupon extends Model
 
     protected $casts = [
         'status' => UserCouponStatus::class,
-        'forever' => 'boolean',
         'started_at' => 'datetime',
         'expired_at' => 'datetime',
     ];
@@ -29,7 +28,6 @@ class UserCoupon extends Model
         'user.name' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'user', 'relation' => 'user'],
         'code' => ['label' => 'coupon_promo'],
         'status' => ['model' => 'UserCouponStatus'],
-        'forever' => ['type' => 'boolean', 'label' => 'shop.promo.title.forever'],
         'started_at' => ['label' => 'shop.promo.title.started_at'],
         'expired_at' => ['label' => 'shop.promo.title.expired_at'],
         'created_at' => ['isToggledHiddenByDefault' => true],

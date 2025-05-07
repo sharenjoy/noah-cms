@@ -13,6 +13,7 @@ use Sharenjoy\NoahCms\Exceptions\UserNotAllowPromoCouponAssigned;
 use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Models\User;
 use Sharenjoy\NoahCms\Models\UserCoupon;
+use Sharenjoy\NoahCms\Notifications\UserCouponCreated;
 use Sharenjoy\NoahCms\Resources\Shop\CouponPromoResource;
 
 class ResolveGenerateUserCoupon
@@ -161,16 +162,27 @@ class ResolveGenerateUserCoupon
 
     protected function createUserCoupon($code, $user)
     {
+        $startedAt = now();
+        $expiredAt = now()->addMonth();
+
+        // 有效期限的計算
+        if ($this->promo->forever && $this->promo->coupon_valid_days) {
+            $days = $this->promo->coupon_valid_days;
+            $expiredAt = $days % 30 === 0 ? now()->addMonths($days / 30) : now()->addDays($days);
+        }
+
         // 產生優惠券
-        UserCoupon::create([
+        $userCoupon = UserCoupon::create([
             'promo_id' => $this->promo->id,
             'user_id' => $user->id,
             'status' => UserCouponStatus::Assigned->value,
             'code' => $code,
-            'forever' => $this->promo->forever,
-            'started_at' => $this->promo->forever ? null : $this->promo->started_at,
-            'expired_at' => $this->promo->forever ? null : $this->promo->expired_at,
+            'started_at' => $this->promo->forever ? $startedAt->format('Y-m-d') : $this->promo->started_at->format('Y-m-d'),
+            'expired_at' => $this->promo->forever ? $expiredAt->endOfDay() : $this->promo->expired_at->endOfDay(),
         ]);
+
+        // 發送通知
+        $user->notify(new UserCouponCreated($userCoupon, $this->promo));
     }
 
     public function asJob(Promo $promo): void

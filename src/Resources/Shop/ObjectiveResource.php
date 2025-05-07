@@ -36,7 +36,12 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-viewfinder-circle';
 
-    protected static ?int $navigationSort = 8;
+    protected static ?int $navigationSort = 28;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('noah-cms::noah-cms.promo');
+    }
 
     public static function getModelLabel(): string
     {
