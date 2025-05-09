@@ -175,10 +175,15 @@ class ResolveGenerateUserCoupon
         $userCoupon = UserCoupon::create([
             'promo_id' => $this->promo->id,
             'user_id' => $user->id,
-            'status' => UserCouponStatus::Assigned->value,
             'code' => $code,
             'started_at' => $this->promo->forever ? $startedAt->format('Y-m-d') : $this->promo->started_at->format('Y-m-d'),
             'expired_at' => $this->promo->forever ? $expiredAt->endOfDay() : $this->promo->expired_at->endOfDay(),
+        ]);
+
+        $userCoupon->userCouponStatuses()->create([
+            'user_id' => $user->id,
+            'promo_id' => $this->promo->id,
+            'status' => UserCouponStatus::Assigned->value,
         ]);
 
         // 發送通知

@@ -130,8 +130,7 @@ class CouponPromoResource extends Resource implements HasShieldPermissions
                         ->minValue(1)
                         ->numeric()
                         ->required()
-                        ->rules(['required', 'numeric', 'min:1'])
-                        ->visible(fn(Get $get): bool => $get('auto_generate_type') !== 'never' && $get('auto_generate_type') !== ''),
+                        ->rules(['required', 'numeric', 'min:1']),
                 ]),
         ];
     }

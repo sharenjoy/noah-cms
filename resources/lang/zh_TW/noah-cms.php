@@ -140,7 +140,11 @@ return [
     'age' => '年齡',
     'sn' => '編號',
     'address' => '地址',
-    'is_default' => '預設地址',
+    'is_default' => '預設項目',
+    'user_level' => '會員等級',
+    'user_level_status' => '會員等級狀態',
+    'super_admin_only' => '此欄位僅限最高管理員更新編輯。',
+    'user_coupon_statuses' => '折扣碼使用狀態',
 
     'activity' => [
         'title' => [
@@ -227,6 +231,10 @@ return [
                     'useing' => '使用中',
                     'used' => '已使用',
                 ],
+                'user_level_status' => [
+                    'on' => '開啟',
+                    'off' => '關閉',
+                ],
             ],
 
             'description' => [
@@ -264,6 +272,10 @@ return [
                     'saved' => '儲存成功',
                     'useing' => '使用中',
                     'used' => '已使用',
+                ],
+                'user_level_status' => [
+                    'on' => '開啟',
+                    'off' => '關閉',
                 ],
             ],
         ],
@@ -455,6 +467,10 @@ return [
                 'no_condition_code' => '找不到篩選會員條件的程式碼',
                 'has_coupon_already' => '會員已經有此折扣碼了',
                 'coupon_valid_days' => '折扣碼有效天數',
+                'point_times' => '點數倍數',
+                'level_up_amount' => '升級條件(金額)',
+                'auto_level_up' => '自動升等',
+                'level_duration' => '等級有效年限',
             ],
             'help' => [
                 'min_order_amount' => '<div style="color:;">訂單需高於此設定金額，此促銷才可生效。</div>',
@@ -486,6 +502,12 @@ return [
                 'objective_product' => '可複選透過目標對象設定好符合條件的商品，做為此促銷的目標商品。<br>如果沒有設定目標商品，則所有商品都會符合條件。',
                 'objective_user' => '可複選透過目標對象設定好符合條件的使用者，做為此促銷的目標使用者。<br>如果沒有設定目標使用者，則所有使用者都會符合條件。',
                 'coupon_valid_days' => '折扣碼有效天數。如果有效期為一個月，則填寫 30。有效期為一年，則填寫 360。',
+                'userlevel_discount_percent' => '消費金額可折扣百分比。如果折扣百分比為 10%，則填寫 10。<br>如果沒有折扣，則留空即可。',
+                'point_times' => '點數倍數。如果點數累積倍數為消費金額的 1.2 倍，則填寫 1.2。<br>如果沒有點數倍數，則填寫 1 即可。最多接受小數點後2位數。',
+                'level_up_amount' => '升級條件(金額)。如果升級條件為 3,000 元，則填寫 3000。<br>如果沒有升級條件，則留空即可。',
+                'userlevel_forever' => '會員等級效期是否永遠有效。',
+                'auto_level_up' => '符合升級條件以後是否自動升等',
+                'level_duration' => '等級有效年限',
             ],
         ],
     ],

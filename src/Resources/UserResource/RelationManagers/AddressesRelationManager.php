@@ -3,6 +3,7 @@
 namespace Sharenjoy\NoahCms\Resources\UserResource\RelationManagers;
 
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,6 +27,11 @@ class AddressesRelationManager extends RelationManager
         return __('noah-cms::noah-cms.address');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->addresses->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -47,7 +53,18 @@ class AddressesRelationManager extends RelationManager
             ->actions([
                 // Tables\Actions\DetachAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function ($action, $record) {
+                        if ($record->is_default) {
+                            Notification::make()
+                                ->danger()
+                                ->title('刪除失敗')
+                                ->body('此筆資料為預設項目，無法刪除。如需要刪除請先將預設項目更改為其他選項！')
+                                ->send();
+
+                            $action->cancel();
+                        }
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

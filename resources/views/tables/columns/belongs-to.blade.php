@@ -8,7 +8,7 @@
     @endphp
 
     @if($getRecord()->{$content['relation_column']})
-    <a href="{{ route('filament.' . \Filament\Facades\Filament::getCurrentPanel()->getId() . '.resources.' . $content['relation_route'] . '.edit', [
+    <a href="{{ route('filament.' . \Filament\Facades\Filament::getCurrentPanel()->getId() . '.resources.' . $content['relation_route'] . '.'.($content['operation'] ?? 'edit'), [
             'record' => $getRecord()->{$content['relation_column']},
     ]) }}"><span class="link-text">{!! $state !!}</span></a>
     @else

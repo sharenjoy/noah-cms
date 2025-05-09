@@ -41,19 +41,6 @@ class Address extends Model
                     ->update(['is_default' => false]);
             }
         });
-
-        // 當地址刪除時，處理 is_default 邏輯
-        static::deleted(function (Address $address) {
-            if ($address->is_default) {
-                $firstAddress = Address::where('user_id', $address->user_id)
-                    ->orderBy('created_at', 'asc')
-                    ->first();
-
-                if ($firstAddress) {
-                    $firstAddress->update(['is_default' => true]);
-                }
-            }
-        });
     }
 
     protected function formFields(): array

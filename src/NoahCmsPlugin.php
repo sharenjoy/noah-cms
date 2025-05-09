@@ -47,6 +47,7 @@ class NoahCmsPlugin implements Plugin
                 Resources\Shop\MinSpendPromoResource::class,
                 Resources\Shop\MinQuantityPromoResource::class,
                 Resources\Shop\ObjectiveResource::class,
+                Resources\Shop\UserLevelResource::class,
             ])
             ->pages([
                 Activities::class,

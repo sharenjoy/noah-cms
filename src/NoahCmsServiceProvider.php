@@ -46,8 +46,8 @@ class NoahCmsServiceProvider extends PackageServiceProvider
     {
         \Illuminate\Database\Eloquent\Model::unguard();
 
-        Schedule::command('noah-cms:update-objective-targets')->dailyAt('0:30');
-        Schedule::command('noah-cms:generate-coupon-promos')->dailyAt('01:00');
+        Schedule::command('noah-cms:update-objective-targets')->dailyAt('00:30');
+        Schedule::command('noah-cms:generate-coupon-promos')->dailyAt('01:30');
 
         \Filament\Tables\Actions\CreateAction::configureUsing(function ($action) {
             return $action->slideOver();

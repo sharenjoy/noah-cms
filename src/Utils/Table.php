@@ -24,13 +24,14 @@ class Table
             }
 
             $class = str()->studly((isset($content['alias']) ? $content['alias'] : $name));
+            $column = null;
 
             if (class_exists('\\App\\Filament\\Utils\\Tables\\' . $class)) {
                 // custom class
-                $columns[] = new ("\\App\\Filament\\Utils\\Tables\\$class")(fieldName: $name, content: $content)->make();
+                $column = new ("\\App\\Filament\\Utils\\Tables\\$class")(fieldName: $name, content: $content)->make();
             } elseif (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Tables\\' . $class)) {
                 // class
-                $columns[] = new ("\\Sharenjoy\\NoahCms\\Utils\\Tables\\$class")(fieldName: $name, content: $content)->make();
+                $column = new ("\\Sharenjoy\\NoahCms\\Utils\\Tables\\$class")(fieldName: $name, content: $content)->make();
             } else {
                 // others
                 if ($name == 'title') {
@@ -38,23 +39,23 @@ class Table
                     if ($content['description'] ?? false) {
                         $field = $field->description(fn(Model $record): string => str($record->description)->limit(80))->searchable(['title', 'description']);
                     }
-                    $columns[] = $field->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = $field->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'thumbnail') {
-                    $columns[] = MediaColumn::make($name)->label(__('noah-cms::noah-cms.image'))->circular()->size($content['size'] ?? 40)->alignCenter()->defaultImageUrl(asset('vendor/noah-cms/images/placeholder.svg'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = MediaColumn::make($name)->label(__('noah-cms::noah-cms.image'))->circular()->size($content['size'] ?? 40)->alignCenter()->defaultImageUrl(asset('vendor/noah-cms/images/placeholder.svg'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'slug') {
-                    $columns[] = TextColumn::make($name)->label('Slug')->searchable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = TextColumn::make($name)->label('Slug')->searchable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'categories') {
-                    $columns[] = TextColumn::make('categories.title')->label(__('noah-cms::noah-cms.categories'))->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = TextColumn::make('categories.title')->label(__('noah-cms::noah-cms.categories'))->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'tags') {
-                    $columns[] = SpatieTagsColumn::make($name)->label(__('noah-cms::noah-cms.tag'))->type($content['tagType'])->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = SpatieTagsColumn::make($name)->label(__('noah-cms::noah-cms.tag'))->type($content['tagType'])->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'roles') {
-                    $columns[] = TextColumn::make('roles.name')->label(__('noah-cms::noah-cms.role'))->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = TextColumn::make('roles.name')->label(__('noah-cms::noah-cms.role'))->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'seo') {
                     if (! config('noah-cms.featureToggle.seo')) {
                         continue;
                     }
 
-                    $columns[] = IconColumn::make($name)->label(__('noah-cms::noah-cms.seo'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false)
+                    $column = IconColumn::make($name)->label(__('noah-cms::noah-cms.seo'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false)
                         ->size(IconColumn\IconColumnSize::Medium)
                         ->icon(fn(string $state): string => match ($state) {
                             'green' => 'heroicon-c-check',
@@ -73,13 +74,13 @@ class Table
                             return 'red';
                         });
                 } elseif ($name == 'is_active') {
-                    $columns[] = IconColumn::make($name)->label(__('noah-cms::noah-cms.is_active'))->boolean()->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = IconColumn::make($name)->label(__('noah-cms::noah-cms.is_active'))->boolean()->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'published_at') {
-                    $columns[] = TextColumn::make($name)->label(__('noah-cms::noah-cms.published_at'))->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = TextColumn::make($name)->label(__('noah-cms::noah-cms.published_at'))->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'created_at') {
-                    $columns[] = TextColumn::make($name)->label(__('noah-cms::noah-cms.created_at'))->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = TextColumn::make($name)->label(__('noah-cms::noah-cms.created_at'))->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'updated_at') {
-                    $columns[] = TextColumn::make($name)->label(__('noah-cms::noah-cms.updated_at'))->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = TextColumn::make($name)->label(__('noah-cms::noah-cms.updated_at'))->since()->dateTimeTooltip('Y-m-d H:i:s')->sortable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } else {
                     if (($content['type'] ?? []) == 'number') {
                         $summarize = [];
@@ -98,9 +99,15 @@ class Table
                         $item = TextColumn::make($name)->searchable()->placeholder('-')->sortable();
                     }
 
-                    $columns[] = $item->label(__('noah-cms::noah-cms.' . ($content['label'] ?? $name)))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = $item->label(__('noah-cms::noah-cms.' . ($content['label'] ?? $name)))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 }
             }
+
+            if (isset($content['suffix'])) {
+                $column = $column->suffix($content['suffix']);
+            }
+
+            $columns[] = $column;
         }
 
         return $columns;

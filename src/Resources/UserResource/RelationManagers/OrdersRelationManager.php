@@ -26,6 +26,11 @@ class OrdersRelationManager extends RelationManager
         return __('noah-cms::noah-cms.order');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->orders->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form

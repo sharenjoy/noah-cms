@@ -17,6 +17,7 @@ use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\ObjectivesRelation
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\OrdersRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\RolesRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\UserCouponsRelationManager;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\UserLevelStatusesRelationManager;
 
 class UserResource extends Resource implements HasShieldPermissions
 {
@@ -68,6 +69,7 @@ class UserResource extends Resource implements HasShieldPermissions
             OrdersRelationManager::class,
             UserCouponsRelationManager::class,
             ObjectivesRelationManager::class,
+            UserLevelStatusesRelationManager::class,
             AddressesRelationManager::class,
             RolesRelationManager::class,
         ];

@@ -3,10 +3,10 @@
 namespace Sharenjoy\NoahCms\Policies;
 
 use Sharenjoy\NoahCms\Models\User;
-use Sharenjoy\NoahCms\Models\MinQuantityPromo;
+use Sharenjoy\NoahCms\Models\UserLevel;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MinQuantityPromoPolicy
+class UserLevelPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class MinQuantityPromoPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_shop::min::quantity::promo');
+        return $user->can('view_any_shop::user::level');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, MinQuantityPromo $minQuantityPromo): bool
+    public function view(User $user, UserLevel $userLevel): bool
     {
-        return $user->can('view_shop::min::quantity::promo');
+        return $user->can('view_shop::user::level');
     }
 
     /**
@@ -31,23 +31,23 @@ class MinQuantityPromoPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_shop::min::quantity::promo');
+        return $user->can('create_shop::user::level');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, MinQuantityPromo $minQuantityPromo): bool
+    public function update(User $user, UserLevel $userLevel): bool
     {
-        return $user->can('update_shop::min::quantity::promo');
+        return $user->can('update_shop::user::level');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, MinQuantityPromo $minQuantityPromo): bool
+    public function delete(User $user, UserLevel $userLevel): bool
     {
-        return $user->can('delete_shop::min::quantity::promo');
+        return $user->can('delete_shop::user::level');
     }
 
     /**
@@ -55,15 +55,15 @@ class MinQuantityPromoPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_shop::min::quantity::promo');
+        return $user->can('delete_any_shop::user::level');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, MinQuantityPromo $minQuantityPromo): bool
+    public function forceDelete(User $user, UserLevel $userLevel): bool
     {
-        return $user->can('force_delete_shop::min::quantity::promo');
+        return $user->can('force_delete_shop::user::level');
     }
 
     /**
@@ -71,15 +71,15 @@ class MinQuantityPromoPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_shop::min::quantity::promo');
+        return $user->can('force_delete_any_shop::user::level');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, MinQuantityPromo $minQuantityPromo): bool
+    public function restore(User $user, UserLevel $userLevel): bool
     {
-        return $user->can('restore_shop::min::quantity::promo');
+        return $user->can('restore_shop::user::level');
     }
 
     /**
@@ -87,13 +87,13 @@ class MinQuantityPromoPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_shop::min::quantity::promo');
+        return $user->can('restore_any_shop::user::level');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, MinQuantityPromo $minQuantityPromo): bool
+    public function replicate(User $user, UserLevel $userLevel): bool
     {
         return $user->can('{{ Replicate }}');
     }
@@ -103,6 +103,6 @@ class MinQuantityPromoPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('{{ Reorder }}');
+        return $user->can('reorder_shop::user::level');
     }
 }

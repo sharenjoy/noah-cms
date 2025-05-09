@@ -36,7 +36,7 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-viewfinder-circle';
 
-    protected static ?int $navigationSort = 28;
+    protected static ?int $navigationSort = 18;
 
     public static function getNavigationGroup(): ?string
     {

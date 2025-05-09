@@ -4,19 +4,21 @@ namespace Sharenjoy\NoahCms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Sharenjoy\NoahCms\Enums\UserCouponStatus;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Models\UserCouponStatus;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class UserCoupon extends Model
 {
     use CommonModelTrait;
     use LogsActivity;
+    use SoftDeletes;
 
     protected $casts = [
-        'status' => UserCouponStatus::class,
         'started_at' => 'datetime',
         'expired_at' => 'datetime',
     ];
@@ -27,7 +29,6 @@ class UserCoupon extends Model
         'promo.title' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'promo', 'relation' => 'shop.coupon-promos', 'relation_route' => 'shop.coupon-promos', 'relation_column' => 'promo_id'],
         'user.name' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'user', 'relation' => 'user'],
         'code' => ['label' => 'coupon_promo'],
-        'status' => ['model' => 'UserCouponStatus'],
         'started_at' => ['label' => 'shop.promo.title.started_at'],
         'expired_at' => ['label' => 'shop.promo.title.expired_at'],
         'created_at' => ['isToggledHiddenByDefault' => true],
@@ -42,5 +43,10 @@ class UserCoupon extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function userCouponStatuses(): HasMany
+    {
+        return $this->hasMany(UserCouponStatus::class);
     }
 }

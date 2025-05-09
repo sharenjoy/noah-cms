@@ -26,6 +26,11 @@ class ObjectivesRelationManager extends RelationManager
         return __('noah-cms::noah-cms.objective');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->objectives->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form

@@ -27,6 +27,11 @@ class RolesRelationManager extends RelationManager
         return __('noah-cms::noah-cms.role');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->roles->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form

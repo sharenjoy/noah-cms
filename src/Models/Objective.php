@@ -4,6 +4,7 @@ namespace Sharenjoy\NoahCms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Sharenjoy\NoahCms\Enums\ObjectiveStatus;
 use Sharenjoy\NoahCms\Enums\ObjectiveType;
 use Sharenjoy\NoahCms\Models\Product;
@@ -16,6 +17,7 @@ class Objective extends Model
 {
     use CommonModelTrait;
     use LogsActivity;
+    use SoftDeletes;
 
     protected $casts = [
         'type' => ObjectiveType::class,
@@ -43,8 +45,7 @@ class Objective extends Model
     protected function tableFields(): array
     {
         return [
-            'title' => [],
-            'description' => [],
+            'title' => ['description' => true],
             'type' => ['alias' => 'status', 'label' => 'type', 'model' => 'objective'],
             'relation_count' => ['label' => 'products_count', 'relation' => 'products'],
             'user_relation_count' => ['alias' => 'relation_count', 'label' => 'users_count', 'relation' => 'users'],

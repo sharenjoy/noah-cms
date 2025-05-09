@@ -13,22 +13,29 @@ use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 use Sharenjoy\NoahCms\Actions\GenerateUserSeriesNumber;
 use Sharenjoy\NoahCms\Actions\Shop\FetchCountryRelatedSelectOptions;
 use Sharenjoy\NoahCms\Enums\ObjectiveType;
+use Sharenjoy\NoahCms\Enums\UserLevelStatus as EnumsUserLevelStatus;
 use Sharenjoy\NoahCms\Models\Address;
 use Sharenjoy\NoahCms\Models\Objective;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Sharenjoy\NoahCms\Models\UserCoupon;
+use Sharenjoy\NoahCms\Models\UserCouponStatus;
+use Sharenjoy\NoahCms\Models\UserLevel;
+use Sharenjoy\NoahCms\Models\UserLevelStatus;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -66,6 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     protected array $tableFields = [
         'sn' => [],
+        'userLevel.title' =>  ['alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'shop.userLevel', 'relation_route' => 'shop.userLevel', 'relation_column' => 'user_level_id'],
         'name' => [],
         'email' => [],
         'roles' => [],
@@ -86,6 +94,45 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             if (!$model->sn) {
                 $model->sn = GenerateUserSeriesNumber::run('M');
             }
+
+            $userLevel = UserLevel::where('is_default', true)->first();
+            if ($userLevel && !$model->user_level_id) {
+                $model->user_level_id = $userLevel->id;
+            }
+        });
+
+        // 用戶建立後將預設的會員等級指定給會員
+        static::created(function ($model) {
+            if ($model->user_level_id) {
+                $userLevel = UserLevel::find($model->user_level_id);
+                // 創建用戶等級狀態
+                $model->userLevelStatuses()->create([
+                    'user_level_id' => $userLevel->id,
+                    'status' => EnumsUserLevelStatus::On->value,
+                    'started_at' => now(),
+                    'expired_at' => now()->addYears($userLevel->level_duration ?? 100)->endOfDay(), // 設置過期時間，且不設置過期時間的話，則預設為 100 年
+                ]);
+            }
+        });
+
+        // 當用戶更新時，如果會員等級資料有變更，則更新會員等級狀態
+        static::updating(function ($model) {
+            if ($model->isDirty('user_level_id')) {
+                $userLevelStatus = $model->userLevelStatuses()->get();
+                // 如果有會員等級狀態，則將其狀態設置為 Off
+                foreach ($userLevelStatus as $status) {
+                    $status->update([
+                        'status' => EnumsUserLevelStatus::Off->value,
+                    ]);
+                }
+                // 這裡的邏輯是將所有會員等級狀態設置為 Off，然後再創建一個新的會員等級狀態
+                $model->userLevelStatuses()->create([
+                    'user_level_id' => $model->user_level_id,
+                    'status' => EnumsUserLevelStatus::On->value,
+                    'started_at' => now(),
+                    'expired_at' => now()->addYears($model->userLevel->level_duration ?? 100)->endOfDay(), // 設置過期時間，且不設置過期時間的話，則預設為 100 年
+                ]);
+            }
         });
     }
 
@@ -93,6 +140,16 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         return [
             'left' => [
+                'user_level_id' => Section::make()->schema([
+                    Select::make('user_level_id')
+                        ->label(__('noah-cms::noah-cms.user_level'))
+                        ->helperText(new HtmlString(__('noah-cms::noah-cms.super_admin_only')))
+                        ->relationship('userLevel', 'title')
+                        // ->searchable()
+                        ->required()
+                        // 只有最高權限角色可以編輯
+                        ->disabled(fn(Get $get): bool => $get('id') && !auth()->user()->isSuperAdmin()),
+                ])->visible(fn($operation): bool => $operation == 'edit'),
                 'name' => [
                     'required' => true,
                     'rules' => ['required', 'string'],
@@ -121,6 +178,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                             ->required(),
                         TextInput::make('mobile')->placeholder('0912345678')->label(__('noah-cms::noah-cms.activity.label.mobile'))->required(),
                     ]),
+            ],
+            'right' => [
                 'birthday' => Section::make()->schema([
                     DatePicker::make('birthday')
                         ->label(__('noah-cms::noah-cms.shop.promo.title.birthday'))
@@ -135,8 +194,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                         ->native(false)
                         ->closeOnDateSelection()
                 ]),
-            ],
-            'right' => [
                 'tags' => ['min' => 0, 'max' => 3, 'multiple' => true],
             ],
         ];
@@ -203,6 +260,21 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function coupons(): HasMany
     {
         return $this->hasMany(UserCoupon::class);
+    }
+
+    public function userLevel(): BelongsTo
+    {
+        return $this->belongsTo(UserLevel::class)->orderBy('order_column', 'asc');
+    }
+
+    public function userLevelStatuses(): HasMany
+    {
+        return $this->hasMany(UserLevelStatus::class);
+    }
+
+    public function userCouponStatuses(): HasMany
+    {
+        return $this->hasMany(UserCouponStatus::class);
     }
 
     /**

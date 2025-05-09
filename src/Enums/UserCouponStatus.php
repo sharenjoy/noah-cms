@@ -41,9 +41,9 @@ enum UserCouponStatus: string implements HasLabel, HasDescription, HasColor
     {
         return match ($this) {
             self::Assigned => Color::Blue,
-            self::Saved => Color::Blue,
-            self::Useing => Color::Blue,
-            self::Used => Color::Blue,
+            self::Saved => Color::Orange,
+            self::Useing => Color::Green,
+            self::Used => Color::Purple,
         };
     }
 }
