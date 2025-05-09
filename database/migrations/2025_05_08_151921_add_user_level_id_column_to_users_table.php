@@ -12,12 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->after('email', function (Blueprint $table) {
-                $table->string('sn')->unique();
-                $table->string('calling_code')->nullable();
-                $table->string('mobile')->nullable();
-                $table->string('birthday')->nullable();
-            });
+            $table->foreignId('user_level_id')->nullable()->after('id')->constrained('user_levels')->onDelete('cascade')->after('id');
         });
     }
 
@@ -27,10 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('sn');
-            $table->dropColumn('calling_code');
-            $table->dropColumn('mobile');
-            $table->dropColumn('birthday');
+            $table->dropForeign(['user_level_id']);
+            $table->dropColumn('user_level_id');
         });
     }
 };

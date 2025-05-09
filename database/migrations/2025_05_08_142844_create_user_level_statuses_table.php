@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_coupons', function (Blueprint $table) {
+        Schema::create('user_level_statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('promo_id')->constrained()->onDelete('cascade'); // 所屬會員
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // 所屬會員
-            $table->string('status'); // 狀態（例如 new、used、expired）
-            $table->string('code')->unique()->index();           // 專屬折扣碼（例如 BDAY-2025-0001）
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('user_level_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('status', 100);
             $table->timestamp('started_at')->nullable();
             $table->datetime('expired_at')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_coupons');
+        Schema::dropIfExists('user_level_statuses');
     }
 };

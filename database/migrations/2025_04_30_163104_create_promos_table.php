@@ -65,8 +65,8 @@ return new class extends Migration
             $table->boolean('is_active')->default(false)->index();
             $table->unsignedInteger('order_column')->nullable();
             $table->timestamp('started_at')->nullable();
-            $table->timestamp('expired_at')->nullable();
-            $table->timestamp('display_expired_at')->nullable();
+            $table->datetime('expired_at')->nullable();
+            $table->datetime('display_expired_at')->nullable();
             $table->timestamp('published_at');
             $table->timestamps();
             $table->softDeletes();
