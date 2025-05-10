@@ -321,6 +321,7 @@ return [
                 'promo_discount' => [
                     'amount' => '折扣金額',
                     'percent' => '折扣百分比',
+                    'gift' => '贈品',
                 ],
                 'promo_auto_generate' => [
                     'never' => '單次不循環',
@@ -331,6 +332,11 @@ return [
                 'objective' => [
                     'user' => '使用者',
                     'product' => '商品',
+                ],
+                'order_item' => [
+                    'product' => '商品',
+                    'group' => '組合商品',
+                    'giftproduct' => '贈品',
                 ],
             ],
 
@@ -373,6 +379,7 @@ return [
                 'promo_discount' => [
                     'amount' => '折扣金額',
                     'percent' => '折扣百分比',
+                    'gift' => '贈品',
                 ],
                 'promo_auto_generate' => [
                     'never' => '單次不循環',
@@ -383,6 +390,11 @@ return [
                 'objective' => [
                     'user' => '使用者',
                     'product' => '商品',
+                ],
+                'order_item' => [
+                    'product' => '商品',
+                    'group' => '組合商品',
+                    'giftproduct' => '贈品',
                 ],
             ],
         ],
@@ -473,6 +485,7 @@ return [
                 'auto_level_up' => '自動升等',
                 'level_duration' => '等級有效年限',
                 'extend_condition' => '額外條件',
+                'gitproduct' => '贈品',
             ],
             'help' => [
                 'min_order_amount' => '<div style="color:;">訂單需高於此設定金額，此促銷才可生效。</div>',
@@ -512,6 +525,7 @@ return [
                 'auto_level_up' => '符合升級條件以後是否自動升等',
                 'level_duration' => '等級有效年限',
                 'extend_condition' => '額外條件',
+                'gitproduct' => '可選擇多個贈品，贈品將會以0元的方式贈送。贈品的銷售也會與庫存連動，注意促銷可使用數量限制的設定！',
             ],
         ],
     ],

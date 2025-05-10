@@ -6,8 +6,10 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\UserCoupon;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\UserCouponStatusesRelationManager;
 
 class UserCouponsRelationManager extends RelationManager
 {
@@ -46,6 +48,9 @@ class UserCouponsRelationManager extends RelationManager
             ->actions([
                 // Tables\Actions\DetachAction::make(),
                 // Tables\Actions\EditAction::make(),
+                RelationManagerAction::make('user-coupon-status-relation-manager')
+                    ->label(__('noah-cms::noah-cms.user_coupon_statuses'))
+                    ->relationManager(UserCouponStatusesRelationManager::make()),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

@@ -15,12 +15,14 @@ enum PromoDiscountType: string implements HasLabel, HasDescription, HasIcon, Has
 
     case Amount = 'amount';
     case Percent = 'percent';
+    case Gift = 'gift';
 
     public function getLabel(): ?string
     {
         return match ($this) {
             self::Amount => __('noah-cms::noah-cms.shop.type.title.promo_discount.amount'),
             self::Percent => __('noah-cms::noah-cms.shop.type.title.promo_discount.percent'),
+            self::Gift => __('noah-cms::noah-cms.shop.type.title.promo_discount.gift'),
         };
     }
 
@@ -29,14 +31,16 @@ enum PromoDiscountType: string implements HasLabel, HasDescription, HasIcon, Has
         return match ($this) {
             self::Amount => __('noah-cms::noah-cms.shop.type.description.promo_discount.amount'),
             self::Percent => __('noah-cms::noah-cms.shop.type.description.promo_discount.percent'),
+            self::Gift => __('noah-cms::noah-cms.shop.type.description.promo_discount.gift'),
         };
     }
 
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::Amount => 'heroicon-o-newspaper',
-            self::Percent => 'heroicon-c-trophy',
+            self::Amount => 'heroicon-o-currency-dollar',
+            self::Percent => 'heroicon-o-percent-badge',
+            self::Gift => 'heroicon-o-gift-top',
         };
     }
 
@@ -45,6 +49,7 @@ enum PromoDiscountType: string implements HasLabel, HasDescription, HasIcon, Has
         return match ($this) {
             self::Amount => Color::Blue,
             self::Percent => Color::Amber,
+            self::Gift => Color::Amber,
         };
     }
 }

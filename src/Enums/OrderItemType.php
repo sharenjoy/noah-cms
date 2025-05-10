@@ -9,38 +9,29 @@ use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
-enum OrderItemType: string implements HasLabel, HasDescription, HasIcon, HasColor
+enum OrderItemType: string implements HasLabel, HasDescription, HasColor
 {
     use BaseEnum;
 
     case Product = 'product';
     case Group = 'group';
-    case Freegift = 'freegift';
+    case GiftProduct = 'giftproduct';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Product => __('noah-cms::noah-cms.shop.type.order_item.product'),
-            self::Group => __('noah-cms::noah-cms.shop.type.order_item.group'),
-            self::Freegift => __('noah-cms::noah-cms.shop.type.order_item.freegift'),
+            self::Product => __('noah-cms::noah-cms.shop.type.title.order_item.product'),
+            self::Group => __('noah-cms::noah-cms.shop.type.title.order_item.group'),
+            self::GiftProduct => __('noah-cms::noah-cms.shop.type.title.order_item.giftproduct'),
         };
     }
 
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::Product => '描述.',
-            self::Group => '描述.',
-            self::Freegift => '描述.',
-        };
-    }
-
-    public function getIcon(): ?string
-    {
-        return match ($this) {
-            self::Product => 'heroicon-o-newspaper',
-            self::Group => 'heroicon-c-trophy',
-            self::Freegift => 'heroicon-c-trophy',
+            self::Product => __('noah-cms::noah-cms.shop.type.description.order_item.product'),
+            self::Group => __('noah-cms::noah-cms.shop.type.description.order_item.group'),
+            self::GiftProduct => __('noah-cms::noah-cms.shop.type.description.order_item.giftproduct'),
         };
     }
 
@@ -49,7 +40,7 @@ enum OrderItemType: string implements HasLabel, HasDescription, HasIcon, HasColo
         return match ($this) {
             self::Product => Color::Blue,
             self::Group => Color::Amber,
-            self::Freegift => Color::Amber,
+            self::GiftProduct => Color::Orange,
         };
     }
 }

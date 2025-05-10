@@ -6,6 +6,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Sharenjoy\NoahCms\Enums\OrderItemType;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
@@ -19,6 +20,7 @@ class OrderItem extends Model
     use HasPromos;
 
     protected $casts = [
+        'type' => OrderItemType::class,
         'preorder' => 'boolean',
         'quantity' => 'integer',
         'product_details' => 'json',
@@ -44,6 +46,11 @@ class OrderItem extends Model
             'spec_img' => ['alias' => 'image'],
             'product.title' => ['alias' => 'belongs_to', 'label' => 'product_title', 'relation' => 'product'],
             'productSpecification.spec_detail_name' => ['alias' => 'belongs_to', 'label' => 'spec_detail_name', 'relation' => 'productSpecification'],
+            'type' => TextColumn::make('type')
+                ->label(__('noah-cms::noah-cms.type'))
+                ->sortable()
+                ->searchable()
+                ->badge(OrderItemType::class),
             'price' => ['type' => 'number', 'summarize' => ['sum']],
             'discount' => ['type' => 'number', 'summarize' => ['sum']],
             'currency' => [],

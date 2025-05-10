@@ -150,6 +150,16 @@ trait PromoableResource
                                         ->numeric()
                                         ->minValue(0)
                                         ->visible(fn(Get $get): bool => $get('discount_type') == PromoDiscountType::Percent->value),
+                                    Select::make('giftproducts')
+                                        ->label(__('noah-cms::noah-cms.shop.promo.title.gitproduct'))
+                                        ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.gitproduct')))
+                                        ->prefixIcon('heroicon-o-gift-top')
+                                        ->preload()
+                                        ->multiple()
+                                        ->required()
+                                        ->relationship(name: 'giftproducts', titleAttribute: 'title')
+                                        ->searchable(['title', 'description'])
+                                        ->visible(fn(Get $get): bool => $get('discount_type') == PromoDiscountType::Gift->value),
                                 ]),
                         ]),
                 ],

@@ -15,7 +15,6 @@ use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 use Sharenjoy\NoahCms\Models\Giftproduct;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
-use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\ProductsRelationManager;
 use Sharenjoy\NoahCms\Resources\GiftproductResource\Pages;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
@@ -64,8 +63,7 @@ class GiftproductResource extends Resource implements HasShieldPermissions
                             $set('img', $productSpec->img ?? $product->img);
                             $set('album', $productSpec->album ?? $product->album);
                         })
-                        ->distinct()
-                        ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
+                        ->distinct(),
                 ]),
                 Shout::make('')
                     ->content(new HtmlString('請選擇對應的商品規格以後，下方的贈品內容會自動抓取商品規格與商品的內容。<br>當然您也可以自訂贈品的內容！'))

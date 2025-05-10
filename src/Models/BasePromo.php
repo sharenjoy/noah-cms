@@ -20,6 +20,7 @@ use Sharenjoy\NoahCms\Enums\ObjectiveType;
 use Sharenjoy\NoahCms\Enums\PromoAutoGenerateType;
 use Sharenjoy\NoahCms\Enums\PromoDiscountType;
 use Sharenjoy\NoahCms\Enums\PromoType;
+use Sharenjoy\NoahCms\Models\Giftproduct;
 use Sharenjoy\NoahCms\Models\Menu;
 use Sharenjoy\NoahCms\Models\Objective;
 use Sharenjoy\NoahCms\Models\OrderItem;
@@ -173,6 +174,11 @@ class BasePromo extends Model
     public function menus(): MorphToMany
     {
         return $this->morphedByMany(Menu::class, 'promoable', foreignPivotKey: 'promo_id', relatedPivotKey: 'promoable_id');
+    }
+
+    public function giftproducts(): MorphToMany
+    {
+        return $this->morphedByMany(Giftproduct::class, 'promoable', foreignPivotKey: 'promo_id', relatedPivotKey: 'promoable_id');
     }
 
     public function objectives(): MorphToMany
