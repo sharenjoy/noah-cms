@@ -13,7 +13,7 @@ class Image extends TableAbstract implements TableInterface
     {
         return ImageColumn::make('img')
             ->label(__('noah-cms::noah-cms.image'))
-            ->circular()
+            ->square()
             ->size($content['size'] ?? 40)
             ->alignCenter()
             ->defaultImageUrl(function ($record) {

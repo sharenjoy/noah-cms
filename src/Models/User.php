@@ -302,6 +302,13 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $this->hasRole('super_admin') && Auth::user()->email == 'ronald.jian@gmail.com';
     }
 
+    public function scopeSuperAdminAndCreater($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            $query->where('name', 'super_admin');
+        })->where('email', 'ronald.jian@gmail.com');
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return true;

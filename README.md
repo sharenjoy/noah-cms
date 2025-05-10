@@ -124,6 +124,76 @@ Update resources/css/filament/noah/theme.css
 @import "/vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css";
 
 @config 'tailwind.config.js';
+
+aside {
+    background-color: rgb(243 243 243) !important;
+}
+.fi-main-ctn {
+    background-color: rgb(248 248 248) !important;
+}
+aside nav ul.fi-sidebar-group-items li.fi-active a {
+    background-color: rgb(250 250 250) !important;
+}
+aside nav ul.fi-sidebar-group-items li a:hover {
+    background-color: rgb(255, 255, 255) !important;
+}
+ul li.fi-sidebar-group .fi-sidebar-group-label {
+    color: #000 !important;
+}
+.fi-ta-image img {
+    border-radius: 0.5rem !important;
+}
+
+@media (min-width: 1681px) {
+    aside nav ul.fi-sidebar-nav-groups {
+        row-gap: 1.3rem !important;
+    }
+    .fi-sidebar-item a {
+        padding: 0.42rem !important;
+    }
+    .fi-sidebar-item a span.fi-badge {
+        padding: 0.15rem !important;
+    }
+    .fi-sidebar-item-icon,
+    .fi-sidebar-item-grouped-border {
+        width: 1.3rem !important;
+        height: 1.3rem !important;
+    }
+}
+
+@media (max-width: 1680px) {
+    aside {
+        width: 12rem !important;
+    }
+    aside nav {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+        padding-left: 1.3rem !important;
+        padding-right: 0.8rem !important;
+    }
+    aside nav ul.fi-sidebar-nav-groups {
+        row-gap: 1.3rem !important;
+    }
+    main {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+    .fi-sidebar-item a {
+        padding: 0.15rem !important;
+        column-gap: 0.4rem !important;
+    }
+    .fi-sidebar-item a span {
+        font-size: 0.8rem !important;
+    }
+    .fi-sidebar-item a span.fi-badge {
+        padding: 0rem !important;
+    }
+    .fi-sidebar-item-icon,
+    .fi-sidebar-item-grouped-border {
+        width: 1.1rem !important;
+        height: 1.1rem !important;
+    }
+}
 ```
 
 Update resources/css/filament/noah/tailwind.config.js
@@ -141,6 +211,7 @@ export default {
         "./vendor/awcodes/filament-tiptap-editor/resources/**/*.blade.php",
         "./vendor/solution-forest/filament-tree/resources/**/*.blade.php",
         "./vendor/ralphjsmit/laravel-filament-activitylog/resources/**/*.blade.php",
+        "./vendor/guava/filament-modal-relation-managers/resources/**/*.blade.php",
     ],
 };
 ```

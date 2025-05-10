@@ -97,11 +97,11 @@ class Settings extends BaseSettings
 
                             ]),
                         ]),
-                    Tabs\Tab::make('promo')
+                    Tabs\Tab::make('shop')
                         ->label('促銷相關')
                         ->schema([
                             Section::make('折扣設定')->schema([
-                                Radio::make('order.decimal_point_calculate_type')
+                                Radio::make('shop.decimal_point_calculate_type')
                                     ->label(__('noah-cms::noah-cms.shop.promo.title.decimal_point_calculate_type'))
                                     ->options([
                                         'floor' => '無條件捨去',
@@ -113,7 +113,7 @@ class Settings extends BaseSettings
                                 Fieldset::make('百分比折抵方式')
                                     ->columns(1)
                                     ->schema([
-                                        Radio::make('order.discount_percent_amount_type')
+                                        Radio::make('shop.discount_percent_amount_type')
                                             ->label(__('noah-cms::noah-cms.shop.promo.title.discount_percent_amount_type'))
                                             ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.discount_percent_amount_type')))
                                             ->options([
@@ -123,7 +123,7 @@ class Settings extends BaseSettings
                                             ->inline()
                                             ->inlineLabel(false)
                                             ->live(),
-                                        Radio::make('order.discount_percent_calculate_type')
+                                        Radio::make('shop.discount_percent_calculate_type')
                                             ->label(__('noah-cms::noah-cms.shop.promo.title.discount_percent_calculate_type'))
                                             ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.discount_percent_calculate_type')))
                                             ->options([
@@ -132,15 +132,65 @@ class Settings extends BaseSettings
                                             ])
                                             ->inline()
                                             ->inlineLabel(false)
-                                            ->visible(fn(Get $get): bool => $get('order.discount_percent_amount_type') == 'entire'),
-
+                                            ->visible(fn(Get $get): bool => $get('shop.discount_percent_amount_type') == 'entire'),
                                     ]),
-
                             ]),
+                        ]),
+                    Tabs\Tab::make('code')
+                        ->label('語法相關')
+                        ->visible(fn(): bool => Auth::user()->isSuperAdminAndCreater())
+                        ->schema([
                             Section::make('折扣碼條件設定(此區塊保留給維護工程人員使用)')
-                                ->visible(fn(): bool => Auth::user()->isSuperAdminAndCreater())
                                 ->schema([
-                                    Repeater::make('order.promo_conditions')
+                                    Repeater::make('code.promo_conditions')
+                                        ->label('折扣碼條件')
+                                        ->schema([
+                                            TextInput::make('name')
+                                                ->label('條件名稱')
+                                                ->required()
+                                                ->placeholder('輸入條件名稱'),
+
+                                            Textarea::make('code')
+                                                ->label('條件程式碼')
+                                                ->rows(5)
+                                                ->required()
+                                                ->placeholder('輸入條件程式碼')
+                                        ])
+                                        ->addActionLabel('新增條件') // 自訂新增按鈕的文字
+                                        ->collapsible(false) // 允許展開/摺疊每個項目
+                                        ->defaultItems(1) // 預設新增一個條件
+                                        ->deletable(true) // 禁止刪除
+                                        ->reorderable(true)
+                                        ->minItems(1), // 最少需要一個條件
+
+                                ]),
+                            Section::make('使用者條件設定(此區塊保留給維護工程人員使用)')
+                                ->schema([
+                                    Repeater::make('code.user_conditions')
+                                        ->label('折扣碼條件')
+                                        ->schema([
+                                            TextInput::make('name')
+                                                ->label('條件名稱')
+                                                ->required()
+                                                ->placeholder('輸入條件名稱'),
+
+                                            Textarea::make('code')
+                                                ->label('條件程式碼')
+                                                ->rows(5)
+                                                ->required()
+                                                ->placeholder('輸入條件程式碼')
+                                        ])
+                                        ->addActionLabel('新增條件') // 自訂新增按鈕的文字
+                                        ->collapsible(false) // 允許展開/摺疊每個項目
+                                        ->defaultItems(1) // 預設新增一個條件
+                                        ->deletable(true) // 禁止刪除
+                                        ->reorderable(true)
+                                        ->minItems(1), // 最少需要一個條件
+
+                                ]),
+                            Section::make('商品條件設定(此區塊保留給維護工程人員使用)')
+                                ->schema([
+                                    Repeater::make('code.product_conditions')
                                         ->label('折扣碼條件')
                                         ->schema([
                                             TextInput::make('name')

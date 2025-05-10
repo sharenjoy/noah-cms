@@ -5,7 +5,6 @@ namespace Sharenjoy\NoahCms\Resources\Shop;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -17,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 use Sharenjoy\NoahCms\Actions\Shop\FetchAddressRelatedSelectOptions;
 use Sharenjoy\NoahCms\Actions\Shop\FetchCountryRelatedSelectOptions;
+use Sharenjoy\NoahCms\Actions\Shop\GetDeCryptExtendCondition;
 use Sharenjoy\NoahCms\Actions\Shop\ResolveObjectiveTarget;
 use Sharenjoy\NoahCms\Enums\ObjectiveType;
 use Sharenjoy\NoahCms\Models\Category;
@@ -24,6 +24,7 @@ use Sharenjoy\NoahCms\Models\Objective;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\Tag;
 use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Models\UserLevel;
 use Sharenjoy\NoahCms\Resources\Shop\ObjectiveResource\Pages;
 use Sharenjoy\NoahCms\Resources\Shop\ObjectiveResource\RelationManagers\PromosRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
@@ -36,7 +37,7 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-viewfinder-circle';
 
-    protected static ?int $navigationSort = 18;
+    protected static ?int $navigationSort = 32;
 
     public static function getNavigationGroup(): ?string
     {
@@ -136,6 +137,10 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
                                     ->preload()
                                     ->multiple(),
                             ]),
+                        Select::make('product.extend_condition')
+                            ->label(__('noah-cms::noah-cms.shop.promo.title.extend_condition'))
+                            ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.extend_condition')))
+                            ->options(GetDeCryptExtendCondition::run('product')),
                     ]),
                 Section::make('目標使用者設定')
                     ->visible(fn(Get $get): bool => $get('type') === ObjectiveType::User->value)
@@ -150,17 +155,15 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
                             ->inline()
                             ->inlineLabel(false)
                             ->live(),
-                        Fieldset::make('user_parameters.age')
+                        Fieldset::make('user_parameters')
                             ->columns(1)
                             ->label(__('noah-cms::noah-cms.shop.promo.title.user_parameters'))
                             ->visible(fn(Get $get): bool => !$get('user.all'))
                             ->schema([
-                                Repeater::make('user.parameter.age')
-                                    ->label('年齡')
+                                Section::make()
                                     ->columns(4)
-                                    ->reorderable(false)
                                     ->schema([
-                                        TextInput::make('age_start')
+                                        TextInput::make('user.parameter.age.age_start')
                                             ->label(__('noah-cms::noah-cms.shop.promo.title.age_start'))
                                             ->numeric()
                                             ->minValue(1)
@@ -170,7 +173,7 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
                                             ->prefixIcon('heroicon-o-arrow-down-right')
                                             ->live(),
 
-                                        TextInput::make('age_end')
+                                        TextInput::make('user.parameter.age.age_end')
                                             ->label(__('noah-cms::noah-cms.shop.promo.title.age_end'))
                                             ->numeric()
                                             ->minValue(1)
@@ -178,40 +181,30 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
                                             ->placeholder('60')
                                             ->suffix('歲')
                                             ->prefixIcon('heroicon-o-arrow-up-right')
-                                            ->rules(['after_or_equal:age_start'])
-                                            ->minValue(fn(Get $get) => $get('age_start')),
+                                            ->rules(['after_or_equal:user.parameter.age.age_start'])
+                                            ->minValue(fn(Get $get) => $get('user.parameter.age.age_start')),
                                     ])
-                                    ->defaultItems(1)
                                     ->hiddenLabel(),
-                            ]),
-                        Fieldset::make('user_parameters.location')
-                            ->columns(1)
-                            ->label(__('noah-cms::noah-cms.shop.promo.title.user_parameters'))
-                            ->visible(fn(Get $get): bool => !$get('user.all'))
-                            ->schema([
-                                Repeater::make('user.parameter.location')
-                                    ->label('地點')
+                                Section::make('')
                                     ->columns(4)
-                                    ->reorderable(false)
                                     ->schema([
-                                        Select::make('country')
+                                        Select::make('user.parameter.location.country')
                                             ->label(__('noah-cms::noah-cms.activity.label.country'))
                                             ->options(FetchCountryRelatedSelectOptions::run('country'))
                                             ->searchable()
                                             ->live(),
-                                        Select::make('city')
+                                        Select::make('user.parameter.location.city')
                                             ->label(__('noah-cms::noah-cms.activity.label.city'))
-                                            ->visible(fn(Get $get): bool => $get('country') == 'Taiwan')
+                                            ->visible(fn(Get $get): bool => $get('user.parameter.location.country') == 'Taiwan')
                                             ->options(FetchAddressRelatedSelectOptions::run('city'))
                                             ->searchable()
                                             ->live(),
-                                        Select::make('district')
+                                        Select::make('user.parameter.location.district')
                                             ->label(__('noah-cms::noah-cms.activity.label.district'))
-                                            ->options(fn(Get $get) => FetchAddressRelatedSelectOptions::run('district', $get('city')))
+                                            ->options(fn(Get $get) => FetchAddressRelatedSelectOptions::run('district', $get('user.parameter.location.city')))
                                             ->searchable()
-                                            ->visible(fn(Get $get): bool => $get('country') == 'Taiwan'),
+                                            ->visible(fn(Get $get): bool => $get('user.parameter.location.country') == 'Taiwan'),
                                     ])
-                                    ->defaultItems(1)
                                     ->hiddenLabel(),
                             ]),
                         Fieldset::make('add_users')
@@ -219,6 +212,14 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
                             ->label(__('noah-cms::noah-cms.shop.promo.title.add_users'))
                             ->visible(fn(Get $get): bool => !$get('user.all'))
                             ->schema([
+                                Select::make('user.add.user_levels')
+                                    ->label(__('noah-cms::noah-cms.user_level'))
+                                    ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.user_level')))
+                                    ->preload()
+                                    ->prefixIcon('heroicon-c-chart-bar')
+                                    ->options(UserLevel::orderBy('order_column')->get()->pluck('title', 'id'))
+                                    ->searchable(['title', 'description', 'content'])
+                                    ->multiple(),
                                 Select::make('user.add.tags')
                                     ->label(__('noah-cms::noah-cms.shop.promo.title.user_tag'))
                                     ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.user_tag')))
@@ -238,6 +239,14 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
                             ->columns(1)
                             ->label(__('noah-cms::noah-cms.shop.promo.title.remove_users'))
                             ->schema([
+                                Select::make('user.remove.user_levels')
+                                    ->label(__('noah-cms::noah-cms.user_level'))
+                                    ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.user_level')))
+                                    ->preload()
+                                    ->prefixIcon('heroicon-c-chart-bar')
+                                    ->options(UserLevel::orderBy('order_column')->get()->pluck('title', 'id'))
+                                    ->searchable(['title', 'description', 'content'])
+                                    ->multiple(),
                                 Select::make('user.remove.tags')
                                     ->label(__('noah-cms::noah-cms.shop.promo.title.user_tag'))
                                     ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.user_tag')))
@@ -252,6 +261,15 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
                                     ->searchable(['name', 'email'])
                                     ->preload()
                                     ->multiple(),
+                            ]),
+                        Fieldset::make('extend_condition')
+                            ->columns(1)
+                            ->label(__('noah-cms::noah-cms.shop.promo.title.extend_condition'))
+                            ->schema([
+                                Select::make('user.extend_condition')
+                                    ->label(__('noah-cms::noah-cms.shop.promo.title.extend_condition'))
+                                    ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.extend_condition')))
+                                    ->options(GetDeCryptExtendCondition::run('user')),
                             ]),
                     ]),
             ]));

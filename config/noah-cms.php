@@ -22,6 +22,8 @@ return [
 
     'promo' => [
         'conditions_decrypter' => env('PROMO_CONDITIONS_DECRYPTER', 'ronaldiscreator'),
+        'conditions_divider' => env('PROMO_CONDITIONS_DIVIDER', ':::'),
+        'coupon_divider' => env('PROMO_COUPON_DIVIDER', '::'),
     ],
 
     'donate_code' => [],

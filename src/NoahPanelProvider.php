@@ -36,10 +36,10 @@ class NoahPanelProvider extends PanelProvider
             ->path('noah')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Slate,
             ])
+            ->darkMode(false)
             ->viteTheme('resources/css/filament/noah/theme.css')
-            ->sidebarCollapsibleOnDesktop()
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

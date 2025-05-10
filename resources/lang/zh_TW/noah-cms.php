@@ -145,6 +145,7 @@ return [
     'user_level_status' => '會員等級狀態',
     'super_admin_only' => '此欄位僅限最高管理員更新編輯。',
     'user_coupon_statuses' => '折扣碼使用狀態',
+    'giftproduct' => '贈品',
 
     'activity' => [
         'title' => [
@@ -471,12 +472,14 @@ return [
                 'level_up_amount' => '升級條件(金額)',
                 'auto_level_up' => '自動升等',
                 'level_duration' => '等級有效年限',
+                'extend_condition' => '額外條件',
             ],
             'help' => [
                 'min_order_amount' => '<div style="color:;">訂單需高於此設定金額，此促銷才可生效。</div>',
                 'combined' => '<div style="color:;">此促銷結帳時可合併其他促銷一起使用。<br>舉例來說：如果結帳時訂單除了此促銷之外還符合其他促銷，每一個促銷折抵的金額會合併計算折抵</div>',
                 'product_category' => '商品分類',
                 'user_tag' => '使用者標籤',
+                'user_level' => '會員等級',
                 'product_tag' => '商品標籤',
                 'promo_tag' => '<div style="color:;">促銷標籤，會影響到促銷的優先順序。<br>舉例來說：如果結帳時訂單同時符合了多個促銷，系統會將不可合併的促銷挑選出來，有最高優先順序的促銷才會進行折抵。</div>',
                 'forever' => '',
@@ -508,6 +511,7 @@ return [
                 'userlevel_forever' => '會員等級效期是否永遠有效。',
                 'auto_level_up' => '符合升級條件以後是否自動升等',
                 'level_duration' => '等級有效年限',
+                'extend_condition' => '額外條件',
             ],
         ],
     ],

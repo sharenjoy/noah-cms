@@ -4,7 +4,7 @@ namespace Sharenjoy\NoahCms\Actions\Shop;
 
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsAction;
-use Sharenjoy\NoahCms\Actions\Shop\GetPromoAutoGenerateEvent;
+use Sharenjoy\NoahCms\Actions\Shop\GetDeCryptExtendCondition;
 use Sharenjoy\NoahCms\Enums\PromoAutoGenerateType;
 use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Models\User;
@@ -24,7 +24,7 @@ class GetPromoConditionEventUser
 
         // 加入事件條件篩選使用者
         if ($promo->auto_generate_type != PromoAutoGenerateType::Never) {
-            $conditionCode = GetPromoAutoGenerateEvent::run($promo->auto_generate_event);
+            $conditionCode = GetDeCryptExtendCondition::run('promo', $promo->auto_generate_event);
 
             if (!$conditionCode) {
                 throw new \Exception(__('noah-cms::noah-cms.shop.promo.title.no_condition_code'));

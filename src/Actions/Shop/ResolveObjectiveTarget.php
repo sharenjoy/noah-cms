@@ -5,7 +5,6 @@ namespace Sharenjoy\NoahCms\Actions\Shop;
 use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use Lorisleiva\Actions\Concerns\AsAction;
-use Lorisleiva\Actions\Decorators\JobDecorator;
 use Sharenjoy\NoahCms\Enums\ObjectiveStatus;
 use Sharenjoy\NoahCms\Enums\ObjectiveType;
 use Sharenjoy\NoahCms\Models\Objective;
@@ -97,6 +96,16 @@ class ResolveObjectiveTarget
             });
         }
 
+        if ($setting['extend_condition'] ?? null) {
+            $conditionCode = GetDeCryptExtendCondition::run('product', $setting['extend_condition']);
+
+            if (!$conditionCode) {
+                throw new \Exception(__('noah-cms::noah-cms.shop.promo.title.no_condition_code'));
+            }
+
+            $query->where(eval("return $conditionCode;"));
+        }
+
         // 寫入objectiveables
         $objective->products()->sync($query->get()->pluck('id'), detaching: true);
     }
@@ -106,11 +115,15 @@ class ResolveObjectiveTarget
         $query = User::query();
         $setting = $objective->user;
 
+        $removeUserLevels = $setting['remove']['user_levels'] ?? [];
         $removeTags = $setting['remove']['tags'] ?? [];
         $removeUsers = $setting['remove']['users'] ?? [];
 
         if ($setting['all']) {
-            $query->where(function ($q) use ($removeTags, $removeUsers) {
+            $query->where(function ($q) use ($removeUserLevels, $removeTags, $removeUsers) {
+                if (!empty($removeUserLevels)) {
+                    $q->whereNotIn('user_level_id', $removeUserLevels);
+                }
                 if (!empty($removeTags)) {
                     $q->whereDoesntHave('tags', fn($q) => $q->whereIn('id', $removeTags));
                 }
@@ -119,10 +132,14 @@ class ResolveObjectiveTarget
                 }
             });
         } else {
+            $addUserLevels = array_diff($setting['add']['user_levels'] ?? [], $removeUserLevels);
             $addTags = array_diff($setting['add']['tags'] ?? [], $removeTags);
             $addUsers = array_diff($setting['add']['users'] ?? [], $removeUsers);
 
-            $query->where(function ($q) use ($addTags, $addUsers, $setting) {
+            $query->where(function ($q) use ($addUserLevels, $addTags, $addUsers, $setting) {
+                if (!empty($addUserLevels)) {
+                    $q->orWhereIn('user_level_id', $addUserLevels);
+                }
                 if (!empty($addTags)) {
                     $q->orWhereHas('tags', fn($q) => $q->whereIn('id', $addTags));
                 }
@@ -131,31 +148,34 @@ class ResolveObjectiveTarget
                 }
 
                 // Age filtering
-                foreach ($setting['parameter']['age'] ?? [] as $ageRange) {
-                    if (empty($ageRange['age_start']) || empty($ageRange['age_end'])) {
-                        continue;
-                    }
-                    $q->orWhere(function ($q) use ($ageRange) {
-                        $q->where('age', '>=', $ageRange['age_start'])
-                            ->where('age', '<=', $ageRange['age_end']);
+                if (!empty($setting['parameter']['age']['age_start']) && !empty($setting['parameter']['age']['age_end'])) {
+                    // 依據年齡區間算出什麼樣的birthday符合
+                    $ageStart = now()->subYears((int)$setting['parameter']['age']['age_start'])->format('Y-m-d');
+                    $ageEnd = now()->subYears((int)$setting['parameter']['age']['age_end'])->format('Y-m-d');
+                    $q->orWhere(function ($q) use ($ageStart, $ageEnd) {
+                        $q->where('birthday', '<=', $ageStart)
+                            ->where('birthday', '>=', $ageEnd);
                     });
                 }
 
                 // Location filtering
-                foreach ($setting['parameter']['location'] ?? [] as $location) {
-                    $q->orWhereHas('addresses', function ($q) use ($location) {
-                        if (!empty($location['country'])) {
-                            $q->where('country', $location['country']);
+                if (!empty($setting['parameter']['location']['country']) || !empty($setting['parameter']['location']['city']) || !empty($setting['parameter']['location']['district'])) {
+                    $q->orWhereHas('addresses', function ($q) use ($setting) {
+                        if (!empty($setting['parameter']['location']['country'])) {
+                            $q->where('country', $setting['parameter']['location']['country']);
                         }
-                        if (!empty($location['city'])) {
-                            $q->where('city', $location['city']);
+                        if (!empty($setting['parameter']['location']['city'])) {
+                            $q->where('city', $setting['parameter']['location']['city']);
                         }
-                        if (!empty($location['district'])) {
-                            $q->where('district', $location['district']);
+                        if (!empty($setting['parameter']['location']['district'])) {
+                            $q->where('district', $setting['parameter']['location']['district']);
                         }
                     });
                 }
-            })->where(function ($q) use ($removeTags, $removeUsers) {
+            })->where(function ($q) use ($removeUserLevels, $removeTags, $removeUsers) {
+                if (!empty($removeUserLevels)) {
+                    $q->whereNotIn('user_level_id', $removeUserLevels);
+                }
                 if (!empty($removeTags)) {
                     $q->whereDoesntHave('tags', fn($q) => $q->whereIn('id', $removeTags));
                 }
@@ -163,6 +183,16 @@ class ResolveObjectiveTarget
                     $q->whereNotIn('id', $removeUsers);
                 }
             });
+        }
+
+        if ($setting['extend_condition'] ?? null) {
+            $conditionCode = GetDeCryptExtendCondition::run('user', $setting['extend_condition']);
+
+            if (!$conditionCode) {
+                throw new \Exception(__('noah-cms::noah-cms.shop.promo.title.no_condition_code'));
+            }
+
+            $query->where(eval("return $conditionCode;"));
         }
 
         // 寫入objectiveables

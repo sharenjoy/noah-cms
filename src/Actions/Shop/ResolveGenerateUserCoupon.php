@@ -22,7 +22,7 @@ class ResolveGenerateUserCoupon
 
     protected Promo $promo;
     protected Collection $users;
-    protected string $divider = '::';
+    protected string $divider;
     protected $userId;
 
     /**
@@ -39,6 +39,7 @@ class ResolveGenerateUserCoupon
         try {
             $this->promo = $promo;
             $this->users = GetPromoConditionEventUser::run($promo);
+            $this->divider = config('noah-cms.promo.coupon_divider');
 
             // 如果有傳入使用者ID，就只判斷這個使用者是否符合條件事件篩選
             if ($userId) {

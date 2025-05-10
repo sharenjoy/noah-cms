@@ -14,7 +14,7 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\HtmlString;
-use Sharenjoy\NoahCms\Actions\Shop\GetPromoAutoGenerateEvent;
+use Sharenjoy\NoahCms\Actions\Shop\GetDeCryptExtendCondition;
 use Sharenjoy\NoahCms\Enums\PromoAutoGenerateType;
 use Sharenjoy\NoahCms\Enums\PromoType;
 use Sharenjoy\NoahCms\Models\CouponPromo;
@@ -119,7 +119,7 @@ class CouponPromoResource extends Resource implements HasShieldPermissions
                         ->label(__('noah-cms::noah-cms.shop.promo.title.auto_generate_event'))
                         ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.auto_generate_event')))
                         ->required()
-                        ->options(GetPromoAutoGenerateEvent::run())
+                        ->options(GetDeCryptExtendCondition::run('promo'))
                         ->visible(fn(Get $get): bool => $get('auto_generate_type') !== 'never' && $get('auto_generate_type') !== ''),
                     TextInput::make('coupon_valid_days')
                         ->label(__('noah-cms::noah-cms.shop.promo.title.coupon_valid_days'))

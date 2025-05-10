@@ -19,13 +19,13 @@
 <style>
     .link-text {
         color: rgb(var(--primary-600));
-        font-size: 1rem;
-        font-weight: 500;
+        font-size: 0.9rem;
+        font-weight: 600;
         text-decoration: none;
     }
     .link-text:hover {
         transition: color 0.3s ease, text-decoration 0.3s ease;
-        color: rgb(var(--primary-500));
-        text-decoration: none;
+        color: rgb(var(--primary-900));
+        text-decoration: under;
     }
 </style>

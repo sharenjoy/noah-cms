@@ -17,7 +17,7 @@
         @endif
         @if ($record->type == \Sharenjoy\NoahCms\Enums\PromoType::Coupon)
             @php
-            $eventName = \Sharenjoy\NoahCms\Actions\Shop\GetPromoAutoGenerateEvent::run()[$record->auto_generate_event] ?? '';
+            $eventName = \Sharenjoy\NoahCms\Actions\Shop\GetDeCryptExtendCondition::run('promo')[$record->auto_generate_event] ?? '';
             @endphp
             <li><div class="text-sm" style="color: #3a3a3a">------------</div></li>
             <li><div class="text-sm" style="color: #3a3a3a">自動產生類型 <span class="font-bold">{{ $record->auto_generate_type->getLabel() }}</span></div></li>

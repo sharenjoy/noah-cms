@@ -11,7 +11,7 @@ class EncryptGenerateEventCode
 
     public function handle($code, $slug): string
     {
-        $divider = ':::';
+        $divider = config('noah-cms.promo.conditions_divider');
         $decrypter = config('noah-cms.promo.conditions_decrypter');
 
         $encrypted = Crypt::encryptString(

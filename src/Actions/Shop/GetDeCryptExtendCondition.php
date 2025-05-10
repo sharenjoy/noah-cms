@@ -10,18 +10,19 @@ use Lorisleiva\Actions\Concerns\AsAction;
 use Sharenjoy\NoahCms\Models\User;
 use Sharenjoy\NoahCms\Pages\Settings\Settings;
 
-class GetPromoAutoGenerateEvent
+class GetDeCryptExtendCondition
 {
     use AsAction;
 
-    public function handle(?string $key = null): array|string|null
+    public function handle(string $type, ?string $key = null): array|string|null
     {
         $events = [];
         $code = null;
+        $divider = config('noah-cms.promo.conditions_divider');
 
-        $conditions = setting('order.promo_conditions');
+        $conditions = setting('code.' . $type . '_conditions');
 
-        foreach ($conditions as $condition) {
+        foreach ($conditions ?? [] as $condition) {
             if (!isset($condition['code']) || !isset($condition['name'])) {
                 continue;
             }
@@ -29,7 +30,7 @@ class GetPromoAutoGenerateEvent
             try {
                 $decrypted = Crypt::decryptString($condition['code']);
 
-                $check = explode(":::", $decrypted);
+                $check = explode($divider, $decrypted);
 
                 if (head($check) !== config('noah-cms.promo.conditions_decrypter') || end($check) !== config('noah-cms.promo.conditions_decrypter')) {
                     continue;
@@ -47,12 +48,12 @@ class GetPromoAutoGenerateEvent
             } catch (DecryptException $e) {
                 Notification::make()
                     ->danger()
-                    ->title('折扣碼條件設定解碼錯誤')
+                    ->title($type . '條件設定解碼錯誤')
                     ->body($e->getMessage())
                     ->actions([
-                        Action::make('View')->url(Settings::getUrl(['tab' => '-promo-tab'])),
+                        Action::make('View')->url(Settings::getUrl(['tab' => '-code-tab'])),
                     ])
-                    ->sendToDatabase(User::query()->superAdmin()->get());
+                    ->sendToDatabase(User::query()->superAdminAndCreater()->get());
             }
         }
 
