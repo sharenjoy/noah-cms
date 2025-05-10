@@ -2,15 +2,15 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Appstract\Stock\HasStock;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\HtmlString;
 use Sharenjoy\NoahCms\Models\Product;
+use Sharenjoy\NoahCms\Models\ProductSpecificationMutation;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -26,6 +26,7 @@ class ProductSpecification extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use HasMediaLibrary;
+    use HasStock;
 
     protected $casts = [
         'spec_detail_name' => 'json',
@@ -102,6 +103,24 @@ class ProductSpecification extends Model implements Sortable
     /** EVENTS */
 
     /** OTHERS */
+
+    public function inStock($amount = 1)
+    {
+        // 計算增加釋出的庫存量
+        $specMutationModel = ProductSpecificationMutation::find($this->id);
+        $stock = $this->stock + $specMutationModel->stock();
+
+        return $stock > 0 && $stock >= $amount;
+    }
+
+    public function outOfStock()
+    {
+        // 計算增加釋出的庫存量
+        $specMutationModel = ProductSpecificationMutation::find($this->id);
+        $stock = $this->stock + $specMutationModel->stock();
+
+        return $stock <= 0;
+    }
 
     protected function spec(): Attribute
     {

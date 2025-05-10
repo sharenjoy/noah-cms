@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.4",
+        "appstract/laravel-stock": "^1.2",
         "awcodes/filament-tiptap-editor": "^3.0",
         "awcodes/shout": "^2.0",
         "barryvdh/laravel-dompdf": "^3.1",
