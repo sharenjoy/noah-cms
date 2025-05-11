@@ -50,14 +50,14 @@ class InvoicePricesCreator
 
         $this->prices[] = [
             'order_id' => $order->id,
-            'type' => 'shoppingmoney',
+            'type' => InvoicePriceType::Shoppingmoney,
             // TODO
             'value' => $order['shoppingmoney'] ?? 0,
         ];
 
         $this->prices[] = [
             'order_id' => $order->id,
-            'type' => 'point',
+            'type' => InvoicePriceType::Point,
             // TODO
             'value' => $order['point'] ?? 0,
             'content' => null,

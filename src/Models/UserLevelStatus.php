@@ -67,7 +67,7 @@ class UserLevelStatus extends Model
     protected function tableFields(): array
     {
         return [
-            'userLevel.title' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'shop.userLevels', 'relation_route' => 'shop.userLevels', 'relation_column' => 'user_level_id'],
+            'userLevel.title' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'userLevel', 'relation_route' => 'shop.user-levels', 'relation_column' => 'user_level_id'],
             'user.name' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'user', 'relation' => 'user'],
             'status' => ['model' => 'UserLevelStatus'],
             'started_at' => ['label' => 'shop.promo.title.started_at'],

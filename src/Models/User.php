@@ -22,7 +22,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
 use Sharenjoy\NoahCms\Actions\GenerateUserSeriesNumber;
 use Sharenjoy\NoahCms\Actions\Shop\FetchCountryRelatedSelectOptions;
 use Sharenjoy\NoahCms\Enums\ObjectiveType;
@@ -31,6 +30,7 @@ use Sharenjoy\NoahCms\Models\Address;
 use Sharenjoy\NoahCms\Models\Objective;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Models\Traits\HasCoin;
 use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Sharenjoy\NoahCms\Models\UserCoupon;
 use Sharenjoy\NoahCms\Models\UserCouponStatus;
@@ -48,6 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     use SoftDeletes;
     use HasRoles;
     use HasTags;
+    use HasCoin;
 
     protected $fillable = [
         'name',
@@ -70,17 +71,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     ];
 
     public $translatable = [];
-
-    protected array $tableFields = [
-        'sn' => [],
-        'userLevel.title' =>  ['alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'shop.userLevel', 'relation_route' => 'shop.userLevel', 'relation_column' => 'user_level_id'],
-        'name' => [],
-        'email' => [],
-        'roles' => [],
-        'tags' => ['tagType' => 'user'],
-        'created_at' => [],
-        'updated_at' => [],
-    ];
 
     protected array $sort = [
         'created_at' => 'desc',
@@ -196,6 +186,21 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                 ]),
                 'tags' => ['min' => 0, 'max' => 3, 'multiple' => true],
             ],
+        ];
+    }
+
+    protected function tableFields(): array
+    {
+        return [
+            'sn' => [],
+            'userLevel.title' =>  ['alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'userLevel', 'relation_route' => 'shop.user-levels', 'relation_column' => 'user_level_id'],
+            'name' => [],
+            'email' => [],
+            'user_coin' => [],
+            'roles' => [],
+            'tags' => ['tagType' => 'user'],
+            'created_at' => [],
+            'updated_at' => [],
         ];
     }
 

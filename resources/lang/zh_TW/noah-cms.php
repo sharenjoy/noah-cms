@@ -146,6 +146,10 @@ return [
     'super_admin_only' => '此欄位僅限最高管理員更新編輯。',
     'user_coupon_statuses' => '折扣碼使用狀態',
     'giftproduct' => '贈品',
+    'user_coin' => '點數/購物金',
+    'user_point_record' => '點數紀錄',
+    'user_shoppingmoney_record' => '購物金紀錄',
+    'coin_reference' => '點數來源(提供者)',
 
     'activity' => [
         'title' => [
@@ -338,6 +342,10 @@ return [
                     'group' => '組合商品',
                     'giftproduct' => '贈品',
                 ],
+                'coin' => [
+                    'point' => '點數',
+                    'shoppingmoney' => '購物金',
+                ],
             ],
 
             'description' => [
@@ -395,6 +403,10 @@ return [
                     'product' => '商品',
                     'group' => '組合商品',
                     'giftproduct' => '贈品',
+                ],
+                'coin' => [
+                    'point' => '點數',
+                    'shoppingmoney' => '購物金',
                 ],
             ],
         ],

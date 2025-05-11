@@ -12,7 +12,7 @@ class BelongsTo extends TableAbstract implements TableInterface
     {
         return BelongsToColumn::make($this->fieldName)
             ->content($this->content)
-            ->width('1%')
+            // ->width('1%')
             ->searchable()
             ->sortable()
             ->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName)))

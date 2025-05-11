@@ -35,7 +35,7 @@ class UserCouponStatus extends Model
     protected function tableFields(): array
     {
         return [
-            'order.sn' =>  ['alias' => 'belongs_to', 'label' => 'order', 'relation' => 'shop.order', 'relation_route' => 'shop.order', 'relation_column' => 'order_id', 'operation' => 'view'],
+            'order.sn' =>  ['alias' => 'belongs_to', 'label' => 'order', 'relation' => 'order', 'relation_route' => 'shop.orders', 'relation_column' => 'order_id', 'operation' => 'view'],
             'status' => ['model' => 'UserCouponStatus'],
             'created_at' => [],
             'updated_at' => [],

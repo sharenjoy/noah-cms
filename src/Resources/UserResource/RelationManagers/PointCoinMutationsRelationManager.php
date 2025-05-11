@@ -1,0 +1,72 @@
+<?php
+
+namespace Sharenjoy\NoahCms\Resources\UserResource\RelationManagers;
+
+use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Sharenjoy\NoahCms\Enums\CoinType;
+use Sharenjoy\NoahCms\Models\CoinMutation;
+use Sharenjoy\NoahCms\Models\User;
+
+class PointCoinMutationsRelationManager extends RelationManager
+{
+    protected static string $relationship = 'pointCoinMutations';
+
+    protected static ?string $icon = 'heroicon-o-cube';
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __('noah-cms::noah-cms.user_point_record');
+    }
+
+    protected static function getRecordLabel(): ?string
+    {
+        return __('noah-cms::noah-cms.user_point_record');
+    }
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->pointCoinMutations->count();
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->columns(3)
+            ->schema(\Sharenjoy\NoahCms\Utils\Form::make(CoinMutation::class, $form->getOperation()));
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->heading(__('noah-cms::noah-cms.user_point_record'))
+            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(CoinMutation::class))
+            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(CoinMutation::class))
+            ->searchable(false)
+            ->headerActions([
+                Tables\Actions\CreateAction::make()->mutateFormDataUsing(function (array $data): array {
+                    $data['reference_type'] = User::class; // 設定建立者
+                    $data['reference_id'] = Auth::user()->id; // 設定建立者
+                    $data['type'] = CoinType::Point->value;
+                    return $data;
+                })->visible(fn(): bool => Auth::user()->isSuperAdmin()),
+                // Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['code'])->multiple(),
+            ])
+            ->actions([
+                // Tables\Actions\DetachAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    // Tables\Actions\DetachBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ])
+            ->defaultSort('created_at', 'desc');
+    }
+}

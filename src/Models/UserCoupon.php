@@ -26,7 +26,7 @@ class UserCoupon extends Model
     protected array $formFields = [];
 
     protected array $tableFields = [
-        'promo.title' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'promo', 'relation' => 'shop.coupon-promos', 'relation_route' => 'shop.coupon-promos', 'relation_column' => 'promo_id'],
+        'promo.title' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'promo', 'relation' => 'promo', 'relation_route' => 'shop.coupon-promos', 'relation_column' => 'promo_id'],
         'user.name' =>  ['description' => true, 'alias' => 'belongs_to', 'label' => 'user', 'relation' => 'user'],
         'code' => ['label' => 'coupon_promo'],
         'started_at' => ['label' => 'shop.promo.title.started_at'],

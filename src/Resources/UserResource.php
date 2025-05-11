@@ -15,7 +15,9 @@ use Sharenjoy\NoahCms\Resources\UserResource\Pages;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\AddressesRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\ObjectivesRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\OrdersRelationManager;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\PointCoinMutationsRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\RolesRelationManager;
+use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\ShoppingMoneyCoinMutationsRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\UserCouponsRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\UserLevelStatusesRelationManager;
 
@@ -70,6 +72,8 @@ class UserResource extends Resource implements HasShieldPermissions
             UserCouponsRelationManager::class,
             ObjectivesRelationManager::class,
             UserLevelStatusesRelationManager::class,
+            PointCoinMutationsRelationManager::class,
+            ShoppingMoneyCoinMutationsRelationManager::class,
             AddressesRelationManager::class,
             RolesRelationManager::class,
         ];
