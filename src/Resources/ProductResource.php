@@ -8,6 +8,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Resources\ProductResource\Pages;
 use Sharenjoy\NoahCms\Resources\ProductResource\RelationManagers\ProductSpecificationsRelationManager;
@@ -31,6 +32,11 @@ class ProductResource extends Resource implements HasShieldPermissions
     public static function getModelLabel(): string
     {
         return __('noah-cms::noah-cms.product');
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['brand', 'specifications', 'tags', 'categories']);
     }
 
     public static function form(Form $form): Form

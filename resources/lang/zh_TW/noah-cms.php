@@ -150,6 +150,10 @@ return [
     'user_point_record' => '點數紀錄',
     'user_shoppingmoney_record' => '購物金紀錄',
     'coin_reference' => '點數來源(提供者)',
+    'stock' => '庫存',
+    'transaction_status' => '交易狀態',
+    'delivery_provider' => '配送商',
+    'payment_provider' => '付款商',
 
     'activity' => [
         'title' => [
@@ -420,7 +424,7 @@ return [
                     'fedex' => 'Fedex',
                     'dhl' => 'DHL',
                 ],
-                'transaction' => [
+                'payment' => [
                     'tappay' => 'TapPay',
                     'linepay' => 'LINEPay',
                 ],
@@ -434,7 +438,7 @@ return [
                     'fedex' => 'Fedex',
                     'dhl' => 'DHL',
                 ],
-                'transaction' => [
+                'payment' => [
                     'tappay' => 'TapPay',
                     'linepay' => 'LINEPay',
                 ],

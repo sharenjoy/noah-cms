@@ -5,6 +5,7 @@ namespace Sharenjoy\NoahCms\Models;
 use Appstract\Stock\HasStock;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -83,8 +84,10 @@ class ProductSpecification extends Model implements Sortable
             'product.title' =>  ['alias' => 'belongs_to', 'label' => 'product', 'relation' => 'product'],
             'spec_detail_name' => [],
             'no' => ['label' => 'spec_no'],
+            'stock' => TextColumn::make('stock')->label(__('noah-cms::noah-cms.stock'))->numeric()->searchable()->toggleable(),
             'price' => ['type' => 'number'],
             'compare_price' => ['type' => 'number'],
+            'weight' => ['type' => 'number'],
             'is_active' => [],
             'created_at' => ['isToggledHiddenByDefault' => true],
             'updated_at' => ['isToggledHiddenByDefault' => true],

@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
 use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
-enum TransactionProvider: string implements HasLabel, HasDescription, HasColor
+enum PaymentProvider: string implements HasLabel, HasDescription, HasColor
 {
     use BaseEnum;
 
@@ -18,16 +18,16 @@ enum TransactionProvider: string implements HasLabel, HasDescription, HasColor
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::TapPay => __('noah-cms::noah-cms.shop.provider.title.transaction.tappay'),
-            self::LINEPay => __('noah-cms::noah-cms.shop.provider.title.transaction.linepay'),
+            self::TapPay => __('noah-cms::noah-cms.shop.provider.title.payment.tappay'),
+            self::LINEPay => __('noah-cms::noah-cms.shop.provider.title.payment.linepay'),
         };
     }
 
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::TapPay => __('noah-cms::noah-cms.shop.provider.description.transaction.tappay'),
-            self::LINEPay => __('noah-cms::noah-cms.shop.provider.description.transaction.linepay'),
+            self::TapPay => __('noah-cms::noah-cms.shop.provider.description.payment.tappay'),
+            self::LINEPay => __('noah-cms::noah-cms.shop.provider.description.payment.linepay'),
         };
     }
 

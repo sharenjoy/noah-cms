@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Sharenjoy\NoahCms\Actions\ChargeExpireDateSetting;
 use Sharenjoy\NoahCms\Actions\GenerateSeriesNumber;
 use Sharenjoy\NoahCms\Enums\PaymentMethod;
-use Sharenjoy\NoahCms\Enums\TransactionProvider;
+use Sharenjoy\NoahCms\Enums\PaymentProvider;
 use Sharenjoy\NoahCms\Enums\TransactionStatus;
 use Sharenjoy\NoahCms\Models\Invoice;
 use Sharenjoy\NoahCms\Models\Order;
@@ -22,7 +22,7 @@ class Transaction extends Model
 
     protected $casts = [
         'status' => TransactionStatus::class,
-        'provider' => TransactionProvider::class,
+        'provider' => PaymentProvider::class,
         'payment_method' => PaymentMethod::class,
         'expired_at' => 'datetime',
         'paid_at' => 'datetime',
@@ -59,7 +59,7 @@ class Transaction extends Model
                 ->label(__('noah-cms::noah-cms.activity.label.provider'))
                 ->sortable()
                 ->searchable()
-                ->badge(TransactionProvider::class),
+                ->badge(PaymentProvider::class),
             'payment_method' => TextColumn::make('payment_method')
                 ->label(__('noah-cms::noah-cms.activity.label.payment_method'))
                 ->sortable()

@@ -2,16 +2,24 @@
 
 namespace Sharenjoy\NoahCms\Resources\Shop\Traits;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
 use Sharenjoy\NoahCms\Actions\Shop\DisplayOrderShipmentDetail;
+use Sharenjoy\NoahCms\Enums\DeliveryProvider;
+use Sharenjoy\NoahCms\Enums\DeliveryType;
+use Sharenjoy\NoahCms\Enums\InvoiceType;
+use Sharenjoy\NoahCms\Enums\OrderShipmentStatus;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
+use Sharenjoy\NoahCms\Enums\PaymentMethod;
+use Sharenjoy\NoahCms\Enums\PaymentProvider;
+use Sharenjoy\NoahCms\Enums\TransactionStatus;
 use Sharenjoy\NoahCms\Infolists\Components\OrderEntry;
 use Sharenjoy\NoahCms\Models\Invoice;
 use Sharenjoy\NoahCms\Models\InvoicePrice;
@@ -20,8 +28,6 @@ use Sharenjoy\NoahCms\Models\OrderShipment;
 use Sharenjoy\NoahCms\Models\Transaction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\InvoicePricesRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\OrderItemsRelationManager;
-use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\OrderShipmentsRelationManager;
-use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\TransactionsRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\UserRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 use Spatie\Activitylog\Models\Activity;
@@ -51,26 +57,107 @@ trait OrderableResource
         return $table
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
             ->filters([
-                SelectFilter::make('status')
+                Filter::make('order_status')
                     ->label(__('noah-cms::noah-cms.order_status'))
-                    ->options(OrderStatus::class),
-                // SelectFilter::make('transaction')
-                //     ->label(__('noah-cms::noah-cms.transaction_status'))
-                //     ->options(collect(TransactionStatus::cases())
-                //         ->mapWithKeys(fn($case) => [$case->value => $case->getLabel()])
-                //         ->toArray())
-                //     // ->relationship('transaction', 'status')
-                //     ->query(function (Builder $query, ?string $value = null) {
-                //         if (! filled($value)) {
-                //             return $query; // 直接跳過，不加條件
-                //         }
-                //         // dd($value);
-                //         return $query->whereHas('transaction', fn($q) => $q->where('status', $value));
-                //     }),
-                // SelectFilter::make('invoice')
-                //     ->label(__('noah-cms::noah-cms.invoice_type'))
-                //     ->relationship('invoice', 'typeable')
-                //     ->options(InvoiceType::toArray()),
+                    ->form([
+                        Select::make('shipment')
+                            ->label(__('noah-cms::noah-cms.order_shipment_status'))
+                            ->options(OrderShipmentStatus::toArray()),
+                        Select::make('delivery_provider')
+                            ->label(__('noah-cms::noah-cms.delivery_provider'))
+                            ->options(DeliveryProvider::toArray()),
+                        Select::make('delivery_type')
+                            ->label(__('noah-cms::noah-cms.activity.label.delivery_type'))
+                            ->options(DeliveryType::toArray()),
+                        Select::make('transaction')
+                            ->label(__('noah-cms::noah-cms.transaction_status'))
+                            ->options(TransactionStatus::toArray()),
+                        Select::make('payment_provider')
+                            ->label(__('noah-cms::noah-cms.payment_provider'))
+                            ->options(PaymentProvider::toArray()),
+                        Select::make('payment_method')
+                            ->label(__('noah-cms::noah-cms.activity.label.payment_method'))
+                            ->options(PaymentMethod::toArray()),
+                        Select::make('invoice')
+                            ->label(__('noah-cms::noah-cms.invoice_type'))
+                            ->options(InvoiceType::toArray()),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['shipment'] ?? null) {
+                            $query->whereHas('shipment', function (Builder $q) use ($data) {
+                                $q->where('status', $data['shipment']);
+                            });
+                        }
+                        if ($data['delivery_type'] ?? null) {
+                            $query->whereHas('shipment', function (Builder $q) use ($data) {
+                                $q->where('delivery_type', $data['delivery_type']);
+                            });
+                        }
+                        if ($data['delivery_provider'] ?? null) {
+                            $query->whereHas('shipment', function (Builder $q) use ($data) {
+                                $q->where('provider', $data['delivery_provider']);
+                            });
+                        }
+                        if ($data['transaction'] ?? null) {
+                            $query->whereHas('transaction', function (Builder $q) use ($data) {
+                                $q->where('status', $data['transaction']);
+                            });
+                        }
+                        if ($data['payment_method'] ?? null) {
+                            $query->whereHas('transaction', function (Builder $q) use ($data) {
+                                $q->where('payment_method', $data['payment_method']);
+                            });
+                        }
+                        if ($data['payment_provider'] ?? null) {
+                            $query->whereHas('transaction', function (Builder $q) use ($data) {
+                                $q->where('provider', $data['payment_provider']);
+                            });
+                        }
+                        if ($data['invoice'] ?? null) {
+                            $query->whereHas('invoice', function (Builder $q) use ($data) {
+                                $q->where('type', $data['invoice']);
+                            });
+                        }
+
+                        return $query;
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        $shipment = $data['shipment'] ?? null;
+                        $deliveryType = $data['delivery_type'] ?? null;
+                        $deliveryProvider = $data['delivery_provider'] ?? null;
+                        $transaction = $data['transaction'] ?? null;
+                        $paymentMethod = $data['payment_method'] ?? null;
+                        $paymentProvider = $data['payment_provider'] ?? null;
+                        $invoice = $data['invoice'] ?? null;
+
+                        $indicateString = [];
+                        if ($shipment) {
+                            $indicateString[] = __('noah-cms::noah-cms.order_shipment_status') . ': ' . OrderShipmentStatus::tryFrom($shipment)->getLabel();
+                        }
+                        if ($deliveryType) {
+                            $indicateString[] = __('noah-cms::noah-cms.activity.label.delivery_type') . ': ' . DeliveryType::tryFrom($deliveryType)->getLabel();
+                        }
+                        if ($deliveryProvider) {
+                            $indicateString[] = __('noah-cms::noah-cms.delivery_provider') . ': ' . DeliveryProvider::tryFrom($deliveryProvider)->getLabel();
+                        }
+                        if ($transaction) {
+                            $indicateString[] = __('noah-cms::noah-cms.transaction_status') . ': ' . TransactionStatus::tryFrom($transaction)->getLabel();
+                        }
+                        if ($paymentMethod) {
+                            $indicateString[] = __('noah-cms::noah-cms.activity.label.payment_method') . ': ' . PaymentMethod::tryFrom($paymentMethod)->getLabel();
+                        }
+                        if ($paymentProvider) {
+                            $indicateString[] = __('noah-cms::noah-cms.payment_provider') . ': ' . PaymentProvider::tryFrom($paymentProvider)->getLabel();
+                        }
+                        if ($invoice) {
+                            $indicateString[] = __('noah-cms::noah-cms.invoice_type') . ': ' . InvoiceType::tryFrom($invoice)->getLabel();
+                        }
+                        if (count($indicateString)) {
+                            return implode(', ', $indicateString);
+                        }
+
+                        return null;
+                    }),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

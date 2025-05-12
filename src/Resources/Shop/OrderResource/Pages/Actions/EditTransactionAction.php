@@ -11,7 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Sharenjoy\NoahCms\Enums\PaymentMethod;
-use Sharenjoy\NoahCms\Enums\TransactionProvider;
+use Sharenjoy\NoahCms\Enums\PaymentProvider;
 use Sharenjoy\NoahCms\Models\BaseOrder;
 
 class EditTransactionAction
@@ -45,7 +45,7 @@ class EditTransactionAction
                         ->schema([
                             Select::make('transaction.provider')
                                 ->label(__('noah-cms::noah-cms.activity.label.provider'))
-                                ->options(TransactionProvider::class)
+                                ->options(PaymentProvider::class)
                                 ->required()
                                 ->live(),
 
