@@ -11,6 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 use Sharenjoy\NoahCms\Models\Role;
 use Sharenjoy\NoahCms\Models\User;
@@ -57,8 +58,9 @@ class UserResource extends Resource implements HasShieldPermissions
 
     public static function table(Table $table): Table
     {
+        $table = static::chainTableFunctions($table);
         return $table
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
+            ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(array_merge([
                 Filter::make('userLevels')
                     ->form([
@@ -104,7 +106,7 @@ class UserResource extends Resource implements HasShieldPermissions
                     }),
             ], \Sharenjoy\NoahCms\Utils\Filter::make(static::getModel())))
             ->actions([
-                Impersonate::make()->iconSize('sm'),
+                Impersonate::make()->iconSize('sm')->visible(fn() => Auth::user()->canImpersonate()),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ActionGroup::make(array_merge(static::getTableActions(), [])),
             ])
@@ -132,6 +134,7 @@ class UserResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
+            'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }

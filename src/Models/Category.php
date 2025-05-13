@@ -74,14 +74,12 @@ class Category extends Model
     ];
 
     protected array $tableFields = [
-        'title' => [
-            'description' => true,
-        ],
+        'thumbnail' => [],
+        'title' => ['description' => true],
         'slug' => [],
         'relation_count' => ['label' => 'products_count', 'relation' => 'products'],
         'post_relation_count' => ['alias' => 'relation_count', 'label' => 'posts_count', 'relation' => 'posts'],
         'menu_relation_count' => ['alias' => 'relation_count', 'label' => 'menus_count', 'relation' => 'menus'],
-        'thumbnail' => [],
         'seo' => [],
         'is_active' => [],
         'created_at' => [],

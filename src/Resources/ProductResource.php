@@ -53,7 +53,7 @@ class ProductResource extends Resource implements HasShieldPermissions
     {
         $table = static::chainTableFunctions($table);
         return $table
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
+            ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(array_merge([
                 Filter::make('brands')
                     ->form([

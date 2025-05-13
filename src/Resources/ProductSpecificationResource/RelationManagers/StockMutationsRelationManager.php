@@ -25,6 +25,11 @@ class StockMutationsRelationManager extends RelationManager
         return __('noah-cms::noah-cms.stock');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->stockMutations->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form

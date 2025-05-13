@@ -2,17 +2,25 @@
     @php
         $content = $getContent();
         $state = $getState();
+        $record = $getRecord();
+
         if (is_array($state)) {
             $state = implode(', ', $state);
         }
+
+        if (auth()->user()->can('view', $record)) {
+            $url = route('filament.' . \Filament\Facades\Filament::getCurrentPanel()->getId() . '.resources.' . $content['relation_route'] . '.'.($content['operation'] ?? 'view'), [
+                'record' => $record->{$content['relation_column']},
+            ]);
+        } else {
+            $url = null;
+        }
     @endphp
 
-    @if($getRecord()->{$content['relation_column']})
-    <a href="{{ route('filament.' . \Filament\Facades\Filament::getCurrentPanel()->getId() . '.resources.' . $content['relation_route'] . '.'.($content['operation'] ?? 'edit'), [
-            'record' => $getRecord()->{$content['relation_column']},
-    ]) }}"><span class="link-text">{!! $state !!}</span></a>
+    @if($record->{$content['relation_column']} && $url)
+        <a href="{{ $url }}"><span class="link-text">{!! $state !!}</span></a>
     @else
-    <span class="text-center text-gray-400">-</span>
+        <span class="text-center text-gray-400">-</span>
     @endif
 </div>
 

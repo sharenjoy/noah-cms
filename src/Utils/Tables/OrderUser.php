@@ -16,6 +16,9 @@ class OrderUser extends TableAbstract implements TableInterface
                 return $query->whereHas('user', function ($query) use ($search) {
                     // TODO
                     $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('sn', 'like', "%{$search}%")
+                        ->orWhere('mobile', 'like', "%{$search}%")
+                        ->orWhere('birthday', 'like', "%{$search}%")
                         ->orWhere('email', 'like', "%{$search}%");
                 });
             })

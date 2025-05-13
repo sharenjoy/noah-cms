@@ -2,16 +2,20 @@
 
 namespace Sharenjoy\NoahCms\Resources\TagResource\RelationManagers;
 
-use Sharenjoy\NoahCms\Models\Product;
-use Sharenjoy\NoahCms\Models\Tag;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\Product;
+use Sharenjoy\NoahCms\Models\Tag;
+use Sharenjoy\NoahCms\Resources\ProductResource;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class ProductsRelationManager extends RelationManager
 {
+    use NoahBaseRelationManager;
+
     protected static string $relationship = 'products';
 
     protected static ?string $icon = 'heroicon-o-squares-plus';
@@ -26,6 +30,11 @@ class ProductsRelationManager extends RelationManager
         return __('noah-cms::noah-cms.product');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->products->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -38,7 +47,7 @@ class ProductsRelationManager extends RelationManager
         return $table
             ->recordTitle(fn(Product $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.product'))
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Product::class))
+            ->columns(array_merge(static::getTableStartColumns(ProductResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Product::class)))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Product::class, Tag::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),

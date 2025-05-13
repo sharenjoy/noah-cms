@@ -25,6 +25,11 @@ class PromosRelationManager extends RelationManager
         return __('noah-cms::noah-cms.promo');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->promos->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form

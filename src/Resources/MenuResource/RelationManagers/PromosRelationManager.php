@@ -2,13 +2,13 @@
 
 namespace Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers;
 
-use Sharenjoy\NoahCms\Models\Promo;
-use Sharenjoy\NoahCms\Models\Menu;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\Menu;
+use Sharenjoy\NoahCms\Models\Promo;
 
 class PromosRelationManager extends RelationManager
 {
@@ -24,6 +24,11 @@ class PromosRelationManager extends RelationManager
     protected static function getRecordLabel(): ?string
     {
         return __('noah-cms::noah-cms.promo');
+    }
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->promos->count();
     }
 
     public function form(Form $form): Form

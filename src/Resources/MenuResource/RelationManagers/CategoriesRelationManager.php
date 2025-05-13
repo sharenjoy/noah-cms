@@ -2,16 +2,20 @@
 
 namespace Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers;
 
-use Sharenjoy\NoahCms\Models\Category;
-use Sharenjoy\NoahCms\Models\Menu;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\Category;
+use Sharenjoy\NoahCms\Models\Menu;
+use Sharenjoy\NoahCms\Resources\CategoryResource;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class CategoriesRelationManager extends RelationManager
 {
+    use NoahBaseRelationManager;
+
     protected static string $relationship = 'categories';
 
     protected static ?string $icon = 'heroicon-o-circle-stack';
@@ -26,6 +30,11 @@ class CategoriesRelationManager extends RelationManager
         return __('noah-cms::noah-cms.category');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->categories->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -38,7 +47,7 @@ class CategoriesRelationManager extends RelationManager
         return $table
             ->recordTitle(fn(Category $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.category'))
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Category::class))
+            ->columns(array_merge(static::getTableStartColumns(CategoryResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Category::class)))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Category::class, Menu::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),

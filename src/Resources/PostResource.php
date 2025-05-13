@@ -35,7 +35,7 @@ class PostResource extends Resource implements HasShieldPermissions
     {
         $table = static::chainTableFunctions($table);
         return $table
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
+            ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -59,7 +59,7 @@ class PostResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
-            // 'view' => Pages\ViewPost::route('/{record}'),
+            'view' => Pages\ViewPost::route('/{record}'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }

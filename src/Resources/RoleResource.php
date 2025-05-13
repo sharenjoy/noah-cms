@@ -84,6 +84,8 @@ class RoleResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(null)
+            ->recordAction(null)
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->weight('font-medium')

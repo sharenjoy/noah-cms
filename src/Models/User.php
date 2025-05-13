@@ -74,6 +74,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     protected array $sort = [
         'created_at' => 'desc',
+        'id' => 'desc',
     ];
 
     protected static function boot()
@@ -321,7 +322,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     public function canImpersonate()
     {
-        return true;
+        return $this->hasRole('super_admin');
     }
 
     public function age(): Attribute

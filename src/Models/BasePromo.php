@@ -75,6 +75,7 @@ class BasePromo extends Model
 
     protected array $sort = [
         'published_at' => 'desc',
+        'id' => 'desc',
     ];
 
     protected function formFields(): array

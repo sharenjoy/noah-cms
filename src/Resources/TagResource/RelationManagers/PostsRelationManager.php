@@ -2,16 +2,20 @@
 
 namespace Sharenjoy\NoahCms\Resources\TagResource\RelationManagers;
 
-use Sharenjoy\NoahCms\Models\Post;
-use Sharenjoy\NoahCms\Models\Tag;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\Post;
+use Sharenjoy\NoahCms\Models\Tag;
+use Sharenjoy\NoahCms\Resources\PostResource;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class PostsRelationManager extends RelationManager
 {
+    use NoahBaseRelationManager;
+
     protected static string $relationship = 'posts';
 
     protected static ?string $icon = 'heroicon-o-newspaper';
@@ -26,6 +30,11 @@ class PostsRelationManager extends RelationManager
         return __('noah-cms::noah-cms.post');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->posts->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -38,7 +47,7 @@ class PostsRelationManager extends RelationManager
         return $table
             ->recordTitle(fn(Post $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.post'))
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Post::class))
+            ->columns(array_merge(static::getTableStartColumns(PostResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Post::class)))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Post::class, Tag::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),

@@ -9,9 +9,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\Objective;
 use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Resources\Shop\ObjectiveResource;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class ObjectivesRelationManager extends RelationManager
 {
+    use NoahBaseRelationManager;
+
     protected static string $relationship = 'objectives';
 
     protected static ?string $icon = 'heroicon-o-viewfinder-circle';
@@ -43,7 +47,7 @@ class ObjectivesRelationManager extends RelationManager
         return $table
             ->recordTitle(fn(Objective $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.objective'))
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Objective::class))
+            ->columns(array_merge(static::getTableStartColumns(ObjectiveResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Objective::class)))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Objective::class, User::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),

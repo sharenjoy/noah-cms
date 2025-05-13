@@ -12,10 +12,14 @@ use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Actions\StoreRecordBackToProductSpecs;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
+use Sharenjoy\NoahCms\Resources\ProductSpecificationResource;
 use Sharenjoy\NoahCms\Resources\ProductSpecificationResource\RelationManagers\StockMutationsRelationManager;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class ProductSpecificationsRelationManager extends RelationManager
 {
+    use NoahBaseRelationManager;
+
     protected static string $relationship = 'specifications';
 
     protected static ?string $icon = 'heroicon-o-square-3-stack-3d';
@@ -28,6 +32,11 @@ class ProductSpecificationsRelationManager extends RelationManager
     protected static function getRecordLabel(): ?string
     {
         return __('noah-cms::noah-cms.specification');
+    }
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->specifications->count();
     }
 
     public function form(Form $form): Form
@@ -64,7 +73,7 @@ class ProductSpecificationsRelationManager extends RelationManager
         return $table
             ->recordTitle(fn(ProductSpecification $record): string => "({$record->id}) {$record->no}")
             ->heading(__('noah-cms::noah-cms.specification'))
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(ProductSpecification::class))
+            ->columns(array_merge(static::getTableStartColumns(ProductSpecificationResource::class), \Sharenjoy\NoahCms\Utils\Table::make(ProductSpecification::class)))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(ProductSpecification::class))
             ->headerActions($headerActions)
             ->actions([

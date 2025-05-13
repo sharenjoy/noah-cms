@@ -75,7 +75,7 @@ class GiftproductResource extends Resource implements HasShieldPermissions
     {
         $table = static::chainTableFunctions($table);
         return $table
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
+            ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -96,6 +96,7 @@ class GiftproductResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListGiftproducts::route('/'),
             'create' => Pages\CreateGiftproduct::route('/create'),
+            'view' => Pages\ViewGiftproduct::route('/{record}'),
             'edit' => Pages\EditGiftproduct::route('/{record}/edit'),
         ];
     }

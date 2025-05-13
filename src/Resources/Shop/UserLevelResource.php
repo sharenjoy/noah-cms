@@ -114,7 +114,7 @@ class UserLevelResource extends Resource implements HasShieldPermissions
     {
         $table = static::chainTableFunctions($table);
         return $table
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
+            ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -154,6 +154,7 @@ class UserLevelResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListUserLevels::route('/'),
             'create' => Pages\CreateUserLevel::route('/create'),
+            'view' => Pages\ViewUserLevel::route('/{record}'),
             'edit' => Pages\EditUserLevel::route('/{record}/edit'),
         ];
     }

@@ -55,7 +55,7 @@ trait OrderableResource
     {
         $table = static::chainTableFunctions($table);
         return $table
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
+            ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters([
                 Filter::make('shipment')
                     ->label(__('noah-cms::noah-cms.order_shipment_status'))
@@ -205,6 +205,7 @@ trait OrderableResource
                     }),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\Action::make('view_order_info_list')

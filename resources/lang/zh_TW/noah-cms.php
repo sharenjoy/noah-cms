@@ -155,6 +155,7 @@ return [
     'transaction_status' => '交易狀態',
     'delivery_provider' => '配送商',
     'payment_provider' => '付款商',
+    'promos_count' => '促銷數量',
 
     'activity' => [
         'title' => [

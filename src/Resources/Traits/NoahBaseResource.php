@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Sharenjoy\NoahCms\Tables\Columns\ResourceIDColumn;
 use Spatie\EloquentSortable\SortableTrait;
 
 trait NoahBaseResource
@@ -58,7 +59,25 @@ trait NoahBaseResource
             $table->defaultSort('created_at', 'desc');
         }
 
+        $table->recordUrl(null)->recordAction(null);
+
         return $table;
+    }
+
+    protected static function getTableStartColumns()
+    {
+        return [
+            ResourceIDColumn::make('id')
+                ->label('ID')
+                ->sortable()
+                ->searchable()
+                ->toggleable()
+                ->wrapHeader()
+                ->width('1%')
+                ->content([
+                    'resource' => self::class,
+                ]),
+        ];
     }
 
     protected static function getTableActions(): array

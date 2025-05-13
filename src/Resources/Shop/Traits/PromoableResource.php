@@ -196,7 +196,7 @@ trait PromoableResource
     {
         $table = static::chainTableFunctions($table);
         return $table
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
+            ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
             ->actions([
                 Tables\Actions\EditAction::make(),

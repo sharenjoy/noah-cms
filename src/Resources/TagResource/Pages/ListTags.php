@@ -2,12 +2,13 @@
 
 namespace Sharenjoy\NoahCms\Resources\TagResource\Pages;
 
+use Filament\Resources\Components\Tab;
+use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 use Sharenjoy\NoahCms\Enums\TagType;
+use Sharenjoy\NoahCms\Models\Tag;
 use Sharenjoy\NoahCms\Resources\TagResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahListRecords;
-use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Components\Tab;
-use Illuminate\Database\Eloquent\Builder;
 
 class ListTags extends ListRecords
 {
@@ -21,7 +22,7 @@ class ListTags extends ListRecords
         foreach (TagType::cases() as $case) {
             $tabs[$case->value] = Tab::make($case->getLabel())
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('type', $case->value))
-                ->icon($case->getIcon());
+                ->badge(fn() => Tag::where('type', $case->value)->count());
         }
 
         return $tabs;

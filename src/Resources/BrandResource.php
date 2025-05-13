@@ -9,7 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Sharenjoy\NoahCms\Models\Brand;
 use Sharenjoy\NoahCms\Resources\BrandResource\Pages;
-use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\ProductsRelationManager;
+use Sharenjoy\NoahCms\Resources\BrandResource\RelationManagers\ProductsRelationManager;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
 class BrandResource extends Resource implements HasShieldPermissions
@@ -43,7 +43,7 @@ class BrandResource extends Resource implements HasShieldPermissions
     {
         $table = static::chainTableFunctions($table);
         return $table
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
+            ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -66,6 +66,7 @@ class BrandResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListBrands::route('/'),
             'create' => Pages\CreateBrand::route('/create'),
+            'view' => Pages\ViewBrand::route('/{record}'),
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
     }

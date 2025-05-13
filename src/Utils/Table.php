@@ -35,15 +35,15 @@ class Table
             } else {
                 // others
                 if ($name == 'title') {
-                    $field = TextColumn::make('title')->label(__('noah-cms::noah-cms.title'))->limit(50)->searchable()->wrap();
+                    $field = TextColumn::make('title')->label(__('noah-cms::noah-cms.title'))->limit(40)->searchable();
                     if ($content['description'] ?? false) {
-                        $field = $field->description(fn(Model $record): string => str($record->description)->limit(80))->searchable(['title', 'description']);
+                        $field = $field->description(fn(Model $record): string => str($record->description)->limit(50))->searchable(['title', 'description']);
                     }
                     $column = $field->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'thumbnail') {
                     $column = MediaColumn::make($name)->label(__('noah-cms::noah-cms.image'))->square()->size($content['size'] ?? 40)->alignCenter()->defaultImageUrl(asset('vendor/noah-cms/images/placeholder.svg'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'slug') {
-                    $column = TextColumn::make($name)->label('Slug')->searchable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = TextColumn::make($name)->label('Slug')->searchable()->limit(10)->tooltip(fn(Model $record): string => "By {$record->slug}")->copyable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'categories') {
                     $column = TextColumn::make('categories.title')->label(__('noah-cms::noah-cms.categories'))->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'tags') {
@@ -107,7 +107,7 @@ class Table
                 $column = $column->suffix($content['suffix']);
             }
 
-            $columns[] = $column;
+            $columns[] = $column->wrapHeader();
         }
 
         return $columns;

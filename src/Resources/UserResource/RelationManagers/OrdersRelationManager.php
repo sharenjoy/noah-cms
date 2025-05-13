@@ -9,9 +9,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Resources\Shop\OrderResource;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class OrdersRelationManager extends RelationManager
 {
+    use NoahBaseRelationManager;
+
     protected static string $relationship = 'orders';
 
     protected static ?string $icon = 'heroicon-o-shopping-bag';
@@ -43,7 +47,7 @@ class OrdersRelationManager extends RelationManager
         return $table
             ->recordTitle(fn(Order $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.order'))
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Order::class))
+            ->columns(array_merge(static::getTableStartColumns(OrderResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Order::class)))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Order::class, User::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),

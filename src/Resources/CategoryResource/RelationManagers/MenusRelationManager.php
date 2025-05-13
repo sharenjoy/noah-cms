@@ -2,16 +2,20 @@
 
 namespace Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers;
 
-use Sharenjoy\NoahCms\Models\Category;
-use Sharenjoy\NoahCms\Models\Menu;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\Category;
+use Sharenjoy\NoahCms\Models\Menu;
+use Sharenjoy\NoahCms\Resources\MenuResource;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class MenusRelationManager extends RelationManager
 {
+    use NoahBaseRelationManager;
+
     protected static string $relationship = 'menus';
 
     protected static ?string $icon = 'heroicon-o-bars-arrow-down';
@@ -26,6 +30,11 @@ class MenusRelationManager extends RelationManager
         return __('noah-cms::noah-cms.menu');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->menus->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -38,7 +47,7 @@ class MenusRelationManager extends RelationManager
         return $table
             ->recordTitle(fn(Menu $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.menu'))
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Menu::class))
+            ->columns(array_merge(static::getTableStartColumns(MenuResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Menu::class)))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Menu::class, Category::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),

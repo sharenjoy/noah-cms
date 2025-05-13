@@ -147,6 +147,7 @@ class CouponPromoResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListPromos::route('/'),
             'create' => Pages\CreatePromo::route('/create'),
+            'view' => Pages\ViewPromo::route('/{record}'),
             'edit' => Pages\EditPromo::route('/{record}/edit'),
         ];
     }

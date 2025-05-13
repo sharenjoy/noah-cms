@@ -2,16 +2,20 @@
 
 namespace Sharenjoy\NoahCms\Resources\TagResource\RelationManagers;
 
-use Sharenjoy\NoahCms\Models\User;
-use Sharenjoy\NoahCms\Models\Tag;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\Tag;
+use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
+use Sharenjoy\NoahCms\Resources\UserResource;
 
 class UsersRelationManager extends RelationManager
 {
+    use NoahBaseRelationManager;
+
     protected static string $relationship = 'users';
 
     protected static ?string $icon = 'heroicon-o-user-circle';
@@ -26,6 +30,11 @@ class UsersRelationManager extends RelationManager
         return __('noah-cms::noah-cms.user');
     }
 
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->users->count();
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -38,7 +47,7 @@ class UsersRelationManager extends RelationManager
         return $table
             ->recordTitle(fn(User $record): string => "({$record->id}) {$record->name}\r{$record->email}")
             ->heading(__('noah-cms::noah-cms.user'))
-            ->columns(\Sharenjoy\NoahCms\Utils\Table::make(User::class))
+            ->columns(array_merge(static::getTableStartColumns(UserResource::class), \Sharenjoy\NoahCms\Utils\Table::make(User::class)))
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(User::class, Tag::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),

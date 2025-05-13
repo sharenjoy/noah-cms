@@ -81,15 +81,11 @@ class Post extends Model implements Sortable
     ];
 
     protected array $tableFields = [
-        'title' => [
-            'description' => true,
-        ],
+        'thumbnail' => [],
+        'title' => ['description' => true],
         'slug' => [],
         'categories' => [],
-        'tags' => [
-            'tagType' => 'post',
-        ],
-        'thumbnail' => [],
+        'tags' => ['tagType' => 'post'],
         'seo' => [],
         'is_active' => [],
         'published_at' => [],
