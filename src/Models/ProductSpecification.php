@@ -3,6 +3,7 @@
 namespace Sharenjoy\NoahCms\Models;
 
 use Appstract\Stock\HasStock;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Sharenjoy\NoahCms\Models\Product;
-use Sharenjoy\NoahCms\Models\ProductSpecificationMutation;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -73,6 +73,13 @@ class ProductSpecification extends Model implements Sortable
                 'img' => ['required' => true],
                 'album' => [],
                 'is_active' => ['required' => true],
+                'stock' => Section::make(__('noah-cms::noah-cms.stock'))
+                    ->hidden(fn($record) => $record === null)
+                    ->schema([
+                        Placeholder::make('stock')
+                            ->label('')
+                            ->content(fn($record): ?string => $record->stock),
+                    ]),
             ],
         ];
     }
@@ -84,7 +91,7 @@ class ProductSpecification extends Model implements Sortable
             'product.title' =>  ['alias' => 'belongs_to', 'label' => 'product', 'relation' => 'product'],
             'spec_detail_name' => [],
             'no' => ['label' => 'spec_no'],
-            'stock' => TextColumn::make('stock')->label(__('noah-cms::noah-cms.stock'))->numeric()->searchable()->toggleable(),
+            'stock' => TextColumn::make('stock')->label(__('noah-cms::noah-cms.stock'))->numeric()->toggleable(),
             'price' => ['type' => 'number'],
             'compare_price' => ['type' => 'number'],
             'weight' => ['type' => 'number'],
@@ -106,24 +113,6 @@ class ProductSpecification extends Model implements Sortable
     /** EVENTS */
 
     /** OTHERS */
-
-    public function inStock($amount = 1)
-    {
-        // 計算增加釋出的庫存量
-        $specMutationModel = ProductSpecificationMutation::find($this->id);
-        $stock = $this->stock + $specMutationModel->stock();
-
-        return $stock > 0 && $stock >= $amount;
-    }
-
-    public function outOfStock()
-    {
-        // 計算增加釋出的庫存量
-        $specMutationModel = ProductSpecificationMutation::find($this->id);
-        $stock = $this->stock + $specMutationModel->stock();
-
-        return $stock <= 0;
-    }
 
     protected function spec(): Attribute
     {

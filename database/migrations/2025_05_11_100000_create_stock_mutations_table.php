@@ -15,6 +15,7 @@ class CreateStockMutationsTable extends Migration
     {
         Schema::create(config('stock.table'), function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedBigInteger('order_id')->nullable()->index();
             $table->morphs('stockable');
             $table->string('reference_type')->nullable();
             $table->unsignedBigInteger('reference_id')->nullable();

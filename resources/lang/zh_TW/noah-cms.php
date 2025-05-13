@@ -150,6 +150,7 @@ return [
     'user_point_record' => '點數紀錄',
     'user_shoppingmoney_record' => '購物金紀錄',
     'coin_reference' => '點數來源(提供者)',
+    'stock_reference' => '庫存來源(提供者)',
     'stock' => '庫存',
     'transaction_status' => '交易狀態',
     'delivery_provider' => '配送商',

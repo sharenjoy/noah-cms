@@ -8,9 +8,11 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
+use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Actions\StoreRecordBackToProductSpecs;
 use Sharenjoy\NoahCms\Models\ProductSpecification;
+use Sharenjoy\NoahCms\Resources\ProductSpecificationResource\RelationManagers\StockMutationsRelationManager;
 
 class ProductSpecificationsRelationManager extends RelationManager
 {
@@ -66,6 +68,10 @@ class ProductSpecificationsRelationManager extends RelationManager
             ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(ProductSpecification::class))
             ->headerActions($headerActions)
             ->actions([
+                RelationManagerAction::make('product-specification-stock-mutations')
+                    ->label('庫存狀態')
+                    ->icon('heroicon-o-archive-box-arrow-down')
+                    ->relationManager(StockMutationsRelationManager::make()),
                 Tables\Actions\EditAction::make()
                     ->mutateFormDataUsing(function (Tables\Actions\EditAction $action, array $data, ProductSpecification $record): array {
                         try {

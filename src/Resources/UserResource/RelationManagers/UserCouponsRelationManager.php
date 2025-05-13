@@ -55,6 +55,7 @@ class UserCouponsRelationManager extends RelationManager
                 // Tables\Actions\EditAction::make(),
                 RelationManagerAction::make('user-coupon-status-relation-manager')
                     ->label(__('noah-cms::noah-cms.user_coupon_statuses'))
+                    ->icon('heroicon-o-ticket')
                     ->relationManager(UserCouponStatusesRelationManager::make()),
                 Tables\Actions\DeleteAction::make(),
             ])

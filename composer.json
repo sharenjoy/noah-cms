@@ -43,6 +43,7 @@
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-package-tools": "^1.16",
         "stechstudio/filament-impersonate": "^3.15",
+        "tapp/filament-value-range-filter": "^1.0",
         "torann/currency": "^1.1",
         "torann/geoip": "^3.0",
         "webpatser/laravel-countries": "^1.5"

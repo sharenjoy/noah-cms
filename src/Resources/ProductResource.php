@@ -3,12 +3,15 @@
 namespace Sharenjoy\NoahCms\Resources;
 
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Sharenjoy\NoahCms\Models\Brand;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Resources\ProductResource\Pages;
 use Sharenjoy\NoahCms\Resources\ProductResource\RelationManagers\ProductSpecificationsRelationManager;
@@ -51,7 +54,29 @@ class ProductResource extends Resource implements HasShieldPermissions
         $table = static::chainTableFunctions($table);
         return $table
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
+            ->filters(array_merge([
+                Filter::make('brands')
+                    ->form([
+                        Select::make('brands')
+                            ->label(__('noah-cms::noah-cms.brand'))
+                            ->options(Brand::all()->pluck('title', 'id'))
+                            ->prefixIcon('heroicon-o-lifebuoy')
+                            ->multiple()
+                            ->searchable(),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        $query->when($data['brands'], function ($query, $brands) {
+                            return $query->whereHas('brand', fn($query) => $query->whereIn('brands.id', $brands));
+                        });
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['brands'] ?? null) {
+                            return __('noah-cms::noah-cms.brand') . ': ' . implode(', ', Brand::whereIn('id', $data['brands'])->get()->pluck('title')->toArray());
+                        }
+
+                        return null;
+                    }),
+            ], \Sharenjoy\NoahCms\Utils\Filter::make(static::getModel())))
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ActionGroup::make(array_merge(static::getTableActions(), [])),
@@ -60,7 +85,7 @@ class ProductResource extends Resource implements HasShieldPermissions
                 Tables\Actions\BulkActionGroup::make(array_merge(static::getBulkActions(), [])),
             ])
             ->groups([
-                Group::make('brand_id')->label(__('noah-cms::noah-cms.brand'))->collapsible(),
+                Group::make('brand_id')->label(__('noah-cms::noah-cms.brand'))->getTitleFromRecordUsing(fn($record): string => $record->brand->title)->collapsible(),
             ])
             ->reorderable(false);
     }

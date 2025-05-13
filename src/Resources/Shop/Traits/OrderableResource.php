@@ -57,30 +57,12 @@ trait OrderableResource
         return $table
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
             ->filters([
-                Filter::make('order_status')
-                    ->label(__('noah-cms::noah-cms.order_status'))
+                Filter::make('shipment')
+                    ->label(__('noah-cms::noah-cms.order_shipment_status'))
                     ->form([
                         Select::make('shipment')
                             ->label(__('noah-cms::noah-cms.order_shipment_status'))
                             ->options(OrderShipmentStatus::toArray()),
-                        Select::make('delivery_provider')
-                            ->label(__('noah-cms::noah-cms.delivery_provider'))
-                            ->options(DeliveryProvider::toArray()),
-                        Select::make('delivery_type')
-                            ->label(__('noah-cms::noah-cms.activity.label.delivery_type'))
-                            ->options(DeliveryType::toArray()),
-                        Select::make('transaction')
-                            ->label(__('noah-cms::noah-cms.transaction_status'))
-                            ->options(TransactionStatus::toArray()),
-                        Select::make('payment_provider')
-                            ->label(__('noah-cms::noah-cms.payment_provider'))
-                            ->options(PaymentProvider::toArray()),
-                        Select::make('payment_method')
-                            ->label(__('noah-cms::noah-cms.activity.label.payment_method'))
-                            ->options(PaymentMethod::toArray()),
-                        Select::make('invoice')
-                            ->label(__('noah-cms::noah-cms.invoice_type'))
-                            ->options(InvoiceType::toArray()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if ($data['shipment'] ?? null) {
@@ -88,74 +70,137 @@ trait OrderableResource
                                 $q->where('status', $data['shipment']);
                             });
                         }
-                        if ($data['delivery_type'] ?? null) {
-                            $query->whereHas('shipment', function (Builder $q) use ($data) {
-                                $q->where('delivery_type', $data['delivery_type']);
-                            });
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['shipment'] ?? null) {
+                            return __('noah-cms::noah-cms.order_shipment_status') . ': ' . OrderShipmentStatus::tryFrom($data['shipment'])->getLabel();
                         }
+                        return null;
+                    }),
+
+                Filter::make('delivery_provider')
+                    ->label(__('noah-cms::noah-cms.delivery_provider'))
+                    ->form([
+                        Select::make('delivery_provider')
+                            ->label(__('noah-cms::noah-cms.delivery_provider'))
+                            ->options(DeliveryProvider::toArray()),
+                    ])
+                    ->query(function (Builder $query, array $data) {
                         if ($data['delivery_provider'] ?? null) {
                             $query->whereHas('shipment', function (Builder $q) use ($data) {
                                 $q->where('provider', $data['delivery_provider']);
                             });
                         }
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['delivery_provider'] ?? null) {
+                            return __('noah-cms::noah-cms.delivery_provider') . ': ' . DeliveryProvider::tryFrom($data['delivery_provider'])->getLabel();
+                        }
+                        return null;
+                    }),
+
+                Filter::make('delivery_type')
+                    ->label(__('noah-cms::noah-cms.activity.label.delivery_type'))
+                    ->form([
+                        Select::make('delivery_type')
+                            ->label(__('noah-cms::noah-cms.activity.label.delivery_type'))
+                            ->options(DeliveryType::toArray()),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['delivery_type'] ?? null) {
+                            $query->whereHas('shipment', function (Builder $q) use ($data) {
+                                $q->where('delivery_type', $data['delivery_type']);
+                            });
+                        }
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['delivery_type'] ?? null) {
+                            return __('noah-cms::noah-cms.activity.label.delivery_type') . ': ' . DeliveryType::tryFrom($data['delivery_type'])->getLabel();
+                        }
+                        return null;
+                    }),
+
+                Filter::make('transaction')
+                    ->label(__('noah-cms::noah-cms.transaction_status'))
+                    ->form([
+                        Select::make('transaction')
+                            ->label(__('noah-cms::noah-cms.transaction_status'))
+                            ->options(TransactionStatus::toArray()),
+                    ])
+                    ->query(function (Builder $query, array $data) {
                         if ($data['transaction'] ?? null) {
                             $query->whereHas('transaction', function (Builder $q) use ($data) {
                                 $q->where('status', $data['transaction']);
                             });
                         }
-                        if ($data['payment_method'] ?? null) {
-                            $query->whereHas('transaction', function (Builder $q) use ($data) {
-                                $q->where('payment_method', $data['payment_method']);
-                            });
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['transaction'] ?? null) {
+                            return __('noah-cms::noah-cms.transaction_status') . ': ' . TransactionStatus::tryFrom($data['transaction'])->getLabel();
                         }
+                        return null;
+                    }),
+
+                Filter::make('payment_provider')
+                    ->label(__('noah-cms::noah-cms.payment_provider'))
+                    ->form([
+                        Select::make('payment_provider')
+                            ->label(__('noah-cms::noah-cms.payment_provider'))
+                            ->options(PaymentProvider::toArray()),
+                    ])
+                    ->query(function (Builder $query, array $data) {
                         if ($data['payment_provider'] ?? null) {
                             $query->whereHas('transaction', function (Builder $q) use ($data) {
                                 $q->where('provider', $data['payment_provider']);
                             });
                         }
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['payment_provider'] ?? null) {
+                            return __('noah-cms::noah-cms.payment_provider') . ': ' . PaymentProvider::tryFrom($data['payment_provider'])->getLabel();
+                        }
+                        return null;
+                    }),
+
+                Filter::make('payment_method')
+                    ->label(__('noah-cms::noah-cms.activity.label.payment_method'))
+                    ->form([
+                        Select::make('payment_method')
+                            ->label(__('noah-cms::noah-cms.activity.label.payment_method'))
+                            ->options(PaymentMethod::toArray()),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['payment_method'] ?? null) {
+                            $query->whereHas('transaction', function (Builder $q) use ($data) {
+                                $q->where('payment_method', $data['payment_method']);
+                            });
+                        }
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['payment_method'] ?? null) {
+                            return __('noah-cms::noah-cms.activity.label.payment_method') . ': ' . PaymentMethod::tryFrom($data['payment_method'])->getLabel();
+                        }
+                        return null;
+                    }),
+
+                Filter::make('invoice')
+                    ->label(__('noah-cms::noah-cms.invoice_type'))
+                    ->form([
+                        Select::make('invoice')
+                            ->label(__('noah-cms::noah-cms.invoice_type'))
+                            ->options(InvoiceType::toArray()),
+                    ])
+                    ->query(function (Builder $query, array $data) {
                         if ($data['invoice'] ?? null) {
                             $query->whereHas('invoice', function (Builder $q) use ($data) {
                                 $q->where('type', $data['invoice']);
                             });
                         }
-
-                        return $query;
                     })
                     ->indicateUsing(function (array $data): ?string {
-                        $shipment = $data['shipment'] ?? null;
-                        $deliveryType = $data['delivery_type'] ?? null;
-                        $deliveryProvider = $data['delivery_provider'] ?? null;
-                        $transaction = $data['transaction'] ?? null;
-                        $paymentMethod = $data['payment_method'] ?? null;
-                        $paymentProvider = $data['payment_provider'] ?? null;
-                        $invoice = $data['invoice'] ?? null;
-
-                        $indicateString = [];
-                        if ($shipment) {
-                            $indicateString[] = __('noah-cms::noah-cms.order_shipment_status') . ': ' . OrderShipmentStatus::tryFrom($shipment)->getLabel();
+                        if ($data['invoice'] ?? null) {
+                            return __('noah-cms::noah-cms.invoice_type') . ': ' . InvoiceType::tryFrom($data['invoice'])->getLabel();
                         }
-                        if ($deliveryType) {
-                            $indicateString[] = __('noah-cms::noah-cms.activity.label.delivery_type') . ': ' . DeliveryType::tryFrom($deliveryType)->getLabel();
-                        }
-                        if ($deliveryProvider) {
-                            $indicateString[] = __('noah-cms::noah-cms.delivery_provider') . ': ' . DeliveryProvider::tryFrom($deliveryProvider)->getLabel();
-                        }
-                        if ($transaction) {
-                            $indicateString[] = __('noah-cms::noah-cms.transaction_status') . ': ' . TransactionStatus::tryFrom($transaction)->getLabel();
-                        }
-                        if ($paymentMethod) {
-                            $indicateString[] = __('noah-cms::noah-cms.activity.label.payment_method') . ': ' . PaymentMethod::tryFrom($paymentMethod)->getLabel();
-                        }
-                        if ($paymentProvider) {
-                            $indicateString[] = __('noah-cms::noah-cms.payment_provider') . ': ' . PaymentProvider::tryFrom($paymentProvider)->getLabel();
-                        }
-                        if ($invoice) {
-                            $indicateString[] = __('noah-cms::noah-cms.invoice_type') . ': ' . InvoiceType::tryFrom($invoice)->getLabel();
-                        }
-                        if (count($indicateString)) {
-                            return implode(', ', $indicateString);
-                        }
-
                         return null;
                     }),
             ])

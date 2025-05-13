@@ -4,12 +4,17 @@ namespace Sharenjoy\NoahCms\Resources;
 
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Support\Utils;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
+use Sharenjoy\NoahCms\Models\Role;
 use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Models\UserLevel;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 use Sharenjoy\NoahCms\Resources\UserResource\Pages;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\AddressesRelationManager;
@@ -54,7 +59,50 @@ class UserResource extends Resource implements HasShieldPermissions
     {
         return $table
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(static::getModel()))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
+            ->filters(array_merge([
+                Filter::make('userLevels')
+                    ->form([
+                        Select::make('userLevels')
+                            ->label(__('noah-cms::noah-cms.user_level'))
+                            ->options(UserLevel::all()->pluck('title', 'id'))
+                            ->prefixIcon('heroicon-o-chart-bar')
+                            ->multiple()
+                            ->searchable(),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        $query->when($data['userLevels'], function ($query, $userLevels) {
+                            return $query->whereHas('userLevel', fn($query) => $query->whereIn('user_level_id', $userLevels));
+                        });
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['userLevels'] ?? null) {
+                            return __('noah-cms::noah-cms.user_level') . ': ' . implode(', ', UserLevel::whereIn('id', $data['userLevels'])->get()->pluck('title')->toArray());
+                        }
+
+                        return null;
+                    }),
+                Filter::make('roles')
+                    ->form([
+                        Select::make('roles')
+                            ->label(__('noah-cms::noah-cms.role'))
+                            ->options(Role::all()->pluck('name', 'id'))
+                            ->prefixIcon('heroicon-o-shield-check')
+                            ->multiple()
+                            ->searchable(),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        $query->when($data['roles'], function ($query, $roles) {
+                            return $query->whereHas('roles', fn($query) => $query->whereIn('roles.id', $roles));
+                        });
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if ($data['roles'] ?? null) {
+                            return __('noah-cms::noah-cms.role') . ': ' . implode(', ', Role::whereIn('id', $data['roles'])->get()->pluck('name')->toArray());
+                        }
+
+                        return null;
+                    }),
+            ], \Sharenjoy\NoahCms\Utils\Filter::make(static::getModel())))
             ->actions([
                 Impersonate::make()->iconSize('sm'),
                 Tables\Actions\EditAction::make(),
