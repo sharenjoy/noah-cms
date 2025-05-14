@@ -16,10 +16,14 @@ return [
     ],
 
     'feature' => [
-        'logActivity' => env('FEATURE_TOGGLE_LOGACTIVITY', false),
-        'seo' => env('FEATURE_TOGGLE_SEO', true),
-        'coin-point' => env('FEATURE_TOGGLE_POINT', true),
-        'coin-shoppingmoney' => env('FEATURE_TOGGLE_SHOPPINGMONEY', false),
+        'log-activity' => env('NOAHCMS_FEATURE_LOGACTIVITY', false),
+        'seo' => env('NOAHCMS_FEATURE_SEO', true),
+    ],
+
+    'shop-feature' => [
+        'shop' => env('NOAHCMS_FEATURE_SHOP', false),
+        'coin-point' => env('NOAHCMS_FEATURE_POINT', true),
+        'coin-shoppingmoney' => env('NOAHCMS_FEATURE_SHOPPINGMONEY', false),
     ],
 
     'promo' => [
@@ -29,7 +33,11 @@ return [
     ],
 
     'donate_code' => [
-        //
+        // 322833 => '天主教花蓮教區醫療財團法人',
+        // 17930 => '社團法人台灣環境資訊協會',
+        // 876 => '財團法人心路社會福利基金會',
+        // 2880 => '台灣原生植物保育協會',
+        // 7495 => '社團法人臺灣野灣野生動物保育協會',
     ],
 
     // 這些 enum 的值會被隱藏在選單中
@@ -48,4 +56,9 @@ return [
             'shoppingmoney',
         ],
     ],
+
+    'creator_emails' => [
+        'ronald.jian@gmail.com',
+    ],
+
 ];

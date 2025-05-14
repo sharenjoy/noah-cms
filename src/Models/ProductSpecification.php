@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Sharenjoy\NoahCms\Actions\Shop\ShopFeatured;
 use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
@@ -75,6 +76,7 @@ class ProductSpecification extends Model implements Sortable
                 'is_active' => ['required' => true],
                 'stock' => Section::make(__('noah-cms::noah-cms.stock'))
                     ->hidden(fn($record) => $record === null)
+                    ->visible(fn(): bool => ShopFeatured::run('shop'))
                     ->schema([
                         Placeholder::make('stock')
                             ->label('')
@@ -91,7 +93,7 @@ class ProductSpecification extends Model implements Sortable
             'product.title' =>  ['alias' => 'belongs_to', 'label' => 'product', 'relation' => 'product'],
             'spec_detail_name' => [],
             'no' => ['label' => 'spec_no'],
-            'stock' => TextColumn::make('stock')->label(__('noah-cms::noah-cms.stock'))->numeric()->toggleable(),
+            'stock' => TextColumn::make('stock')->label(__('noah-cms::noah-cms.stock'))->numeric()->toggleable()->visible(fn(): bool => ShopFeatured::run('shop')),
             'price' => ['type' => 'number'],
             'compare_price' => ['type' => 'number'],
             'weight' => ['type' => 'number'],

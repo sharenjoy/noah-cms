@@ -142,7 +142,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                         ->required()
                         // 只有最高權限角色可以編輯
                         ->disabled(fn(Get $get): bool => $get('id') && !RoleCan::run(role: 'super_admin')),
-                ])->visible(fn(Get $get): bool => (bool)$get('id') && ShopFeatured::run('user-level')),
+                ])->visible(fn(Get $get): bool => (bool)$get('id') && ShopFeatured::run('shop')),
                 'name' => [
                     'required' => true,
                     'rules' => ['required', 'string'],
@@ -196,7 +196,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         return [
             'sn' => [],
-            'userLevel.title' =>  ['alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'userLevel', 'relation_route' => 'shop.user-levels', 'relation_column' => 'user_level_id', 'visible' => ShopFeatured::run('user-level')],
+            'userLevel.title' =>  ['alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'userLevel', 'relation_route' => 'shop.user-levels', 'relation_column' => 'user_level_id', 'visible' => ShopFeatured::run('shop')],
             'name' => [],
             'email' => [],
             'user_coin' => ['label' => ShopFeatured::run('coin-shoppingmoney') ? 'user_coin' : 'user_point'],
