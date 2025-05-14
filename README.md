@@ -149,15 +149,15 @@ ul li.fi-sidebar-group .fi-sidebar-group-label {
         row-gap: 1.3rem !important;
     }
     .fi-sidebar-item a {
-        padding: 0.42rem !important;
+        padding: 0.32rem !important;
     }
     .fi-sidebar-item a span.fi-badge {
         padding: 0.15rem !important;
     }
     .fi-sidebar-item-icon,
     .fi-sidebar-item-grouped-border {
-        width: 1.3rem !important;
-        height: 1.3rem !important;
+        width: 1.25rem !important;
+        height: 1.25rem !important;
     }
 }
 
