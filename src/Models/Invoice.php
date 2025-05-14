@@ -5,8 +5,6 @@ namespace Sharenjoy\NoahCms\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Sharenjoy\NoahCms\Enums\InvoiceDonateCode;
-use Sharenjoy\NoahCms\Enums\InvoiceHolderCode;
 use Sharenjoy\NoahCms\Enums\InvoiceHolderType;
 use Sharenjoy\NoahCms\Enums\InvoiceType;
 use Sharenjoy\NoahCms\Models\InvoicePrice;
@@ -43,7 +41,7 @@ class Invoice extends Model
                 ],
                 'slug' => ['maxLength' => 50, 'required' => true],
                 'categories' => ['required' => true],
-                'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
+                'tags' => ['max' => 5, 'multiple' => true],
                 'description' => ['required' => true, 'rules' => ['required', 'string']],
                 'content' => [
                     'profile' => 'simple',

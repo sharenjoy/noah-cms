@@ -8,15 +8,30 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
+use Sharenjoy\NoahCms\Actions\Shop\ShopFeatured;
 use Sharenjoy\NoahCms\Enums\CoinType;
 use Sharenjoy\NoahCms\Models\CoinMutation;
+use Sharenjoy\NoahCms\Models\Role;
 use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Resources\Traits\CanViewShop;
 
 class PointCoinMutationsRelationManager extends RelationManager
 {
+    use CanViewShop;
+
     protected static string $relationship = 'pointCoinMutations';
 
     protected static ?string $icon = 'heroicon-o-cube';
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        if (! ShopFeatured::run('coin-point')) {
+            return false;
+        }
+
+        return parent::canViewForRecord($ownerRecord, $pageClass);
+    }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
@@ -53,7 +68,7 @@ class PointCoinMutationsRelationManager extends RelationManager
                     $data['reference_id'] = Auth::user()->id; // 設定建立者
                     $data['type'] = CoinType::Point->value;
                     return $data;
-                })->visible(fn(): bool => Auth::user()->isSuperAdmin()),
+                })->visible(fn(): bool => RoleCan::run(role: 'super_admin')),
                 // Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['code'])->multiple(),
             ])
             ->actions([

@@ -15,9 +15,11 @@ return [
         'maxDepth' => 3,
     ],
 
-    'featureToggle' => [
+    'feature' => [
         'logActivity' => env('FEATURE_TOGGLE_LOGACTIVITY', false),
         'seo' => env('FEATURE_TOGGLE_SEO', true),
+        'coin-point' => env('FEATURE_TOGGLE_POINT', true),
+        'coin-shoppingmoney' => env('FEATURE_TOGGLE_SHOPPINGMONEY', false),
     ],
 
     'promo' => [
@@ -26,6 +28,24 @@ return [
         'coupon_divider' => env('PROMO_COUPON_DIVIDER', '::'),
     ],
 
-    'donate_code' => [],
+    'donate_code' => [
+        //
+    ],
 
+    // 這些 enum 的值會被隱藏在選單中
+    'hidden' => [
+        'OrderStatus' => [
+            'initial',
+        ],
+        'DeliveryProvider' => [
+            'tcat',
+            'fedex',
+        ],
+        'StockMethod' => [
+            'preorderable',
+        ],
+        'CoinType' => [
+            'shoppingmoney',
+        ],
+    ],
 ];

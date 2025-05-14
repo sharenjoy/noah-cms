@@ -53,7 +53,7 @@ class GetDeCryptExtendCondition
                     ->actions([
                         Action::make('View')->url(Settings::getUrl(['tab' => '-code-tab'])),
                     ])
-                    ->sendToDatabase(User::query()->superAdminAndCreater()->get());
+                    ->sendToDatabase(User::query()->whereIn('email', config('noah-cms.creator_emails'))->get());
             }
         }
 

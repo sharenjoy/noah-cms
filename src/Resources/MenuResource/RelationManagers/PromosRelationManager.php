@@ -9,9 +9,12 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\Menu;
 use Sharenjoy\NoahCms\Models\Promo;
+use Sharenjoy\NoahCms\Resources\Traits\CanViewShop;
 
 class PromosRelationManager extends RelationManager
 {
+    use CanViewShop;
+
     protected static string $relationship = 'promos';
 
     protected static ?string $icon = 'heroicon-o-gift';

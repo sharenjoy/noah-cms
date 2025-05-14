@@ -13,10 +13,11 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Get;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 use Outerweb\FilamentSettings\Filament\Pages\Settings as BaseSettings;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
+use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
+use Sharenjoy\NoahCms\Actions\Shop\ShopFeatured;
 
 class Settings extends BaseSettings
 {
@@ -66,6 +67,7 @@ class Settings extends BaseSettings
                         ]),
                     Tabs\Tab::make('order')
                         ->label('訂單相關')
+                        ->visible(fn(): bool => ShopFeatured::run('shop'))
                         ->schema([
                             Section::make('運費相關')->schema([
                                 TextInput::make('order.delivery_free_limit')
@@ -99,6 +101,7 @@ class Settings extends BaseSettings
                         ]),
                     Tabs\Tab::make('shop')
                         ->label('促銷相關')
+                        ->visible(fn(): bool => ShopFeatured::run('shop'))
                         ->schema([
                             Section::make('折扣設定')->schema([
                                 Radio::make('shop.decimal_point_calculate_type')
@@ -138,7 +141,7 @@ class Settings extends BaseSettings
                         ]),
                     Tabs\Tab::make('code')
                         ->label('語法相關')
-                        ->visible(fn(): bool => Auth::user()->isSuperAdminAndCreater())
+                        ->visible(fn(): bool => RoleCan::run(role: 'creator'))
                         ->schema([
                             Section::make('折扣碼條件設定(此區塊保留給維護工程人員使用)')
                                 ->schema([

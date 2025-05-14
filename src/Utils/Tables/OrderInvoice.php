@@ -2,12 +2,8 @@
 
 namespace Sharenjoy\NoahCms\Utils\Tables;
 
-use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
-use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Tables\Columns\OrderInvoiceColumn;
-use Sharenjoy\NoahCms\Tables\Columns\OrderShipmentColumn;
-use Sharenjoy\NoahCms\Tables\Columns\OrderTransactionColumn;
 use Sharenjoy\NoahCms\Utils\Tables\TableAbstract;
 use Sharenjoy\NoahCms\Utils\Tables\TableInterface;
 

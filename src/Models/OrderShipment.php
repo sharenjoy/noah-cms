@@ -4,7 +4,6 @@ namespace Sharenjoy\NoahCms\Models;
 
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +13,6 @@ use Sharenjoy\NoahCms\Enums\DeliveryType;
 use Sharenjoy\NoahCms\Enums\OrderShipmentStatus;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
-use Sharenjoy\NoahCms\Tables\Columns\OrderShipmentColumn;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class OrderShipment extends Model
@@ -95,7 +93,7 @@ class OrderShipment extends Model
     protected function deliveryMethod(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => DeliveryProvider::getLabelOptions($attributes['provider']) . ' ' . DeliveryType::getLabelOptions($attributes['delivery_type']),
+            get: fn($value, $attributes) => DeliveryProvider::getLabelFromOption($attributes['provider']) . ' ' . DeliveryType::getLabelFromOption($attributes['delivery_type']),
         );
     }
 

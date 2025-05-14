@@ -11,8 +11,8 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
+use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
 use Sharenjoy\NoahCms\Models\Role;
 use Sharenjoy\NoahCms\Models\User;
 use Sharenjoy\NoahCms\Models\UserLevel;
@@ -106,7 +106,7 @@ class UserResource extends Resource implements HasShieldPermissions
                     }),
             ], \Sharenjoy\NoahCms\Utils\Filter::make(static::getModel())))
             ->actions([
-                Impersonate::make()->iconSize('sm')->visible(fn() => Auth::user()->canImpersonate()),
+                Impersonate::make()->iconSize('sm')->visible(fn() => RoleCan::run(role: 'super_admin')),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ActionGroup::make(array_merge(static::getTableActions(), [])),
             ])

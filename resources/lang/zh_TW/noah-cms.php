@@ -66,18 +66,15 @@ return [
     'price' => '價格',
     'compare_price' => '原價',
     'cost' => '成本',
-    'stock_method' => '庫存方法',
+    'stock_method' => '庫存方法(缺貨時)',
     'specifications_count' => '規格數量',
     'product_title' => '商品名稱',
     'weight' => '重量',
-    'email_notification' => '信件到貨通知',
-    'preorderable' => '可預購',
-    'product_limit' => '商品限制',
-    'no_deliveryhome' => '不可宅配寄送',
-    'no_pickinstore' => '不可超商取貨',
-    'no_international' => '不可國際運送',
-    'no_coupon' => '不可搭配使用折價券',
-    'no_point' => '不可累積點數',
+    'product_limit' => '商品其他限制(不可使用)',
+    'delivery_provider_limit' => '配送商限制(不可使用)',
+    'delivery_type_limit' => '運送方式限制(不可使用)',
+    'no_international' => '國際運送',
+    'no_point' => '累積點數',
     'error' => '錯誤',
     'brand' => '品牌',
     'users_count' => '使用者數量',
@@ -146,6 +143,7 @@ return [
     'super_admin_only' => '此欄位僅限最高管理員更新編輯。',
     'user_coupon_statuses' => '折扣碼使用狀態',
     'giftproduct' => '贈品',
+    'user_point' => '會員點數',
     'user_coin' => '點數/購物金',
     'user_point_record' => '點數紀錄',
     'user_shoppingmoney_record' => '購物金紀錄',
@@ -203,6 +201,23 @@ return [
     ],
 
     'shop' => [
+
+        'method' => [
+            'title' => [
+                'stock' => [
+                    'email_notification' => '信件到貨通知',
+                    'preorderable' => '可預購',
+                    'offline' => '商品下架',
+                ],
+            ],
+            'description' => [
+                'stock' => [
+                    'email_notification' => '信件到貨通知',
+                    'preorderable' => '可預購',
+                    'offline' => '商品下架',
+                ],
+            ],
+        ],
 
         'status' => [
             'title' => [
@@ -425,6 +440,7 @@ return [
                     'tcat' => '黑貓',
                     'fedex' => 'Fedex',
                     'dhl' => 'DHL',
+                    'none' => '無配送商',
                 ],
                 'payment' => [
                     'tappay' => 'TapPay',
@@ -439,6 +455,7 @@ return [
                     'tcat' => '黑貓',
                     'fedex' => 'Fedex',
                     'dhl' => 'DHL',
+                    'none' => '無配送商',
                 ],
                 'payment' => [
                     'tappay' => 'TapPay',

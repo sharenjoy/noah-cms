@@ -39,7 +39,7 @@ class ResolveObjectiveTarget
                 ->actions([
                     Action::make('View')->url(ObjectiveResource::getUrl('edit', ['record' => $objective])),
                 ])
-                ->sendToDatabase(User::query()->superAdmin()->get());
+                ->sendToDatabase(User::superAdmin()->get());
         }
 
         $objective->status = ObjectiveStatus::Finished;

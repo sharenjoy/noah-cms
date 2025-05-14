@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\User;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource;
+use Sharenjoy\NoahCms\Resources\Traits\CanViewShop;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class OrdersRelationManager extends RelationManager
 {
     use NoahBaseRelationManager;
+    use CanViewShop;
 
     protected static string $relationship = 'orders';
 

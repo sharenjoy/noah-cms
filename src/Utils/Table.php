@@ -51,7 +51,7 @@ class Table
                 } elseif ($name == 'roles') {
                     $column = TextColumn::make('roles.name')->label(__('noah-cms::noah-cms.role'))->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'seo') {
-                    if (! config('noah-cms.featureToggle.seo')) {
+                    if (! config('noah-cms.feature.seo')) {
                         continue;
                     }
 

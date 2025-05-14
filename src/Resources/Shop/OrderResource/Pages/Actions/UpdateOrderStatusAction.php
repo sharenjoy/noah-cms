@@ -32,7 +32,7 @@ class UpdateOrderStatusAction
                             ->schema([
                                 Select::make('status')
                                     ->label(__('noah-cms::noah-cms.order_status'))
-                                    ->options(OrderStatus::getShowableOptions())
+                                    ->options(OrderStatus::visibleOptions())
                                     ->required(),
 
                                 Textarea::make('content')->rows(2)->label(__('noah-cms::noah-cms.activity.label.status_notes')),

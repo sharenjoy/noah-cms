@@ -22,7 +22,7 @@ class Activities extends ListActivities
 
     public static function registerNavigationItems(): void
     {
-        if (! config('noah-cms.featureToggle.logActivity')) {
+        if (! config('noah-cms.feature.log-activity')) {
             return;
         }
 

@@ -47,13 +47,13 @@ class EditShipmentAction
                         ->schema([
                             Select::make('shipment.provider')
                                 ->label(__('noah-cms::noah-cms.activity.label.provider'))
-                                ->options(DeliveryProvider::class)
+                                ->options(DeliveryProvider::visibleOptions())
                                 ->required()
                                 ->live(),
 
                             Select::make('shipment.delivery_type')
                                 ->label(__('noah-cms::noah-cms.activity.label.delivery_type'))
-                                ->options(DeliveryType::class)
+                                ->options(DeliveryType::visibleOptions())
                                 ->required()
                                 ->live(),
                         ]),

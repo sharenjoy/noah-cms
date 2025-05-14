@@ -76,7 +76,7 @@ class Post extends Model implements Sortable
             'is_active' => ['required' => true],
             'published_at' => ['required' => true],
             'categories' => ['required' => true],
-            'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
+            'tags' => ['max' => 5, 'multiple' => true],
         ],
     ];
 

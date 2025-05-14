@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\SchemaCollection;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
+use Sharenjoy\NoahCms\Enums\DeliveryProvider;
+use Sharenjoy\NoahCms\Enums\DeliveryType;
 use Sharenjoy\NoahCms\Enums\ProductLimit;
 use Sharenjoy\NoahCms\Enums\StockMethod;
 use Sharenjoy\NoahCms\Models\Brand;
@@ -80,13 +82,21 @@ class Product extends Model implements Sortable
                 'slug' => ['maxLength' => 50, 'required' => true],
                 'description' => ['required' => true, 'rules' => ['required', 'string']],
                 'check' => Section::make()->schema([
-                    'delivery_limit' => CheckboxList::make('product_limit')
-                        ->options(ProductLimit::class)
+                    'provider' => CheckboxList::make('product_limit')
+                        ->options(DeliveryProvider::visibleOptions())
+                        ->label(__('noah-cms::noah-cms.delivery_provider_limit')),
+                    'delivery' => CheckboxList::make('product_limit')
+                        ->options(DeliveryType::visibleOptions())
+                        ->label(__('noah-cms::noah-cms.delivery_type_limit')),
+                    'product' => CheckboxList::make('product_limit')
+                        ->options(ProductLimit::visibleOptions())
                         ->label(__('noah-cms::noah-cms.product_limit')),
+                ])->columns(3),
+                'stock' => Section::make()->schema([
                     'stock_method' => CheckboxList::make('stock_method')
-                        ->options(StockMethod::class)
+                        ->options(StockMethod::visibleOptions())
                         ->label(__('noah-cms::noah-cms.stock_method')),
-                ])->columns(2),
+                ])->columns(3),
                 'is_single_spec' => ['alias' => 'yes_no', 'required' => true, 'disable' => 'edit', 'live' => true],
                 'specs' => Section::make()->schema([
                     Placeholder::make(__('noah-cms::noah-cms.single_spec_selected'))
@@ -121,7 +131,7 @@ class Product extends Model implements Sortable
                 'published_at' => ['required' => true],
                 'brand_id' => ['alias' => 'belongs_to', 'relation' => 'brand'],
                 'categories' => ['required' => true],
-                'tags' => ['min' => 2, 'max' => 5, 'multiple' => true],
+                'tags' => ['max' => 5, 'multiple' => true],
             ],
         ];
     }

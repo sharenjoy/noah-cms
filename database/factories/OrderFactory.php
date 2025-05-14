@@ -35,7 +35,7 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'status' => fake('en')->randomElement(OrderStatus::cases()),
+            'status' => fake('en')->randomElement(OrderStatus::visibleOptions()),
             'notes' => Arr::random([fake()->sentence(), null, null]),
         ];
     }
@@ -69,9 +69,9 @@ class OrderFactory extends Factory
             $specs = ProductSpecification::inRandomOrder()->limit(Arr::random([1, 2, 3, 4]))->get();
 
             $shipment = $order->shipments()->create([
-                'status' => Arr::random(OrderShipmentStatus::cases()),
-                'provider' => Arr::random(DeliveryProvider::cases()),
-                'delivery_type' => Arr::random(DeliveryType::cases()),
+                'status' => Arr::random(OrderShipmentStatus::visibleOptions()),
+                'provider' => Arr::random(DeliveryProvider::visibleOptions()),
+                'delivery_type' => Arr::random(DeliveryType::visibleOptions()),
                 'name' => fake()->name(),
                 'calling_code' => '886',
                 'mobile' => fake()->phoneNumber(),

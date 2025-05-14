@@ -8,9 +8,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\StockMutation as StockMutationModel;
+use Sharenjoy\NoahCms\Resources\Traits\CanViewShop;
 
 class StockMutationsRelationManager extends RelationManager
 {
+    use CanViewShop;
+
     protected static string $relationship = 'stockMutations';
 
     protected static ?string $icon = 'heroicon-o-archive-box-arrow-down';

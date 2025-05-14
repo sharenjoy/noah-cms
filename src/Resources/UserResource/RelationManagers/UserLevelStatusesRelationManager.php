@@ -11,12 +11,16 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use RalphJSmit\Filament\Activitylog\Tables\Actions\TimelineAction;
+use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
 use Sharenjoy\NoahCms\Enums\UserLevelStatus as UserLevelStatusEnum;
 use Sharenjoy\NoahCms\Models\User;
 use Sharenjoy\NoahCms\Models\UserLevelStatus;
+use Sharenjoy\NoahCms\Resources\Traits\CanViewShop;
 
 class UserLevelStatusesRelationManager extends RelationManager
 {
+    use CanViewShop;
+
     protected static string $relationship = 'userLevelStatuses';
 
     protected static ?string $icon = 'heroicon-o-chart-bar';
@@ -57,7 +61,7 @@ class UserLevelStatusesRelationManager extends RelationManager
             ->actions([
                 // Tables\Actions\DetachAction::make(),
                 TimelineAction::make(),
-                Tables\Actions\EditAction::make()->visible(fn(): bool => Auth::user()->isSuperAdmin()),
+                Tables\Actions\EditAction::make()->visible(fn(): bool => RoleCan::run(role: 'super_admin')),
                 Tables\Actions\DeleteAction::make()
                     ->before(function ($action, $record) {
                         if ($record->status == UserLevelStatusEnum::On) {
@@ -70,7 +74,7 @@ class UserLevelStatusesRelationManager extends RelationManager
                             $action->cancel();
                         }
                     })
-                    ->visible(fn(): bool => Auth::user()->isSuperAdmin()),
+                    ->visible(fn(): bool => RoleCan::run(role: 'super_admin')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

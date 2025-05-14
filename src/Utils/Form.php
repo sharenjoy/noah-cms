@@ -42,14 +42,14 @@ class Form
 
         $tabs = [];
 
-        if (in_array(HasSEO::class, class_uses(static::$model)) && config('noah-cms.featureToggle.seo')) {
+        if (in_array(HasSEO::class, class_uses(static::$model)) && config('noah-cms.feature.seo')) {
             $tabs[] = Tabs\Tab::make('SEO')
                 ->schema([
                     static::setSeoField()
                 ]);
         }
 
-        if (in_array(LogsActivity::class, class_uses(static::$model)) && config('noah-cms.featureToggle.logActivity')) {
+        if (in_array(LogsActivity::class, class_uses(static::$model)) && config('noah-cms.feature.log-activity')) {
             $tabs[] = Tabs\Tab::make(__('noah-cms::noah-cms.activity_log'))
                 ->schema([
                     static::setActivityLogField()

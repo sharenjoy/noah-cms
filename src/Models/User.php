@@ -24,6 +24,8 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Sharenjoy\NoahCms\Actions\GenerateUserSeriesNumber;
 use Sharenjoy\NoahCms\Actions\Shop\FetchCountryRelatedSelectOptions;
+use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
+use Sharenjoy\NoahCms\Actions\Shop\ShopFeatured;
 use Sharenjoy\NoahCms\Enums\ObjectiveType;
 use Sharenjoy\NoahCms\Enums\UserLevelStatus as EnumsUserLevelStatus;
 use Sharenjoy\NoahCms\Models\Address;
@@ -139,8 +141,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                         // ->searchable()
                         ->required()
                         // 只有最高權限角色可以編輯
-                        ->disabled(fn(Get $get): bool => $get('id') && !auth()->user()->isSuperAdmin()),
-                ])->visible(fn($operation): bool => $operation == 'edit'),
+                        ->disabled(fn(Get $get): bool => $get('id') && !RoleCan::run(role: 'super_admin')),
+                ])->visible(fn(Get $get): bool => (bool)$get('id') && ShopFeatured::run('user-level')),
                 'name' => [
                     'required' => true,
                     'rules' => ['required', 'string'],
@@ -194,10 +196,10 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         return [
             'sn' => [],
-            'userLevel.title' =>  ['alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'userLevel', 'relation_route' => 'shop.user-levels', 'relation_column' => 'user_level_id'],
+            'userLevel.title' =>  ['alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'userLevel', 'relation_route' => 'shop.user-levels', 'relation_column' => 'user_level_id', 'visible' => ShopFeatured::run('user-level')],
             'name' => [],
             'email' => [],
-            'user_coin' => [],
+            'user_coin' => ['label' => ShopFeatured::run('coin-shoppingmoney') ? 'user_coin' : 'user_point'],
             'roles' => [],
             'tags' => ['tagType' => 'user'],
             'created_at' => [],
@@ -283,15 +285,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $this->hasMany(UserCouponStatus::class);
     }
 
-    /**
-     * Determines if the User is a Super admin
-     * @return null
-     */
-    public function isSuperAdmin()
-    {
-        return $this->hasRole('super_admin');
-    }
-
     public function scopeSuperAdmin($query)
     {
         return $query->whereHas('roles', function ($query) {
@@ -299,30 +292,9 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         });
     }
 
-    /**
-     * Determines if the User is a Super admin and creater
-     * @return null
-     */
-    public function isSuperAdminAndCreater()
-    {
-        return $this->hasRole('super_admin') && Auth::user()->email == 'ronald.jian@gmail.com';
-    }
-
-    public function scopeSuperAdminAndCreater($query)
-    {
-        return $query->whereHas('roles', function ($query) {
-            $query->where('name', 'super_admin');
-        })->where('email', 'ronald.jian@gmail.com');
-    }
-
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
-    }
-
-    public function canImpersonate()
-    {
-        return $this->hasRole('super_admin');
     }
 
     public function age(): Attribute

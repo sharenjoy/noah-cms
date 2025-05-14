@@ -29,12 +29,14 @@ use Sharenjoy\NoahCms\Models\Transaction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\InvoicePricesRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\OrderItemsRelationManager;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\RelationManagers\UserRelationManager;
+use Sharenjoy\NoahCms\Resources\Traits\CanViewShop;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 use Spatie\Activitylog\Models\Activity;
 
 trait OrderableResource
 {
     use NoahBaseResource;
+    use CanViewShop;
 
     public static function getNavigationGroup(): ?string
     {
@@ -62,7 +64,7 @@ trait OrderableResource
                     ->form([
                         Select::make('shipment')
                             ->label(__('noah-cms::noah-cms.order_shipment_status'))
-                            ->options(OrderShipmentStatus::toArray()),
+                            ->options(OrderShipmentStatus::options()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if ($data['shipment'] ?? null) {
@@ -83,7 +85,7 @@ trait OrderableResource
                     ->form([
                         Select::make('delivery_provider')
                             ->label(__('noah-cms::noah-cms.delivery_provider'))
-                            ->options(DeliveryProvider::toArray()),
+                            ->options(DeliveryProvider::options()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if ($data['delivery_provider'] ?? null) {
@@ -104,7 +106,7 @@ trait OrderableResource
                     ->form([
                         Select::make('delivery_type')
                             ->label(__('noah-cms::noah-cms.activity.label.delivery_type'))
-                            ->options(DeliveryType::toArray()),
+                            ->options(DeliveryType::options()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if ($data['delivery_type'] ?? null) {
@@ -125,7 +127,7 @@ trait OrderableResource
                     ->form([
                         Select::make('transaction')
                             ->label(__('noah-cms::noah-cms.transaction_status'))
-                            ->options(TransactionStatus::toArray()),
+                            ->options(TransactionStatus::options()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if ($data['transaction'] ?? null) {
@@ -146,7 +148,7 @@ trait OrderableResource
                     ->form([
                         Select::make('payment_provider')
                             ->label(__('noah-cms::noah-cms.payment_provider'))
-                            ->options(PaymentProvider::toArray()),
+                            ->options(PaymentProvider::options()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if ($data['payment_provider'] ?? null) {
@@ -167,7 +169,7 @@ trait OrderableResource
                     ->form([
                         Select::make('payment_method')
                             ->label(__('noah-cms::noah-cms.activity.label.payment_method'))
-                            ->options(PaymentMethod::toArray()),
+                            ->options(PaymentMethod::options()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if ($data['payment_method'] ?? null) {
@@ -188,7 +190,7 @@ trait OrderableResource
                     ->form([
                         Select::make('invoice')
                             ->label(__('noah-cms::noah-cms.invoice_type'))
-                            ->options(InvoiceType::toArray()),
+                            ->options(InvoiceType::options()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if ($data['invoice'] ?? null) {
@@ -205,7 +207,6 @@ trait OrderableResource
                     }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\Action::make('view_order_info_list')
@@ -253,7 +254,7 @@ trait OrderableResource
                             ->eventDescriptions(
                                 descriptions: [
                                     'updated-order-status' => function (Activity $activity) {
-                                        $options = OrderStatus::getShowableOptions();
+                                        $options = OrderStatus::options();
                                         $log = "**{$activity->causer->name}** 更新了 **狀態** 從 " . $options[$activity->properties['old']['status']] . ' 變更為 **' . $options[$activity->properties['attributes']['status']] . '**';
                                         if ($activity->properties['notes'] ?? null) {
                                             $log .= ' **備註** ' . $activity->properties['notes'];

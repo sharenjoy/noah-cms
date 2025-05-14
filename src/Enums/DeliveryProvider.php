@@ -17,6 +17,7 @@ enum DeliveryProvider: string implements HasLabel, HasDescription, HasColor
     case Tcat = 'tcat';
     case Fedex = 'fedex';
     case DHL = 'dhl';
+    case None = 'none';
 
     public function getLabel(): ?string
     {
@@ -26,6 +27,7 @@ enum DeliveryProvider: string implements HasLabel, HasDescription, HasColor
             self::Tcat => __('noah-cms::noah-cms.shop.provider.title.delivery.tcat'),
             self::Fedex => __('noah-cms::noah-cms.shop.provider.title.delivery.fedex'),
             self::DHL => __('noah-cms::noah-cms.shop.provider.title.delivery.dhl'),
+            self::None => __('noah-cms::noah-cms.shop.provider.title.delivery.none'),
         };
     }
 
@@ -37,6 +39,7 @@ enum DeliveryProvider: string implements HasLabel, HasDescription, HasColor
             self::Tcat => __('noah-cms::noah-cms.shop.provider.description.delivery.tcat'),
             self::Fedex => __('noah-cms::noah-cms.shop.provider.description.delivery.fedex'),
             self::DHL => __('noah-cms::noah-cms.shop.provider.description.delivery.dhl'),
+            self::None => __('noah-cms::noah-cms.shop.provider.description.delivery.none'),
         };
     }
 
@@ -48,6 +51,7 @@ enum DeliveryProvider: string implements HasLabel, HasDescription, HasColor
             self::Tcat => Color::Gray,
             self::Fedex => Color::Gray,
             self::DHL => Color::Gray,
+            self::None => Color::Gray,
         };
     }
 }

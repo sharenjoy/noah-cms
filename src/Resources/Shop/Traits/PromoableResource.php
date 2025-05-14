@@ -14,11 +14,13 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 use Sharenjoy\NoahCms\Enums\PromoDiscountType;
+use Sharenjoy\NoahCms\Resources\Traits\CanViewShop;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
 trait PromoableResource
 {
     use NoahBaseResource;
+    use CanViewShop;
 
     public static function getNavigationGroup(): ?string
     {

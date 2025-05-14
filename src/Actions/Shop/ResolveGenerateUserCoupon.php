@@ -67,7 +67,7 @@ class ResolveGenerateUserCoupon
                 ->actions([
                     Action::make('View')->url(CouponPromoResource::getUrl('edit', ['record' => $promo])),
                 ])
-                ->sendToDatabase(User::query()->superAdmin()->get());
+                ->sendToDatabase(User::superAdmin()->get());
 
             return [false, __('noah-cms::noah-cms.shop.promo.title.generate_failed')];
         }
