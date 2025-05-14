@@ -25,6 +25,10 @@ use RalphJSmit\Filament\Activitylog\FilamentActivitylog;
 use RalphJSmit\Filament\MediaLibrary\FilamentMediaLibrary;
 use Sharenjoy\NoahCms\Pages\MediaLibrary;
 use Sharenjoy\NoahCms\Pages\Settings\Settings;
+use Sharenjoy\NoahCms\Widgets\CustomersChart;
+use Sharenjoy\NoahCms\Widgets\LatestOrders;
+use Sharenjoy\NoahCms\Widgets\OrdersChart;
+use Sharenjoy\NoahCms\Widgets\StatsOverviewWidget;
 
 class NoahPanelProvider extends PanelProvider
 {
@@ -50,8 +54,12 @@ class NoahPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                StatsOverviewWidget::class,
+                OrdersChart::class,
+                CustomersChart::class,
+                LatestOrders::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -18,6 +18,8 @@ class MenuWidget extends BaseWidget
 
     protected static string $model = Menu::class;
 
+    protected static ?int $sort = 30;
+
     protected ?string $treeTitle = 'MenuWidget';
 
     protected bool $enableTreeTitle = true;

@@ -18,6 +18,8 @@ class CategoryWidget extends BaseWidget
 
     protected static string $model = Category::class;
 
+    protected static ?int $sort = 32;
+
     protected ?string $treeTitle = 'CategoryWidget';
 
     protected bool $enableTreeTitle = true;

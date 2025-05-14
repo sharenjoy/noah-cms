@@ -21,9 +21,9 @@ return [
     ],
 
     'shop-feature' => [
-        'shop' => env('NOAHCMS_FEATURE_SHOP', false),
+        'shop' => env('NOAHCMS_FEATURE_SHOP', true),
         'coin-point' => env('NOAHCMS_FEATURE_POINT', true),
-        'coin-shoppingmoney' => env('NOAHCMS_FEATURE_SHOPPINGMONEY', false),
+        'coin-shoppingmoney' => env('NOAHCMS_FEATURE_SHOPPINGMONEY', true),
     ],
 
     'promo' => [
