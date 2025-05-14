@@ -22,6 +22,13 @@ class CategoryResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
 
+    protected static ?int $navigationSort = 32;
+
+    public static function getNavigationGroup(): string
+    {
+        return __('noah-cms::noah-cms.resource');
+    }
+
     public static function getModelLabel(): string
     {
         return __('noah-cms::noah-cms.categories');
@@ -63,8 +70,8 @@ class CategoryResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
-            'view' => Pages\ViewCategory::route('/{record}'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'view' => Pages\ViewCategory::route('/{record}'),
         ];
     }
 

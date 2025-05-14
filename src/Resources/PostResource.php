@@ -19,6 +19,13 @@ class PostResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
+    protected static ?int $navigationSort = 36;
+
+    public static function getNavigationGroup(): string
+    {
+        return __('noah-cms::noah-cms.resource');
+    }
+
     public static function getModelLabel(): string
     {
         return __('noah-cms::noah-cms.post');
@@ -59,8 +66,8 @@ class PostResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
-            'view' => Pages\ViewPost::route('/{record}'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
+            'view' => Pages\ViewPost::route('/{record}'),
         ];
     }
 

@@ -199,8 +199,8 @@ class ProductSpecificationResource extends Resource implements HasShieldPermissi
         return [
             'index' => Pages\ListProductSpecifications::route('/'),
             // 'create' => Pages\CreateProductSpecification::route('/create'),
-            'view' => Pages\ViewProductSpecification::route('/{record}'),
             'edit' => Pages\EditProductSpecification::route('/{record}/edit'),
+            'view' => Pages\ViewProductSpecification::route('/{record}'),
         ];
     }
 

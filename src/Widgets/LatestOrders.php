@@ -17,6 +17,8 @@ class LatestOrders extends BaseWidget
 
     protected static ?int $sort = 3;
 
+    protected static ?string $heading = '最新訂單';
+
     public static function canView(): bool
     {
         return ShopFeatured::run('shop');

@@ -22,6 +22,13 @@ class TagResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-hashtag';
 
+    protected static ?int $navigationSort = 38;
+
+    public static function getNavigationGroup(): string
+    {
+        return __('noah-cms::noah-cms.resource');
+    }
+
     public static function getModelLabel(): string
     {
         return __('noah-cms::noah-cms.tag');
@@ -63,8 +70,8 @@ class TagResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListTags::route('/'),
             'create' => Pages\CreateTag::route('/create'),
-            'view' => Pages\ViewTag::route('/{record}'),
             'edit' => Pages\EditTag::route('/{record}/edit'),
+            'view' => Pages\ViewTag::route('/{record}'),
         ];
     }
 

@@ -66,8 +66,8 @@ class BrandResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListBrands::route('/'),
             'create' => Pages\CreateBrand::route('/create'),
-            'view' => Pages\ViewBrand::route('/{record}'),
             'edit' => Pages\EditBrand::route('/{record}/edit'),
+            'view' => Pages\ViewBrand::route('/{record}'),
         ];
     }
 

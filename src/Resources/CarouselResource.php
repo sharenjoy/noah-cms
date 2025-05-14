@@ -7,21 +7,19 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Sharenjoy\NoahCms\Models\Menu;
-use Sharenjoy\NoahCms\Resources\MenuResource\Pages;
-use Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers\CategoriesRelationManager;
-use Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers\PromosRelationManager;
+use Sharenjoy\NoahCms\Models\Carousel;
+use Sharenjoy\NoahCms\Resources\CarouselResource\Pages;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
-class MenuResource extends Resource implements HasShieldPermissions
+class CarouselResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = Menu::class;
+    protected static ?string $model = Carousel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bars-arrow-down';
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?int $navigationSort = 34;
+    protected static ?int $navigationSort = 30;
 
     public static function getNavigationGroup(): string
     {
@@ -30,7 +28,7 @@ class MenuResource extends Resource implements HasShieldPermissions
 
     public static function getModelLabel(): string
     {
-        return __('noah-cms::noah-cms.menu');
+        return __('noah-cms::noah-cms.carousel');
     }
 
     public static function form(Form $form): Form
@@ -57,19 +55,16 @@ class MenuResource extends Resource implements HasShieldPermissions
 
     public static function getRelations(): array
     {
-        return [
-            CategoriesRelationManager::class,
-            PromosRelationManager::class,
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMenus::route('/'),
-            'create' => Pages\CreateMenu::route('/create'),
-            'edit' => Pages\EditMenu::route('/{record}/edit'),
-            'view' => Pages\ViewMenu::route('/{record}'),
+            'index' => Pages\ListCarousels::route('/'),
+            'create' => Pages\CreateCarousel::route('/create'),
+            'edit' => Pages\EditCarousel::route('/{record}/edit'),
+            'view' => Pages\ViewCarousel::route('/{record}'),
         ];
     }
 

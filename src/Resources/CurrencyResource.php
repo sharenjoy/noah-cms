@@ -66,8 +66,8 @@ class CurrencyResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListCurrencies::route('/'),
             // 'create' => Pages\CreateCurrency::route('/create'),
-            'view' => Pages\ViewCurrency::route('/{record}'),
             'edit' => Pages\EditCurrency::route('/{record}/edit'),
+            'view' => Pages\ViewCurrency::route('/{record}'),
         ];
     }
 

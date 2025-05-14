@@ -321,8 +321,8 @@ class ObjectiveResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListObjectives::route('/'),
             'create' => Pages\CreateObjective::route('/create'),
-            'view' => Pages\ViewObjective::route('/{record}'),
             'edit' => Pages\EditObjective::route('/{record}/edit'),
+            'view' => Pages\ViewObjective::route('/{record}'),
         ];
     }
 

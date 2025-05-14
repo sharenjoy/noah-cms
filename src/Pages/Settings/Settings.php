@@ -146,7 +146,7 @@ class Settings extends BaseSettings
                             Section::make('折扣碼條件設定(此區塊保留給維護工程人員使用)')
                                 ->schema([
                                     Repeater::make('code.promo_conditions')
-                                        ->label('折扣碼條件')
+                                        ->label('條件')
                                         ->schema([
                                             TextInput::make('name')
                                                 ->label('條件名稱')
@@ -170,7 +170,7 @@ class Settings extends BaseSettings
                             Section::make('使用者條件設定(此區塊保留給維護工程人員使用)')
                                 ->schema([
                                     Repeater::make('code.user_conditions')
-                                        ->label('折扣碼條件')
+                                        ->label('條件')
                                         ->schema([
                                             TextInput::make('name')
                                                 ->label('條件名稱')
@@ -194,7 +194,7 @@ class Settings extends BaseSettings
                             Section::make('商品條件設定(此區塊保留給維護工程人員使用)')
                                 ->schema([
                                     Repeater::make('code.product_conditions')
-                                        ->label('折扣碼條件')
+                                        ->label('條件')
                                         ->schema([
                                             TextInput::make('name')
                                                 ->label('條件名稱')

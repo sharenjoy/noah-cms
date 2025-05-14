@@ -154,6 +154,9 @@ return [
     'delivery_provider' => '配送商',
     'payment_provider' => '付款商',
     'promos_count' => '促銷數量',
+    'static_page' => '頁面',
+    'carousel' => '主輪播圖',
+    'sku' => 'SKU',
 
     'activity' => [
         'title' => [

@@ -93,6 +93,7 @@ class ProductSpecification extends Model implements Sortable
             'product.title' =>  ['alias' => 'belongs_to', 'label' => 'product', 'relation' => 'product'],
             'spec_detail_name' => [],
             'no' => ['label' => 'spec_no'],
+            'sku' => [],
             'stock' => TextColumn::make('stock')->label(__('noah-cms::noah-cms.stock'))->numeric()->toggleable()->visible(fn(): bool => ShopFeatured::run('shop')),
             'price' => ['type' => 'number'],
             'compare_price' => ['type' => 'number'],

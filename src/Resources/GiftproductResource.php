@@ -98,8 +98,8 @@ class GiftproductResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListGiftproducts::route('/'),
             'create' => Pages\CreateGiftproduct::route('/create'),
-            'view' => Pages\ViewGiftproduct::route('/{record}'),
             'edit' => Pages\EditGiftproduct::route('/{record}/edit'),
+            'view' => Pages\ViewGiftproduct::route('/{record}'),
         ];
     }
 

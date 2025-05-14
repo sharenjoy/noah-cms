@@ -7,21 +7,19 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Sharenjoy\NoahCms\Models\Menu;
-use Sharenjoy\NoahCms\Resources\MenuResource\Pages;
-use Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers\CategoriesRelationManager;
-use Sharenjoy\NoahCms\Resources\MenuResource\RelationManagers\PromosRelationManager;
+use Sharenjoy\NoahCms\Models\StaticPage;
+use Sharenjoy\NoahCms\Resources\StaticPageResource\Pages;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
-class MenuResource extends Resource implements HasShieldPermissions
+class StaticPageResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = Menu::class;
+    protected static ?string $model = StaticPage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bars-arrow-down';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?int $navigationSort = 34;
+    protected static ?int $navigationSort = 40;
 
     public static function getNavigationGroup(): string
     {
@@ -30,7 +28,7 @@ class MenuResource extends Resource implements HasShieldPermissions
 
     public static function getModelLabel(): string
     {
-        return __('noah-cms::noah-cms.menu');
+        return __('noah-cms::noah-cms.static_page');
     }
 
     public static function form(Form $form): Form
@@ -57,19 +55,16 @@ class MenuResource extends Resource implements HasShieldPermissions
 
     public static function getRelations(): array
     {
-        return [
-            CategoriesRelationManager::class,
-            PromosRelationManager::class,
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMenus::route('/'),
-            'create' => Pages\CreateMenu::route('/create'),
-            'edit' => Pages\EditMenu::route('/{record}/edit'),
-            'view' => Pages\ViewMenu::route('/{record}'),
+            'index' => Pages\ListStaticPages::route('/'),
+            'create' => Pages\CreateStaticPage::route('/create'),
+            'edit' => Pages\EditStaticPage::route('/{record}/edit'),
+            'view' => Pages\ViewStaticPage::route('/{record}'),
         ];
     }
 

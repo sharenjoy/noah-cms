@@ -156,8 +156,8 @@ class UserLevelResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListUserLevels::route('/'),
             'create' => Pages\CreateUserLevel::route('/create'),
-            'view' => Pages\ViewUserLevel::route('/{record}'),
             'edit' => Pages\EditUserLevel::route('/{record}/edit'),
+            'view' => Pages\ViewUserLevel::route('/{record}'),
         ];
     }
 
