@@ -2,8 +2,10 @@
 
 namespace Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages;
 
+use Coolsam\NestedComments\Filament\Actions\CommentsAction;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\EditInvoiceAction;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\EditShipmentAction;
@@ -21,8 +23,10 @@ class ViewOrder extends ViewRecord
 
     protected function getHeaderActions(): array
     {
-
         return [
+            CommentsAction::make()
+                ->badgeColor('danger')
+                ->badge(fn(Model $record) => $record->getAttribute('comments_count')),
             ActionGroup::make([
                 UpdateOrderStatusAction::make(order: $this->record),
                 EditShipmentAction::make(order: $this->record),

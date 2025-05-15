@@ -2,6 +2,8 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Coolsam\NestedComments\Concerns\HasComments;
+use Coolsam\NestedComments\Concerns\HasReactions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +28,8 @@ class BaseOrder extends Model
     use CommonModelTrait;
     use HasFactory;
     use LogsActivity;
+    use HasComments;
+    // use HasReactions;
 
     protected $casts = [
         'status' => OrderStatus::class,

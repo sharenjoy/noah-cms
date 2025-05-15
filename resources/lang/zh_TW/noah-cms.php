@@ -157,6 +157,7 @@ return [
     'static_page' => '頁面',
     'carousel' => '主輪播圖',
     'sku' => 'SKU',
+    'comments' => '留言',
 
     'activity' => [
         'title' => [
