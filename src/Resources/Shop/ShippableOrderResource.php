@@ -4,6 +4,9 @@ namespace Sharenjoy\NoahCms\Resources\Shop;
 
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\BulkAction;
+use Sharenjoy\NoahCms\Enums\OrderShipmentStatus;
+use Sharenjoy\NoahCms\Enums\OrderStatus;
 use Sharenjoy\NoahCms\Models\ShippableOrder;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages;
 use Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions\ViewOrderInfoListAction;
@@ -35,6 +38,15 @@ class ShippableOrderResource extends Resource implements HasShieldPermissions
         return [
             ViewOrderInfoListAction::make(resource: 'shippable-orders', actionType: 'bulk'),
             ViewOrderPickingListAction::make(resource: 'shippable-orders', actionType: 'bulk'),
+            BulkAction::make('update_status_to_shipped')
+                ->label('更新訂單狀態至已出貨')
+                ->action(function ($records) {
+                    foreach ($records as $record) {
+                        $record->shipment->update(['status' => OrderShipmentStatus::Shipped]);
+                    }
+                })
+                ->requiresConfirmation()
+                ->color('danger'),
         ];
     }
 

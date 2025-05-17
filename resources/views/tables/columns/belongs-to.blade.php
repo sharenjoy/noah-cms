@@ -3,7 +3,6 @@
         $content = $getContent();
         $state = $getState();
         $record = $getRecord();
-
         if (is_array($state)) {
             $state = implode(', ', $state);
         }
@@ -17,7 +16,7 @@
         }
     @endphp
 
-    @if($record->{$content['relation_column']} && $url)
+    @if($record->{$content['relation_column']})
         <a href="{{ $url }}"><span class="link-text">{!! $state !!}</span></a>
     @else
         <span class="text-center text-gray-400">-</span>

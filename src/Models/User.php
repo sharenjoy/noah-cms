@@ -11,6 +11,7 @@ use Filament\Forms\Get;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -290,6 +291,28 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $query->whereHas('roles', function ($query) {
             $query->where('name', 'super_admin');
         });
+    }
+
+    public function scopeWithRolesHavingPermissions($query, array $permissions): Builder
+    {
+        // 查詢同時擁有所有指定權限的角色名稱
+        $roles = Role::whereHas('permissions', function ($q) use ($permissions) {
+            $q->whereIn('name', $permissions);
+        }, '=', count($permissions))->pluck('name');
+
+        // 查詢擁有上述角色的使用者
+        return $query->whereHas('roles', function ($q) use ($roles) {
+            $q->whereIn('name', $roles);
+        });
+    }
+
+    // 查詢擁有指定權限的使用者
+    public static function getCanHandleShippableUsers()
+    {
+        return User::withRolesHavingPermissions([
+            "view_any_shop::shippable::order",
+            "view_shop::shippable::order"
+        ])->get();
     }
 
     public function canAccessPanel(Panel $panel): bool

@@ -23,15 +23,15 @@ class GetPromoConditionEventUser
         $users = $promo->userObjectives->isEmpty() ? collect(User::all()) : $promo->userObjectives->pluck('users')->flatten()->unique('id');
 
         // 加入事件條件篩選使用者
-        if ($promo->auto_generate_type != PromoAutoGenerateType::Never) {
-            $conditionCode = GetDeCryptExtendCondition::run('promo', $promo->auto_generate_event);
+        // if ($promo->auto_generate_type != PromoAutoGenerateType::Never) {
+        //     $conditionCode = GetDeCryptExtendCondition::run('promo', $promo->auto_generate_event);
 
-            if (!$conditionCode) {
-                throw new \Exception(__('noah-cms::noah-cms.shop.promo.title.no_condition_code'));
-            }
+        //     if (!$conditionCode) {
+        //         throw new \Exception(__('noah-cms::noah-cms.shop.promo.title.no_condition_code'));
+        //     }
 
-            $users = $users->filter(eval("return $conditionCode;"));
-        }
+        //     $users = $users->filter(eval("return $conditionCode;"));
+        // }
 
         return $users;
     }

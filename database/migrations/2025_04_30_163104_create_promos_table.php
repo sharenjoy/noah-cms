@@ -56,7 +56,6 @@ return new class extends Migration
             $table->unsignedInteger('usage_limit')->nullable();      // 總使用次數限制
             $table->tinyInteger('per_user_limit')->nullable();   // 每人可使用次數
 
-            $table->string('auto_generate_event')->nullable();
             $table->string('auto_generate_type')->default(PromoAutoGenerateType::Never->value);
             $table->string('auto_generate_date')->nullable(); // 每年的哪一天
             $table->string('auto_generate_day')->nullable(); // 每月的幾號

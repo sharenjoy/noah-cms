@@ -3,6 +3,7 @@
 namespace Sharenjoy\NoahCms\Resources\Shop\OrderResource\Pages\Actions;
 
 use Filament\Actions\Action;
+use Filament\Facades\Filament;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -13,6 +14,8 @@ use Sharenjoy\NoahCms\Actions\Shop\OrderStatusRedirector;
 use Sharenjoy\NoahCms\Actions\Shop\OrderStatusUpdater;
 use Sharenjoy\NoahCms\Enums\OrderStatus;
 use Sharenjoy\NoahCms\Models\BaseOrder;
+use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Resources\Shop\ShippableOrderResource;
 
 class UpdateOrderStatusAction
 {
@@ -56,6 +59,20 @@ class UpdateOrderStatusAction
                 $result = OrderStatusUpdater::run($record, $statusEnum, $data['content'] ?? null);
 
                 if ($result === true) {
+
+                    if ($statusEnum == OrderStatus::Processing && $record->getCurrentScope() == 'shippable') {
+                        Notification::make()
+                            ->danger()
+                            ->title('可出貨訂單')
+                            ->body($record->sn . ' 已更新為可出貨訂單，請點擊下方按鈕查看訂單資訊')
+                            ->actions([
+                                \Filament\Notifications\Actions\Action::make('View')->url(ShippableOrderResource::getUrl('view', [
+                                    'record' => $record->id,
+                                ])),
+                            ])
+                            ->sendToDatabase(User::getCanHandleShippableUsers());
+                    }
+
                     return OrderStatusRedirector::run($record);
                 }
             })

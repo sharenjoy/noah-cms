@@ -9,7 +9,11 @@ trait CanViewShop
 {
     public static function canAccess(): bool
     {
-        return ShopFeatured::run('shop');
+        if (! ShopFeatured::run('shop')) {
+            return false;
+        }
+
+        return parent::canAccess();
     }
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool

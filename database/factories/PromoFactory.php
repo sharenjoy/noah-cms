@@ -55,7 +55,6 @@ class PromoFactory extends Factory
             'usage_limit' => $coupon['usage_limit'] ?? null,
             'per_user_limit' => $coupon['per_user_limit'] ?? null,
 
-            'auto_generate_event' => $coupon['auto_generate_event'] ?? null,
             'auto_generate_type' => $coupon['auto_generate_type'] ?? null,
             'auto_generate_date' => $coupon['auto_generate_date'] ?? null,
             'auto_generate_day' => $coupon['auto_generate_day'] ?? null,
@@ -79,7 +78,6 @@ class PromoFactory extends Factory
         $faker['usage_limit'] = fake()->numberBetween(1, 100);
         $faker['per_user_limit'] = fake()->numberBetween(1, 5);
 
-        $faker['auto_generate_event'] = fake()->randomElement(['birthday', 'anniversary', 'signup']);
         $faker['auto_generate_type'] = $generateType;
 
         if ($generateType == 'yearly') {

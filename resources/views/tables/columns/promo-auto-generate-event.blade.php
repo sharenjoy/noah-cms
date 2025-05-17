@@ -16,18 +16,12 @@
             </li>
         @endif
         @if ($record->type == \Sharenjoy\NoahCms\Enums\PromoType::Coupon)
-            @php
-            $eventName = \Sharenjoy\NoahCms\Actions\Shop\GetDeCryptExtendCondition::run('promo')[$record->auto_generate_event] ?? '';
-            @endphp
             <li><div class="text-sm" style="color: #3a3a3a">------------</div></li>
             <li><div class="text-sm" style="color: #3a3a3a">自動產生類型 <span class="font-bold">{{ $record->auto_generate_type->getLabel() }}</span></div></li>
             @if ($record->auto_generate_type == \Sharenjoy\NoahCms\Enums\PromoAutoGenerateType::Yearly)
                 <li><div class="text-sm" style="color: #3a3a3a">固定每年的幾月幾日 <span class="font-bold">{{ $record->auto_generate_date }} 日</span></div></li>
             @elseif ($record->auto_generate_type == \Sharenjoy\NoahCms\Enums\PromoAutoGenerateType::Monthly)
                 <li><div class="text-sm" style="color: #3a3a3a">固定每月幾日 <span class="font-bold">{{ $record->auto_generate_day }} 號</span></div></li>
-            @endif
-            @if ($record->auto_generate_type != \Sharenjoy\NoahCms\Enums\PromoAutoGenerateType::Never)
-                <li><div class="text-sm" style="color: #3a3a3a">自動產生事件 <span class="font-bold">{{ $eventName }}</span></div></li>
             @endif
         @endif
     </ul>

@@ -115,12 +115,6 @@ class CouponPromoResource extends Resource implements HasShieldPermissions
                         ->options(collect(range(1, 31))->mapWithKeys(fn($i) => [$i => $i]))
                         ->required()
                         ->visible(fn(Get $get): bool => $get('auto_generate_type') == 'monthly'),
-                    Select::make('auto_generate_event')
-                        ->label(__('noah-cms::noah-cms.shop.promo.title.auto_generate_event'))
-                        ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.auto_generate_event')))
-                        ->required()
-                        ->options(GetDeCryptExtendCondition::run('promo'))
-                        ->visible(fn(Get $get): bool => $get('auto_generate_type') !== 'never' && $get('auto_generate_type') !== ''),
                     TextInput::make('coupon_valid_days')
                         ->label(__('noah-cms::noah-cms.shop.promo.title.coupon_valid_days'))
                         ->helperText(new HtmlString(__('noah-cms::noah-cms.shop.promo.help.coupon_valid_days')))
