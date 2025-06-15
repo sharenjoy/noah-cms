@@ -54,6 +54,7 @@ class UpdateOrderStatusAction
                         ->title('無效的訂單狀態')
                         ->danger()
                         ->send();
+                    return;
                 }
 
                 $result = OrderStatusUpdater::run($record, $statusEnum, $data['content'] ?? null);

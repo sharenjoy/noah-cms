@@ -61,4 +61,17 @@ return [
         'ronald.jian@gmail.com',
     ],
 
+    'survey' => [
+        'question' => [
+            'types' => [
+                'text' => 'Text',
+                'number' => 'Number',
+                'radio' => 'Radio',
+                'multiselect' => 'Multiselect',
+                'file' => 'File',
+                'price' => 'Price',
+            ],
+        ],
+    ],
+
 ];

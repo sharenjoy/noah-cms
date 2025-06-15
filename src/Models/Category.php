@@ -15,7 +15,7 @@ use Sharenjoy\NoahCms\Models\Product;
 use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
-use Sharenjoy\NoahCms\Models\Traits\HasMenuTree;
+use Sharenjoy\NoahCms\Models\Traits\HasMenus;
 use Sharenjoy\NoahCms\Utils\Media;
 use SolutionForest\FilamentTree\Concern\ModelTree;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -30,7 +30,7 @@ class Category extends Model
     use HasTranslations;
     use HasMediaLibrary;
     use ModelTree;
-    use HasMenuTree;
+    use HasMenus;
     use HasSEO;
 
     protected $casts = [
@@ -70,6 +70,7 @@ class Category extends Model
             'img' => [],
             'album' => [],
             'is_active' => ['required' => true],
+            'menus' => [],
         ],
     ];
 
@@ -96,11 +97,6 @@ class Category extends Model
     public function products(): MorphToMany
     {
         return $this->morphedByMany(Product::class, 'categorizable');
-    }
-
-    public function menus(): MorphToMany
-    {
-        return $this->morphedByMany(Menu::class, 'categorizable');
     }
 
     /** SCOPES */

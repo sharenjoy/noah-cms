@@ -7,7 +7,7 @@
             $state = implode(', ', $state);
         }
 
-        if (auth()->user()->can('view', $record)) {
+        if (auth()->user()->can('view', $record->{$content['relation']})) {
             $url = route('filament.' . \Filament\Facades\Filament::getCurrentPanel()->getId() . '.resources.' . $content['relation_route'] . '.'.($content['operation'] ?? 'view'), [
                 'record' => $record->{$content['relation_column']},
             ]);

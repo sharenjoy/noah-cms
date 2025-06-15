@@ -21,11 +21,11 @@ use Sharenjoy\NoahCms\Enums\PromoAutoGenerateType;
 use Sharenjoy\NoahCms\Enums\PromoDiscountType;
 use Sharenjoy\NoahCms\Enums\PromoType;
 use Sharenjoy\NoahCms\Models\Giftproduct;
-use Sharenjoy\NoahCms\Models\Menu;
 use Sharenjoy\NoahCms\Models\Objective;
 use Sharenjoy\NoahCms\Models\OrderItem;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
+use Sharenjoy\NoahCms\Models\Traits\HasMenus;
 use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Sharenjoy\NoahCms\Models\UserCoupon;
 use Sharenjoy\NoahCms\Tables\Columns\PromoAutoGenerateEventColumn;
@@ -42,6 +42,7 @@ class BasePromo extends Model
     use SoftDeletes;
     use HasTranslations;
     use HasMediaLibrary;
+    use HasMenus;
     use HasTags;
     use HasSEO;
 
@@ -102,6 +103,8 @@ class BasePromo extends Model
                         ->placeholder('2020-03-18 09:48:00')
                         ->prefixIcon('heroicon-o-clock')
                         ->format('Y-m-d H:i:s')
+                        ->required()
+                        ->rules(['date'])
                         ->live()
                         ->native(false),
                 ]),
@@ -170,11 +173,6 @@ class BasePromo extends Model
     public function orderItems(): MorphToMany
     {
         return $this->morphedByMany(OrderItem::class, 'promoable', foreignPivotKey: 'promo_id', relatedPivotKey: 'promoable_id');
-    }
-
-    public function menus(): MorphToMany
-    {
-        return $this->morphedByMany(Menu::class, 'promoable', foreignPivotKey: 'promo_id', relatedPivotKey: 'promoable_id');
     }
 
     public function giftproducts(): MorphToMany

@@ -51,6 +51,9 @@ class NoahCmsPlugin implements Plugin
                 Resources\GiftproductResource::class,
                 Resources\StaticPageResource::class,
                 Resources\CarouselResource::class,
+                Resources\Survey\AnswerResource::class,
+                Resources\Survey\EntryResource::class,
+                Resources\Survey\SurveyResource::class,
             ])
             ->pages([
                 Activities::class,

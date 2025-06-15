@@ -8,7 +8,7 @@ class Description extends FormAbstract implements FormInterface
 {
     public function make()
     {
-        $this->field = Textarea::make($this->fieldName)->placeholder(__('noah-cms::noah-cms.here_is_description'))->label(__('noah-cms::noah-cms.' . $this->fieldName));
+        $this->field = Textarea::make($this->fieldName)->placeholder(__('noah-cms::noah-cms.here_is_description'))->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName)));
 
         $this->resolve();
 

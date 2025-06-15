@@ -40,6 +40,11 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('menuables', function (Blueprint $table) {
+            $table->foreignId('menu_id');
+            $table->morphs('menuable');
+        });
     }
 
     /**
@@ -47,6 +52,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('menuables');
         Schema::dropIfExists('menus');
     }
 };

@@ -4,7 +4,6 @@ namespace Sharenjoy\NoahCms\Resources\UserResource\Pages;
 
 use Sharenjoy\NoahCms\Resources\Traits\NoahEditRecord;
 use Sharenjoy\NoahCms\Resources\UserResource;
-use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
 class EditUser extends EditRecord

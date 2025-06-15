@@ -1,6 +1,6 @@
 <?php
 
-namespace Sharenjoy\NoahCms\Actions;
+namespace Sharenjoy\NoahCms\Actions\Shop;
 
 use Lorisleiva\Actions\Concerns\AsAction;
 use Sharenjoy\NoahCms\Models\Transaction;

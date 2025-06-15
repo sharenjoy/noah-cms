@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     "post" => "消息",
     "product" => "商品",
     "created_at" => "建立時間",
@@ -158,6 +157,95 @@ return [
     'carousel' => '主輪播圖',
     'sku' => 'SKU',
     'comments' => '留言',
+
+    'survey' => [
+        'navigation' => [
+            'group' => '問卷',
+            'answer' => [
+                'label' => '答案',
+                'plural-label' => '答案',
+            ],
+            'entry' => [
+                'label' => '填寫紀錄',
+                'plural-label' => '填寫紀錄',
+            ],
+            'question' => [
+                'label' => '問題',
+                'plural-label' => '問題',
+            ],
+            'section' => [
+                'label' => '區段',
+                'plural-label' => '區段',
+            ],
+            'survey' => [
+                'label' => '問卷',
+            ],
+        ],
+        'title' => [
+            'allow_guest' => '允許訪客填寫問卷',
+            'limit_set' => '次數限制設定',
+            'limit' => '限制填寫次數',
+            'limit_amount' => '限制填寫總數',
+            'limit_per_participant' => '每人填寫次數限制',
+            'purchaseable' => '是否需付款',
+            'purchase_set' => '付款設定',
+            'purchase_depends_on_option' => '依選項設定金額',
+            'purchase_price' => '付款金額',
+            'duration_set' => '問卷期限設定',
+            'forever' => '是否永遠有效',
+            'started_at' => '開始日期',
+            'expired_at' => '到期日期',
+            'text' => '文字',
+            'number' => '數字',
+            'radio' => '單選',
+            'multiselect' => '多選',
+            'file' => '檔案上傳',
+            'price' => '金額',
+            'question' => '問題',
+            'question_help' => '問題說明',
+            'type' => '表單類型',
+            'options' => '選項',
+            'rules' => '驗證規則',
+            'section' => '所屬區段',
+            'participant' => '填寫者',
+            'answer' => '答案',
+            'survey' => '問卷',
+            'export_answers' => '匯出答案',
+        ],
+        'help' => [
+            'allow_guest' => '允許訪客填寫問卷',
+            'limit_set' => '次數限制設定',
+            'limit' => '限制填寫次數',
+            'limit_amount' => '限制填寫總數。如果無限制，留空即可',
+            'limit_per_participant' => '每人填寫次數限制。如果無限制，留空即可',
+            'purchaseable' => '是否需付款',
+            'purchase_depends_on_option' => '依選項設定金額',
+            'purchase_price' => '付款金額',
+            'options' => '用於單選和多選類型。每個選項請按 Enter 鍵分行輸入',
+            'rules' => "驗證規則。例如：'numeric', 'min:2', 'required'。每條規則請按 Enter 分行輸入。完整規則請參考 https://laravel.com/docs/11.x/validation#available-validation-rules",
+            'section' => '所屬區段。',
+            'type' => '表單類型',
+            'price' => '金額',
+        ],
+        'status' => [
+            'title' => [
+                'entry' => [
+                    'established' => '已建立',
+                    'completed' => '已完成',
+                    'cancelled' => '已取消',
+                    'rejected' => '已拒絕',
+                ],
+            ],
+            'description' => [
+                'entry' => [
+                    'established' => '已建立',
+                    'completed' => '已完成',
+                    'cancelled' => '已取消',
+                    'rejected' => '已拒絕',
+                ],
+            ],
+        ],
+    ],
 
     'activity' => [
         'title' => [
@@ -566,5 +654,4 @@ return [
             ],
         ],
     ],
-
 ];

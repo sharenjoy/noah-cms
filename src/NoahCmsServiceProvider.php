@@ -2,10 +2,12 @@
 
 namespace Sharenjoy\NoahCms;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\Facades\Schedule;
 use RalphJSmit\Filament\Activitylog\Infolists\Components\Timeline;
 use Sharenjoy\NoahCms\Commands\GenerateCouponPromos;
 use Sharenjoy\NoahCms\Commands\UpdateObjectiveTargets;
+use Sharenjoy\NoahCms\Http\View\Composers\Survey\SurveyComposer;
 use Sharenjoy\NoahCms\Models;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -40,7 +42,10 @@ class NoahCmsServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function bootingPackage() {}
+    public function bootingPackage()
+    {
+        app()->make(ViewFactory::class)->composer('noah-cms::standard', SurveyComposer::class);
+    }
 
     public function packageBooted()
     {

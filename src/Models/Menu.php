@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use MattDaneshvar\Survey\Models\Survey;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use Sharenjoy\NoahCms\Models\Promo;
@@ -87,7 +88,17 @@ class Menu extends Model
 
     public function promos(): MorphToMany
     {
-        return $this->morphToMany(Promo::class, 'promoable');
+        return $this->morphedByMany(Promo::class, 'menuable');
+    }
+
+    public function categories(): MorphToMany
+    {
+        return $this->morphedByMany(Category::class, 'menuable');
+    }
+
+    public function surveys(): MorphToMany
+    {
+        return $this->morphedByMany(Survey::class, 'menuable');
     }
 
     /** SCOPES */
