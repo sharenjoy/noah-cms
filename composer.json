@@ -94,8 +94,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Sharenjoy\\NoahCms\\NoahCmsServiceProvider",
-                "Sharenjoy\\NoahCms\\NoahPanelProvider"
+                "Sharenjoy\\NoahCms\\NoahCmsServiceProvider"
             ],
             "aliases": {
                 "NoahCms": "Sharenjoy\\NoahCms\\Facades\\NoahCms"

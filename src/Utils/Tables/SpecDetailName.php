@@ -13,7 +13,7 @@ class SpecDetailName extends TableAbstract implements TableInterface
     public function make()
     {
         return TextColumn::make($this->fieldName)
-            ->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName)))
+            ->label($this->getLabel($this->fieldName, $this->content))
             ->searchable()
             ->toggleable(isToggledHiddenByDefault: $this->content['isToggledHiddenByDefault'] ?? false)
             ->formatStateUsing(function ($state) {

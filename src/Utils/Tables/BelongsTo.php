@@ -16,7 +16,7 @@ class BelongsTo extends TableAbstract implements TableInterface
             ->searchable()
             ->sortable()
             ->visible(fn() => $this->content['visible'] ?? true)
-            ->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName)))
+            ->label($this->getLabel($this->fieldName, $this->content))
             ->toggleable(isToggledHiddenByDefault: false);
     }
 }

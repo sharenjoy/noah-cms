@@ -99,7 +99,7 @@ class Table
                         $item = TextColumn::make($name)->searchable()->placeholder('-')->sortable();
                     }
 
-                    $column = $item->label(__('noah-cms::noah-cms.' . ($content['label'] ?? $name)))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                    $column = $item->label(self::getLabel($name, $content))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 }
             }
 
@@ -111,5 +111,20 @@ class Table
         }
 
         return $columns;
+    }
+
+    protected static function getLabel($name, $content): string
+    {
+        if (isset($content['label'])) {
+            if (! str_contains(__('noah-cms::noah-cms.' . $content['label']), 'noah-cms')) {
+                return __('noah-cms::noah-cms.' . $content['label']);
+            }
+
+            if (! str_contains(__('noah-shop::noah-shop.' . $content['label']), 'noah-shop')) {
+                return __('noah-shop::noah-shop.' . $content['label']);
+            }
+        }
+
+        return __('noah-cms::noah-cms.' . $name);
     }
 }

@@ -13,7 +13,7 @@ class UserCoin extends TableAbstract implements TableInterface
     {
         return UserCoinColumn::make('point')
             ->visible(fn() => ShopFeatured::run('coin-point') || ShopFeatured::run('coin-shoppingmoney'))
-            ->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName)))
+            ->label($this->getLabel($this->fieldName, $this->content))
             ->toggleable(isToggledHiddenByDefault: $this->content['isToggledHiddenByDefault'] ?? false);
     }
 }

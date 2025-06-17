@@ -24,7 +24,7 @@ class OrderShipment extends TableAbstract implements TableInterface
                         ->orWhere('postoffice_delivery_code', 'like', "%{$search}%");
                 });
             })
-            ->label(__('noah-cms::noah-cms.' . ($this->content['label'] ?? $this->fieldName)))
+            ->label($this->getLabel($this->fieldName, $this->content))
             ->toggleable(isToggledHiddenByDefault: $this->content['isToggledHiddenByDefault'] ?? false);
     }
 }
