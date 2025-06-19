@@ -34,11 +34,11 @@ You can install the package via composer:
 composer require sharenjoy/noah-cms:dev-main
 ```
 
+```
 Copy NoahPanelProvider.php to app/Providers folder
+```
 
---
 Add this line to bootstrap/providers.php
---
 
 ```php
 App\Providers\NoahPanelProvider::class,
