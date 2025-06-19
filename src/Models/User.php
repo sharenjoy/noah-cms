@@ -38,20 +38,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'name',
         'email',
         'password',
-        'sn',
-        'calling_code',
-        'mobile',
-        'address',
-        'birthday',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
-    ];
-
-    protected $appends = [
-        'age',
     ];
 
     public $translatable = [];
@@ -60,17 +51,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'created_at' => 'desc',
         'id' => 'desc',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (!$model->sn) {
-                $model->sn = GenerateUserSeriesNumber::run('M');
-            }
-        });
-    }
 
     protected function formFields(): array
     {
@@ -94,26 +74,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                         ->required(fn(Get $get): bool => !$get('id'))
                         ->rules(['min:8']),
                 ])->visible(fn(Get $get): bool => !$get('id')),
-                'mobile' => Section::make()
-                    ->schema([
-                        TextInput::make('mobile')->placeholder('0912345678')->label(__('noah-cms::noah-cms.activity.label.mobile'))->required(),
-                    ]),
             ],
             'right' => [
-                'birthday' => Section::make()->schema([
-                    DatePicker::make('birthday')
-                        ->label(__('noah-cms::noah-cms.shop.promo.title.birthday'))
-                        ->placeholder('2020-03-18')
-                        ->displayFormat('Y-m-d') // 顯示格式
-                        ->prefixIcon('heroicon-o-calendar')
-                        ->rules(['date'])
-                        ->minDate(now()->subYears(100))
-                        ->maxDate(now()->subYears(10))
-                        ->formatStateUsing(fn($state) => $state ? Carbon::parse($state)->format('Y-m-d') : null)
-                        ->dehydrateStateUsing(fn($state) => $state ? Carbon::parse($state)->format('Y-m-d') : null)
-                        ->native(false)
-                        ->closeOnDateSelection()
-                ]),
                 'tags' => ['min' => 0, 'max' => 3, 'multiple' => true],
             ],
         ];
@@ -193,12 +155,5 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
-    }
-
-    public function age(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value, $attributes) => $attributes['birthday'] ? Carbon::parse($attributes['birthday'])->age : null,
-        );
     }
 }
