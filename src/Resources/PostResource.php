@@ -4,7 +4,6 @@ namespace Sharenjoy\NoahCms\Resources;
 
 use Sharenjoy\NoahCms\Resources\PostResource\Pages;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
-use Sharenjoy\NoahCms\Models\Post;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +14,8 @@ class PostResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = Post::class;
+    // Model setting is done in noah-cms config file
+    // protected static ?string $model;
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 

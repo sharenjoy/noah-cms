@@ -4,19 +4,16 @@ namespace Sharenjoy\NoahCms\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
-use Sharenjoy\NoahCms\Models\Menu;
 use Sharenjoy\NoahCms\Models\Post;
-use Sharenjoy\NoahCms\Models\Product;
-use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
 use Sharenjoy\NoahCms\Models\Traits\HasMenus;
 use Sharenjoy\NoahCms\Utils\Media;
+use Sharenjoy\NoahShop\Models\Product;
 use SolutionForest\FilamentTree\Concern\ModelTree;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
@@ -74,18 +71,21 @@ class Category extends Model
         ],
     ];
 
-    protected array $tableFields = [
-        'thumbnail' => [],
-        'title' => ['description' => true],
-        'slug' => [],
-        'relation_count' => ['label' => 'products_count', 'relation' => 'products'],
-        'post_relation_count' => ['alias' => 'relation_count', 'label' => 'posts_count', 'relation' => 'posts'],
-        'menu_relation_count' => ['alias' => 'relation_count', 'label' => 'menus_count', 'relation' => 'menus'],
-        'seo' => [],
-        'is_active' => [],
-        'created_at' => [],
-        'updated_at' => [],
-    ];
+    protected function tableFields(): array
+    {
+        return [
+            'thumbnail' => [],
+            'title' => ['description' => true],
+            'slug' => [],
+            // 'relation_count' => ['label' => 'products_count', 'relation' => 'products'], //** NoahShop CAN OPEN
+            'post_relation_count' => ['alias' => 'relation_count', 'label' => 'posts_count', 'relation' => 'posts'],
+            'menu_relation_count' => ['alias' => 'relation_count', 'label' => 'menus_count', 'relation' => 'menus'],
+            'seo' => [],
+            'is_active' => [],
+            'created_at' => [],
+            'updated_at' => [],
+        ];
+    }
 
     /** RELACTIONS */
 

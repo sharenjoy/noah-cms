@@ -2,7 +2,6 @@
 
 namespace Sharenjoy\NoahCms\Actions\Shop;
 
-use Illuminate\Support\Facades\Auth;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class RoleCan
@@ -11,7 +10,7 @@ class RoleCan
 
     public function handle(string $role): bool
     {
-        $user = Auth::user();
+        $user = request()->user();
 
         if (! $user) {
             return false;

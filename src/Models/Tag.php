@@ -60,7 +60,7 @@ class Tag extends Model implements Sortable
         'name' => [],
         'slug' => [],
         'type' => [],
-        'relation_count' => ['label' => 'products_count', 'relation' => 'products'],
+        // 'relation_count' => ['label' => 'products_count', 'relation' => 'products'], //** NoahShop CAN OPEN
         'post_relation_count' => ['alias' => 'relation_count', 'label' => 'posts_count', 'relation' => 'posts'],
         'user_relation_count' => ['alias' => 'relation_count', 'label' => 'users_count', 'relation' => 'users'],
         'seo' => [],

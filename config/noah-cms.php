@@ -2,6 +2,38 @@
 
 // config for Sharenjoy/NoahCms
 return [
+
+    'models' => [
+        'User' => \Sharenjoy\NoahCms\Models\User::class,
+        'Menu' => \Sharenjoy\NoahCms\Models\Menu::class,
+        'Post' => \Sharenjoy\NoahCms\Models\Post::class,
+        'Role' => \Sharenjoy\NoahCms\Models\Role::class,
+        'Tag' => \Sharenjoy\NoahCms\Models\Tag::class,
+        'Category' => \Sharenjoy\NoahCms\Models\Category::class,
+        'StaticPage' => \Sharenjoy\NoahCms\Models\StaticPage::class,
+        'Carousel' => \Sharenjoy\NoahCms\Models\Carousel::class,
+    ],
+
+    'plugins' => [
+        'resources' => [
+            \Sharenjoy\NoahCms\Resources\CategoryResource::class,
+            \Sharenjoy\NoahCms\Resources\MenuResource::class,
+            \Sharenjoy\NoahCms\Resources\PostResource::class,
+            \Sharenjoy\NoahCms\Resources\RoleResource::class,
+            \Sharenjoy\NoahCms\Resources\TagResource::class,
+            \Sharenjoy\NoahCms\Resources\UserResource::class,
+            \Sharenjoy\NoahCms\Resources\StaticPageResource::class,
+            \Sharenjoy\NoahCms\Resources\CarouselResource::class,
+        ],
+        'pages' => [
+            \Sharenjoy\NoahCms\Pages\Activities::class,
+        ],
+        'widgets' => [
+            \Sharenjoy\NoahCms\Resources\CategoryResource\Widgets\CategoryWidget::class,
+            \Sharenjoy\NoahCms\Resources\MenuResource\Widgets\MenuWidget::class,
+        ],
+    ],
+
     'locale' => [
         'zh_TW' => '中文（台灣）',
         'en' => 'English',
@@ -20,40 +52,11 @@ return [
         'seo' => env('NOAHCMS_FEATURE_SEO', true),
     ],
 
-    'shop-feature' => [
-        'shop' => env('NOAHCMS_FEATURE_SHOP', true),
-        'coin-point' => env('NOAHCMS_FEATURE_POINT', true),
-        'coin-shoppingmoney' => env('NOAHCMS_FEATURE_SHOPPINGMONEY', true),
-    ],
-
-    'promo' => [
-        'conditions_decrypter' => env('PROMO_CONDITIONS_DECRYPTER', 'ronaldiscreator'),
-        'conditions_divider' => env('PROMO_CONDITIONS_DIVIDER', ':::'),
-        'coupon_divider' => env('PROMO_COUPON_DIVIDER', '::'),
-    ],
-
-    'donate_code' => [
-        // 322833 => '天主教花蓮教區醫療財團法人',
-        // 17930 => '社團法人台灣環境資訊協會',
-        // 876 => '財團法人心路社會福利基金會',
-        // 2880 => '台灣原生植物保育協會',
-        // 7495 => '社團法人臺灣野灣野生動物保育協會',
-    ],
-
     // 這些 enum 的值會被隱藏在選單中
     'hidden' => [
-        'OrderStatus' => [
-            'initial',
-        ],
-        'DeliveryProvider' => [
-            'tcat',
-            'fedex',
-        ],
-        'StockMethod' => [
-            'preorderable',
-        ],
-        'CoinType' => [
-            'shoppingmoney',
+        'TagType' => [
+            'product',
+            'promo',
         ],
     ],
 

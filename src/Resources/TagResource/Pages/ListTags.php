@@ -19,7 +19,7 @@ class ListTags extends ListRecords
     public function getTabs(): array
     {
         $tabs = [];
-        foreach (TagType::cases() as $case) {
+        foreach (TagType::visibleCases() as $case) {
             $tabs[$case->value] = Tab::make($case->getLabel())
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('type', $case->value))
                 ->badge(fn() => Tag::where('type', $case->value)->count());

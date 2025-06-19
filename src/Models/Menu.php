@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use MattDaneshvar\Survey\Models\Survey;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
-use Sharenjoy\NoahCms\Models\Traits\HasPromos;
 use Sharenjoy\NoahCms\Utils\Media;
+use Sharenjoy\NoahShop\Models\Survey\Survey;
+use Sharenjoy\NoahShop\Models\Traits\HasPromos;
 use SolutionForest\FilamentTree\Concern\ModelTree;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
@@ -29,7 +29,7 @@ class Menu extends Model
     use HasMediaLibrary;
     use ModelTree;
     use HasCategoryTree;
-    use HasPromos;
+    // use HasPromos; //** NoahShop CAN OPEN
     use HasSEO;
 
     protected $casts = [
@@ -77,7 +77,7 @@ class Menu extends Model
         'title' => ['description' => true],
         'slug' => [],
         'relation_count' => ['label' => 'categories_count', 'relation' => 'categories'],
-        'promo_relation_count' => ['label' => 'promos_count', 'relation' => 'promos', 'alias' => 'relation_count'],
+        // 'promo_relation_count' => ['label' => 'promos_count', 'relation' => 'promos', 'alias' => 'relation_count'], //** NoahShop CAN OPEN
         'seo' => [],
         'is_active' => [],
         'created_at' => [],

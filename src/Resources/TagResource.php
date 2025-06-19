@@ -7,7 +7,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Sharenjoy\NoahCms\Models\Tag;
 use Sharenjoy\NoahCms\Resources\TagResource\Pages;
 use Sharenjoy\NoahCms\Resources\TagResource\RelationManagers\PostsRelationManager;
 use Sharenjoy\NoahCms\Resources\TagResource\RelationManagers\ProductsRelationManager;
@@ -18,7 +17,8 @@ class TagResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = Tag::class;
+    // Model setting is done in noah-cms config file
+    // protected static ?string $model;
 
     protected static ?string $navigationIcon = 'heroicon-o-hashtag';
 
@@ -60,7 +60,7 @@ class TagResource extends Resource implements HasShieldPermissions
     {
         return [
             PostsRelationManager::class,
-            ProductsRelationManager::class,
+            // ProductsRelationManager::class,
             UsersRelationManager::class,
         ];
     }

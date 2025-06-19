@@ -7,7 +7,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Sharenjoy\NoahCms\Models\Category;
 use Sharenjoy\NoahCms\Resources\CategoryResource\Pages;
 use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\MenusRelationManager;
 use Sharenjoy\NoahCms\Resources\CategoryResource\RelationManagers\PostsRelationManager;
@@ -18,7 +17,8 @@ class CategoryResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = Category::class;
+    // Model setting is done in noah-cms config file
+    // protected static ?string $model;
 
     protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
 
@@ -59,7 +59,7 @@ class CategoryResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            ProductsRelationManager::class,
+            // ProductsRelationManager::class, //** NoahShop CAN OPEN
             PostsRelationManager::class,
             MenusRelationManager::class,
         ];

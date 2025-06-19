@@ -10,12 +10,12 @@ class ShopFeatured
 
     public function handle(string $layer): bool
     {
-        if (! config('noah-cms.shop-feature.shop')) {
+        if (! config('noah-shop.shop-feature.shop')) {
             return false;
         }
 
-        if ($layer && config()->has('noah-cms.shop-feature.' . $layer)) {
-            return config('noah-cms.shop-feature.' . $layer);
+        if ($layer && config()->has('noah-shop.shop-feature.' . $layer)) {
+            return config('noah-shop.shop-feature.' . $layer);
         }
 
         return false;

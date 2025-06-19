@@ -23,6 +23,18 @@ trait NoahBaseResource
 {
     use Translatable;
 
+    public static function getModel(): string
+    {
+        $strModel = (string) str(class_basename(static::class))->beforeLast('Resource');
+
+        // 如果 noah-cms config 中有指定 model，则使用该 model
+        if (array_key_exists($strModel, config('noah-cms.models'))) {
+            return config('noah-cms.models.' . $strModel);
+        }
+
+        return parent::getModel();
+    }
+
     public static function getEloquentQuery(): Builder
     {
         if (in_array(SoftDeletes::class, class_uses(static::getModel()))) {

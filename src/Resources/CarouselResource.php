@@ -7,7 +7,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Sharenjoy\NoahCms\Models\Carousel;
 use Sharenjoy\NoahCms\Resources\CarouselResource\Pages;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
@@ -15,7 +14,8 @@ class CarouselResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = Carousel::class;
+    // Model setting is done in noah-cms config file
+    // protected static ?string $model;
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 

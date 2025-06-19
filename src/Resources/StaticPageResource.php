@@ -7,7 +7,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Sharenjoy\NoahCms\Models\StaticPage;
 use Sharenjoy\NoahCms\Resources\StaticPageResource\Pages;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 
@@ -15,7 +14,8 @@ class StaticPageResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = StaticPage::class;
+    // Model setting is done in noah-cms config file
+    // protected static ?string $model;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 

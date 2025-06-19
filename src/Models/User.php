@@ -5,7 +5,6 @@ namespace Sharenjoy\NoahCms\Models;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Filament\Models\Contracts\FilamentUser;
@@ -14,31 +13,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Sharenjoy\NoahCms\Actions\GenerateUserSeriesNumber;
-use Sharenjoy\NoahCms\Actions\Shop\FetchCountryRelatedSelectOptions;
-use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
-use Sharenjoy\NoahCms\Actions\Shop\ShopFeatured;
-use Sharenjoy\NoahCms\Enums\ObjectiveType;
-use Sharenjoy\NoahCms\Enums\UserLevelStatus as EnumsUserLevelStatus;
-use Sharenjoy\NoahCms\Models\Address;
-use Sharenjoy\NoahCms\Models\Objective;
-use Sharenjoy\NoahCms\Models\Order;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
-use Sharenjoy\NoahCms\Models\Traits\HasCoin;
 use Sharenjoy\NoahCms\Models\Traits\HasTags;
-use Sharenjoy\NoahCms\Models\UserCoupon;
-use Sharenjoy\NoahCms\Models\UserCouponStatus;
-use Sharenjoy\NoahCms\Models\UserLevel;
-use Sharenjoy\NoahCms\Models\UserLevelStatus;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -51,7 +33,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     use SoftDeletes;
     use HasRoles;
     use HasTags;
-    use HasCoin;
 
     protected $fillable = [
         'name',
@@ -88,45 +69,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             if (!$model->sn) {
                 $model->sn = GenerateUserSeriesNumber::run('M');
             }
-
-            $userLevel = UserLevel::where('is_default', true)->first();
-            if ($userLevel && !$model->user_level_id) {
-                $model->user_level_id = $userLevel->id;
-            }
-        });
-
-        // 用戶建立後將預設的會員等級指定給會員
-        static::created(function ($model) {
-            if ($model->user_level_id) {
-                $userLevel = UserLevel::find($model->user_level_id);
-                // 創建用戶等級狀態
-                $model->userLevelStatuses()->create([
-                    'user_level_id' => $userLevel->id,
-                    'status' => EnumsUserLevelStatus::On->value,
-                    'started_at' => now(),
-                    'expired_at' => now()->addYears($userLevel->level_duration ?? 100)->endOfDay(), // 設置過期時間，且不設置過期時間的話，則預設為 100 年
-                ]);
-            }
-        });
-
-        // 當用戶更新時，如果會員等級資料有變更，則更新會員等級狀態
-        static::updating(function ($model) {
-            if ($model->isDirty('user_level_id')) {
-                $userLevelStatus = $model->userLevelStatuses()->get();
-                // 如果有會員等級狀態，則將其狀態設置為 Off
-                foreach ($userLevelStatus as $status) {
-                    $status->update([
-                        'status' => EnumsUserLevelStatus::Off->value,
-                    ]);
-                }
-                // 這裡的邏輯是將所有會員等級狀態設置為 Off，然後再創建一個新的會員等級狀態
-                $model->userLevelStatuses()->create([
-                    'user_level_id' => $model->user_level_id,
-                    'status' => EnumsUserLevelStatus::On->value,
-                    'started_at' => now(),
-                    'expired_at' => now()->addYears($model->userLevel->level_duration ?? 100)->endOfDay(), // 設置過期時間，且不設置過期時間的話，則預設為 100 年
-                ]);
-            }
         });
     }
 
@@ -134,16 +76,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         return [
             'left' => [
-                'user_level_id' => Section::make()->schema([
-                    Select::make('user_level_id')
-                        ->label(__('noah-cms::noah-cms.user_level'))
-                        ->helperText(new HtmlString(__('noah-cms::noah-cms.super_admin_only')))
-                        ->relationship('userLevel', 'title')
-                        // ->searchable()
-                        ->required()
-                        // 只有最高權限角色可以編輯
-                        ->disabled(fn(Get $get): bool => $get('id') && !RoleCan::run(role: 'super_admin')),
-                ])->visible(fn(Get $get): bool => (bool)$get('id') && ShopFeatured::run('shop')),
                 'name' => [
                     'required' => true,
                     'rules' => ['required', 'string'],
@@ -162,14 +94,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                         ->required(fn(Get $get): bool => !$get('id'))
                         ->rules(['min:8']),
                 ])->visible(fn(Get $get): bool => !$get('id')),
-                'calling_code' => Section::make()
-                    ->columns(2)
+                'mobile' => Section::make()
                     ->schema([
-                        Select::make('calling_code')
-                            ->label(__('noah-cms::noah-cms.activity.label.calling_code'))
-                            ->options(FetchCountryRelatedSelectOptions::run('calling_code'))
-                            ->searchable()
-                            ->required(),
                         TextInput::make('mobile')->placeholder('0912345678')->label(__('noah-cms::noah-cms.activity.label.mobile'))->required(),
                     ]),
             ],
@@ -197,10 +123,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         return [
             'sn' => [],
-            'userLevel.title' =>  ['alias' => 'belongs_to', 'label' => 'user_level', 'relation' => 'userLevel', 'relation_route' => 'shop.user-levels', 'relation_column' => 'user_level_id', 'visible' => ShopFeatured::run('shop')],
             'name' => [],
             'email' => [],
-            'user_coin' => ['label' => ShopFeatured::run('coin-shoppingmoney') ? 'user_coin' : 'user_point'],
             'roles' => [],
             'tags' => ['tagType' => 'user'],
             'created_at' => [],
@@ -246,46 +170,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             ->ordered();
     }
 
-    public function addresses(): HasMany
-    {
-        return $this->hasMany(Address::class);
-    }
-
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class)->establishedOrders();
-    }
-
-    public function validOrders(): HasMany
-    {
-        return $this->hasMany(Order::class)->validOrders();
-    }
-
-    public function objectives(): MorphToMany
-    {
-        return $this->morphToMany(Objective::class, 'objectiveable')->whereType(ObjectiveType::User->value);
-    }
-
-    public function coupons(): HasMany
-    {
-        return $this->hasMany(UserCoupon::class);
-    }
-
-    public function userLevel(): BelongsTo
-    {
-        return $this->belongsTo(UserLevel::class)->orderBy('order_column', 'asc');
-    }
-
-    public function userLevelStatuses(): HasMany
-    {
-        return $this->hasMany(UserLevelStatus::class);
-    }
-
-    public function userCouponStatuses(): HasMany
-    {
-        return $this->hasMany(UserCouponStatus::class);
-    }
-
     public function scopeSuperAdmin($query)
     {
         return $query->whereHas('roles', function ($query) {
@@ -304,15 +188,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $query->whereHas('roles', function ($q) use ($roles) {
             $q->whereIn('name', $roles);
         });
-    }
-
-    // 查詢擁有指定權限的使用者
-    public static function getCanHandleShippableUsers()
-    {
-        return User::withRolesHavingPermissions([
-            "view_any_shop::shippable::order",
-            "view_shop::shippable::order"
-        ])->get();
     }
 
     public function canAccessPanel(Panel $panel): bool

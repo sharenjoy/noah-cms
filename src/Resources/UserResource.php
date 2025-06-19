@@ -14,24 +14,16 @@ use Illuminate\Database\Eloquent\Builder;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
 use Sharenjoy\NoahCms\Models\Role;
-use Sharenjoy\NoahCms\Models\User;
-use Sharenjoy\NoahCms\Models\UserLevel;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 use Sharenjoy\NoahCms\Resources\UserResource\Pages;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\AddressesRelationManager;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\ObjectivesRelationManager;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\OrdersRelationManager;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\PointCoinMutationsRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\RolesRelationManager;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\ShoppingMoneyCoinMutationsRelationManager;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\UserCouponsRelationManager;
-use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\UserLevelStatusesRelationManager;
 
 class UserResource extends Resource implements HasShieldPermissions
 {
     use NoahBaseResource;
 
-    protected static ?string $model = User::class;
+    // Model setting is done in noah-cms config file
+    // protected static ?string $model;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
@@ -62,27 +54,6 @@ class UserResource extends Resource implements HasShieldPermissions
         return $table
             ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(array_merge([
-                Filter::make('userLevels')
-                    ->form([
-                        Select::make('userLevels')
-                            ->label(__('noah-cms::noah-cms.user_level'))
-                            ->options(UserLevel::all()->pluck('title', 'id'))
-                            ->prefixIcon('heroicon-o-chart-bar')
-                            ->multiple()
-                            ->searchable(),
-                    ])
-                    ->query(function (Builder $query, array $data) {
-                        $query->when($data['userLevels'], function ($query, $userLevels) {
-                            return $query->whereHas('userLevel', fn($query) => $query->whereIn('user_level_id', $userLevels));
-                        });
-                    })
-                    ->indicateUsing(function (array $data): ?string {
-                        if ($data['userLevels'] ?? null) {
-                            return __('noah-cms::noah-cms.user_level') . ': ' . implode(', ', UserLevel::whereIn('id', $data['userLevels'])->get()->pluck('title')->toArray());
-                        }
-
-                        return null;
-                    }),
                 Filter::make('roles')
                     ->form([
                         Select::make('roles')
@@ -118,13 +89,6 @@ class UserResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            OrdersRelationManager::class,
-            UserCouponsRelationManager::class,
-            ObjectivesRelationManager::class,
-            UserLevelStatusesRelationManager::class,
-            PointCoinMutationsRelationManager::class,
-            ShoppingMoneyCoinMutationsRelationManager::class,
-            AddressesRelationManager::class,
             RolesRelationManager::class,
         ];
     }
