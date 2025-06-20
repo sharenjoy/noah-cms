@@ -27,7 +27,7 @@ class UserResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
-    protected static ?int $navigationSort = 49;
+    protected static ?int $navigationSort = 60;
 
     public static function getNavigationGroup(): ?string
     {
