@@ -28,6 +28,12 @@ Add repositories section to composer
 ]
 ```
 
+Add laravel-debugbar repository to composer require-dev
+
+```json
+"barryvdh/laravel-debugbar": "^3.15",
+```
+
 You can install the package via composer:
 
 ```bash
