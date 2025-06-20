@@ -13,7 +13,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('view_any_static::page');
     }
@@ -21,7 +21,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, StaticPage $staticPage): bool
+    public function view(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, StaticPage $staticPage): bool
     {
         return $user->can('view_static::page');
     }
@@ -29,7 +29,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('create_static::page');
     }
@@ -37,7 +37,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, StaticPage $staticPage): bool
+    public function update(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, StaticPage $staticPage): bool
     {
         return $user->can('update_static::page');
     }
@@ -45,7 +45,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, StaticPage $staticPage): bool
+    public function delete(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, StaticPage $staticPage): bool
     {
         return $user->can('delete_static::page');
     }
@@ -53,7 +53,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can bulk delete.
      */
-    public function deleteAny(User $user): bool
+    public function deleteAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('delete_any_static::page');
     }
@@ -61,7 +61,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, StaticPage $staticPage): bool
+    public function forceDelete(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, StaticPage $staticPage): bool
     {
         return $user->can('force_delete_static::page');
     }
@@ -69,7 +69,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can permanently bulk delete.
      */
-    public function forceDeleteAny(User $user): bool
+    public function forceDeleteAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('force_delete_any_static::page');
     }
@@ -77,7 +77,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, StaticPage $staticPage): bool
+    public function restore(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, StaticPage $staticPage): bool
     {
         return $user->can('restore_static::page');
     }
@@ -85,7 +85,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can bulk restore.
      */
-    public function restoreAny(User $user): bool
+    public function restoreAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('restore_any_static::page');
     }
@@ -93,7 +93,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, StaticPage $staticPage): bool
+    public function replicate(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, StaticPage $staticPage): bool
     {
         return $user->can('{{ Replicate }}');
     }
@@ -101,7 +101,7 @@ class StaticPagePolicy
     /**
      * Determine whether the user can reorder.
      */
-    public function reorder(User $user): bool
+    public function reorder(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('{{ Reorder }}');
     }

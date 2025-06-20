@@ -13,7 +13,7 @@ class PostPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('view_any_post');
     }
@@ -21,7 +21,7 @@ class PostPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Post $post): bool
+    public function view(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, Post $post): bool
     {
         return $user->can('view_post');
     }
@@ -29,7 +29,7 @@ class PostPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('create_post');
     }
@@ -37,7 +37,7 @@ class PostPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Post $post): bool
+    public function update(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, Post $post): bool
     {
         return $user->can('update_post');
     }
@@ -45,7 +45,7 @@ class PostPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Post $post): bool
+    public function delete(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, Post $post): bool
     {
         return $user->can('delete_post');
     }
@@ -53,7 +53,7 @@ class PostPolicy
     /**
      * Determine whether the user can bulk delete.
      */
-    public function deleteAny(User $user): bool
+    public function deleteAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('delete_any_post');
     }
@@ -61,7 +61,7 @@ class PostPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Post $post): bool
+    public function forceDelete(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, Post $post): bool
     {
         return $user->can('force_delete_post');
     }
@@ -69,7 +69,7 @@ class PostPolicy
     /**
      * Determine whether the user can permanently bulk delete.
      */
-    public function forceDeleteAny(User $user): bool
+    public function forceDeleteAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('force_delete_any_post');
     }
@@ -77,7 +77,7 @@ class PostPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Post $post): bool
+    public function restore(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, Post $post): bool
     {
         return $user->can('restore_post');
     }
@@ -85,7 +85,7 @@ class PostPolicy
     /**
      * Determine whether the user can bulk restore.
      */
-    public function restoreAny(User $user): bool
+    public function restoreAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('restore_any_post');
     }
@@ -93,7 +93,7 @@ class PostPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Post $post): bool
+    public function replicate(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user, Post $post): bool
     {
         return $user->can('replicate_post');
     }
@@ -101,7 +101,7 @@ class PostPolicy
     /**
      * Determine whether the user can reorder.
      */
-    public function reorder(User $user): bool
+    public function reorder(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('reorder_post');
     }
