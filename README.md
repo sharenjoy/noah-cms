@@ -97,16 +97,20 @@ You can run the storage link with:
 php artisan storage:link
 ```
 
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="noah-cms-config"
-```
-
 You can publish the assets using
 
 ```bash
 php artisan vendor:publish --tag="noah-cms-assets"
+```
+
+```
+Copy all lang/vendor folder to lang/ folder
+```
+
+Optionally, You can publish the config file with:
+
+```bash
+php artisan vendor:publish --tag="noah-cms-config"
 ```
 
 Optionally, you can publish the views using
