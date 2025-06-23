@@ -32,6 +32,10 @@ trait NoahBaseResource
             return config('noah-cms.models.' . $strModel);
         }
 
+        if (array_key_exists($strModel, config('noah-shop.models'))) {
+            return config('noah-shop.models.' . $strModel);
+        }
+
         return parent::getModel();
     }
 

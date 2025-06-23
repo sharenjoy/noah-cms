@@ -111,6 +111,10 @@ class Form
                     // class
                     $obj = new ("\\Sharenjoy\\NoahCms\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model, ownerRecord: static::$ownerRecord);
                     $schema = $obj->make();
+                } elseif (class_exists('\\Sharenjoy\\NoahShop\\Utils\\Forms\\' . $class)) {
+                    // class
+                    $obj = new ("\\Sharenjoy\\NoahShop\\Utils\\Forms\\$class")(fieldName: $name, content: $content, translatable: static::$translatable, model: static::$model, ownerRecord: static::$ownerRecord);
+                    $schema = $obj->make();
                 } else {
                     throw new Exception('No class available that matches. -> ' . $class);
                     // method

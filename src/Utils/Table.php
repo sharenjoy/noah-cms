@@ -32,6 +32,9 @@ class Table
             } elseif (class_exists('\\Sharenjoy\\NoahCms\\Utils\\Tables\\' . $class)) {
                 // class
                 $column = new ("\\Sharenjoy\\NoahCms\\Utils\\Tables\\$class")(fieldName: $name, content: $content)->make();
+            } elseif (class_exists('\\Sharenjoy\\NoahShop\\Utils\\Tables\\' . $class)) {
+                // class
+                $column = new ("\\Sharenjoy\\NoahShop\\Utils\\Tables\\$class")(fieldName: $name, content: $content)->make();
             } else {
                 // others
                 if ($name == 'title') {
