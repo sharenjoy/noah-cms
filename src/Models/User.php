@@ -84,7 +84,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     protected function tableFields(): array
     {
         return [
-            'sn' => [],
             'name' => [],
             'email' => [],
             'roles' => [],
