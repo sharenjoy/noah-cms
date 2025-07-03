@@ -28,11 +28,11 @@ trait NoahBaseResource
         $strModel = (string) str(class_basename(static::class))->beforeLast('Resource');
 
         // 如果 noah-cms config 中有指定 model，则使用该 model
-        if (array_key_exists($strModel, config('noah-cms.models'))) {
+        if (array_key_exists($strModel, config('noah-cms.models', []))) {
             return config('noah-cms.models.' . $strModel);
         }
 
-        if (array_key_exists($strModel, config('noah-shop.models'))) {
+        if (array_key_exists($strModel, config('noah-shop.models', []))) {
             return config('noah-shop.models.' . $strModel);
         }
 
