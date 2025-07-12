@@ -24,6 +24,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
                 'permission',
                 'seo',
                 'tags',
+                'twaddress',
             ])
             ->hasViews()
             ->hasTranslations()
