@@ -18,7 +18,7 @@ class ListTags extends ListRecords
     public function getTabs(): array
     {
         $tabs = [];
-        foreach (config('noah-cms.enums.TagType')::visibleCases() as $case) {
+        foreach (config('noah-cms.enums.TagType', \Sharenjoy\NoahCms\Enums\TagType::class)::visibleCases() as $case) {
             $tabs[$case->value] = Tab::make($case->getLabel())
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('type', $case->value))
                 ->badge(fn() => Tag::where('type', $case->value)->count());

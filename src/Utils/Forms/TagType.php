@@ -10,7 +10,7 @@ class TagType extends FormAbstract implements FormInterface
     {
         $this->field = Select::make($this->fieldName)
             ->label(__('noah-cms::noah-cms.' . $this->fieldName))
-            ->options(config('noah-cms.enums.TagType')::visibleOptions());
+            ->options(config('noah-cms.enums.TagType', \Sharenjoy\NoahCms\Enums\TagType::class)::visibleOptions());
 
         $this->resolve();
 
