@@ -158,5 +158,9 @@ return [
     'sku' => 'SKU',
     'comments' => '留言',
     'settings' => '設定',
+    'male' => '男',
+    'female' => '女',
+    'other' => '其他',
+    'gender' => '性別',
 
 ];

@@ -47,6 +47,10 @@ class Table
                     $column = MediaColumn::make($name)->label(__('noah-cms::noah-cms.image'))->square()->size($content['size'] ?? 40)->alignCenter()->defaultImageUrl(asset('vendor/noah-cms/images/placeholder.svg'))->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'slug') {
                     $column = TextColumn::make($name)->label('Slug')->searchable()->limit(10)->tooltip(fn(Model $record): string => "By {$record->slug}")->copyable()->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
+                } elseif ($name == 'gender') {
+                    $column = TextColumn::make($name)->label(__('noah-cms::noah-cms.gender'))->state(function ($record) {
+                        return __('noah-cms::noah-cms.' . $record->gender);
+                    })->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'categories') {
                     $column = TextColumn::make('categories.title')->label(__('noah-cms::noah-cms.categories'))->badge()->placeholder('-')->toggleable(isToggledHiddenByDefault: $content['isToggledHiddenByDefault'] ?? false);
                 } elseif ($name == 'tags') {
