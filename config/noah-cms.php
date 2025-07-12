@@ -14,6 +14,10 @@ return [
         'Carousel' => \Sharenjoy\NoahCms\Models\Carousel::class,
     ],
 
+    'enums' => [
+        'TagType' => \Sharenjoy\NoahCms\Enums\TagType::class,
+    ],
+
     'plugins' => [
         'resources' => [
             \Sharenjoy\NoahCms\Resources\CategoryResource::class,
