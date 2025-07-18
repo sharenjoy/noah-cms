@@ -162,5 +162,8 @@ return [
     'female' => '女',
     'other' => '其他',
     'gender' => '性別',
+    'update_password' => '更新密碼',
+    'password_confirmation' => '確認密碼',
+    'password_updated' => '密碼已更新'
 
 ];

@@ -2,9 +2,10 @@
 
 namespace Sharenjoy\NoahCms\Resources\UserResource\Pages;
 
+use Filament\Resources\Pages\EditRecord;
 use Sharenjoy\NoahCms\Resources\Traits\NoahEditRecord;
 use Sharenjoy\NoahCms\Resources\UserResource;
-use Filament\Resources\Pages\EditRecord;
+use Sharenjoy\NoahCms\Resources\UserResource\Actions\UpdateUserPasswordAction;
 
 class EditUser extends EditRecord
 {
@@ -14,6 +15,8 @@ class EditUser extends EditRecord
 
     protected function getHeaderActions(): array
     {
-        return array_merge([], $this->recordHeaderActions());
+        return array_merge([
+            UpdateUserPasswordAction::make(),
+        ], $this->recordHeaderActions());
     }
 }
