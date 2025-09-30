@@ -1,20 +1,5 @@
 # This is my package noah-cms
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/sharenjoy/noah-cms.svg?style=flat-square)](https://packagist.org/packages/sharenjoy/noah-cms)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/sharenjoy/noah-cms/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/sharenjoy/noah-cms/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/sharenjoy/noah-cms/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/sharenjoy/noah-cms/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/sharenjoy/noah-cms.svg?style=flat-square)](https://packagist.org/packages/sharenjoy/noah-cms)
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/noah-cms.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/noah-cms)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
-
 ## Installation
 
 Add repositories section to composer
@@ -60,17 +45,6 @@ namespace App\Models;
 use Sharenjoy\NoahCms\Models\User as NoahCmsUser;
 
 class User extends NoahCmsUser {}
-```
-
-Update auth.php in config folder
-
-```php
-'providers' => [
-    'users' => [
-        'driver' => 'eloquent',
-        'model' => env('AUTH_MODEL', \Sharenjoy\NoahCms\Models\User::class),
-    ],
-],
 ```
 
 You can publish migrations and run migrate and other database related:

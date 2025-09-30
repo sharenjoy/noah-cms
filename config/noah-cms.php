@@ -4,7 +4,7 @@
 return [
 
     'models' => [
-        'User' => \Sharenjoy\NoahCms\Models\User::class,
+        'User' => \App\Models\User::class,
         'Menu' => \Sharenjoy\NoahCms\Models\Menu::class,
         'Post' => \Sharenjoy\NoahCms\Models\Post::class,
         'Role' => \Sharenjoy\NoahCms\Models\Role::class,
