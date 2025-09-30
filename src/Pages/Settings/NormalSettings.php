@@ -27,6 +27,11 @@ class NormalSettings extends BaseSettings
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-8-tooth';
 
+    public function getTitle(): string
+    {
+        return __('noah-cms::noah-cms.general_setting');
+    }
+
     public static function getNavigationGroup(): string
     {
         return __('noah-cms::noah-cms.settings');

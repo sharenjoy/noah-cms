@@ -16,6 +16,11 @@ class SeoSettings extends BaseSettings
 
     protected static ?string $navigationIcon = null;
 
+    public function getTitle(): string
+    {
+        return __('noah-cms::noah-cms.seo_setting');
+    }
+
     public static function getNavigationGroup(): string
     {
         return __('noah-cms::noah-cms.settings');
