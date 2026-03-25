@@ -14,7 +14,7 @@ use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use Sharenjoy\NoahCms\Models\Post;
 // use Sharenjoy\NoahShop\Models\Promo;
-// use Sharenjoy\NoahShop\Models\Promo;
+// use Sharenjoy\NoahShop\Models\Product;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Utils\Media;
 use Spatie\Activitylog\Traits\LogsActivity;
