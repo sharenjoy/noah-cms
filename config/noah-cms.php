@@ -14,6 +14,10 @@ return [
         'Carousel' => \Sharenjoy\NoahCms\Models\Carousel::class,
     ],
 
+    // Eloquent morph type 寫入資料庫時使用不含 namespace 的 class basename。
+    // 可在宿主專案覆寫或補充額外模型，例如：'Product' => \App\Models\Product::class。
+    'morph_map' => [],
+
     'enums' => [
         'TagType' => \Sharenjoy\NoahCms\Enums\TagType::class,
     ],
