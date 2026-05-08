@@ -58,11 +58,16 @@ class CategoryResource extends Resource implements HasShieldPermissions
 
     public static function getRelations(): array
     {
-        return [
-            // ProductsRelationManager::class, //** NoahShop CAN OPEN
+        $relations = [
             PostsRelationManager::class,
             MenusRelationManager::class,
         ];
+
+        if (class_exists('Sharenjoy\NoahShop\Resources\ProductResource')) {
+            $relations[] = ProductsRelationManager::class;
+        }
+
+        return $relations;
     }
 
     public static function getPages(): array
