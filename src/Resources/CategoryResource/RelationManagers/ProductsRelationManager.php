@@ -8,8 +8,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\Category;
-use Sharenjoy\NoahCms\Models\Product;
-use Sharenjoy\NoahCms\Resources\ProductResource;
+use Sharenjoy\NoahShop\Models\Product;
+use Sharenjoy\NoahShop\Resources\ProductResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 
 class ProductsRelationManager extends RelationManager
