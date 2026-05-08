@@ -73,11 +73,17 @@ class Category extends Model
 
     protected function tableFields(): array
     {
-        return [
+        $fields = [
             'thumbnail' => [],
             'title' => ['description' => true],
             'slug' => [],
-            // 'relation_count' => ['label' => 'products_count', 'relation' => 'products'], //** NoahShop CAN OPEN
+        ];
+
+        if (class_exists(\Sharenjoy\NoahShop\Models\Product::class)) {
+            $fields['relation_count'] = ['label' => 'products_count', 'relation' => 'products'];
+        }
+
+        $fields += [
             'post_relation_count' => ['alias' => 'relation_count', 'label' => 'posts_count', 'relation' => 'posts'],
             'menu_relation_count' => ['alias' => 'relation_count', 'label' => 'menus_count', 'relation' => 'menus'],
             'seo' => [],
@@ -85,6 +91,8 @@ class Category extends Model
             'created_at' => [],
             'updated_at' => [],
         ];
+
+        return $fields;
     }
 
     /** RELACTIONS */
