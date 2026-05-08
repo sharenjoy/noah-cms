@@ -52,7 +52,7 @@ return [
             'blocks',
         ],
         // 'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', 'lead', 'small', '|', 'link', 'media'],
-        'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', '|', 'color', 'link', 'media'],
+        'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', '|', 'color', 'link', 'media', 'oembed'],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
         'code' => ['code-block'],
         'none' => [],
