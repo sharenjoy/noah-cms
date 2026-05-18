@@ -16,12 +16,12 @@ use Spatie\Translatable\HasTranslations;
 class StaticPage extends Model
 {
     use CommonModelTrait;
+    use HasCategoryTree;
+    use HasMediaLibrary;
+    use HasSEO;
+    use HasTranslations;
     use LogsActivity;
     use SoftDeletes;
-    use HasTranslations;
-    use HasMediaLibrary;
-    use HasCategoryTree;
-    use HasSEO;
 
     protected $casts = [
         'album' => 'array',
@@ -82,7 +82,6 @@ class StaticPage extends Model
     /** EVENTS */
 
     /** SEO */
-
     public function getDynamicSEOData(): SEOData
     {
         // TODO

@@ -12,15 +12,15 @@ abstract class TableAbstract
     protected function getLabel($name, $content): string
     {
         if (isset($content['label'])) {
-            if (! str_contains(__('noah-cms::noah-cms.' . $content['label']), 'noah-cms')) {
-                return __('noah-cms::noah-cms.' . $content['label']);
+            if (! str_contains(__('noah-cms::noah-cms.'.$content['label']), 'noah-cms')) {
+                return __('noah-cms::noah-cms.'.$content['label']);
             }
 
-            if (! str_contains(__('noah-shop::noah-shop.' . $content['label']), 'noah-shop')) {
-                return __('noah-shop::noah-shop.' . $content['label']);
+            if (! str_contains(__('noah-shop::noah-shop.'.$content['label']), 'noah-shop')) {
+                return __('noah-shop::noah-shop.'.$content['label']);
             }
         }
 
-        return __('noah-cms::noah-cms.' . $name);
+        return __('noah-cms::noah-cms.'.$name);
     }
 }

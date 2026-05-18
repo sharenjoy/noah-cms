@@ -4,8 +4,6 @@ namespace Sharenjoy\NoahCms\Utils\Tables;
 
 use Filament\Tables\Columns\ImageColumn;
 use Sharenjoy\NoahCms\Utils\Media;
-use Sharenjoy\NoahCms\Utils\Tables\TableAbstract;
-use Sharenjoy\NoahCms\Utils\Tables\TableInterface;
 
 class Image extends TableAbstract implements TableInterface
 {

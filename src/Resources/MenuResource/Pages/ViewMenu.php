@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\MenuResource\Pages;
 
+use Filament\Resources\Pages\ViewRecord;
 use Sharenjoy\NoahCms\Resources\MenuResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahViewRecord;
-use Filament\Resources\Pages\ViewRecord;
 
 class ViewMenu extends ViewRecord
 {

@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\TagResource\Pages;
 
+use Filament\Resources\Pages\ViewRecord;
 use Sharenjoy\NoahCms\Resources\TagResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahViewRecord;
-use Filament\Resources\Pages\ViewRecord;
 
 class ViewTag extends ViewRecord
 {

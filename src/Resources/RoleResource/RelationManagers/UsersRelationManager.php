@@ -2,12 +2,13 @@
 
 namespace Sharenjoy\NoahCms\Resources\RoleResource\RelationManagers;
 
-use Sharenjoy\NoahCms\Models\User;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Utils\Filter;
 use Spatie\Permission\Models\Role;
 
 class UsersRelationManager extends RelationManager
@@ -35,10 +36,10 @@ class UsersRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitle(fn(User $record): string => "({$record->id}) {$record->name}\r{$record->email}")
+            ->recordTitle(fn (User $record): string => "({$record->id}) {$record->name}\r{$record->email}")
             ->heading(__('noah-cms::noah-cms.user'))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(User::class))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(User::class, Role::class))
+            ->filters(Filter::make(User::class, Role::class))
             ->headerActions([
                 Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['name', 'email'])->multiple(),
             ])

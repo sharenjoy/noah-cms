@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\MenuResource\Pages;
 
+use Filament\Resources\Pages\EditRecord;
 use Sharenjoy\NoahCms\Resources\MenuResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahEditRecord;
-use Filament\Resources\Pages\EditRecord;
 
 class EditMenu extends EditRecord
 {

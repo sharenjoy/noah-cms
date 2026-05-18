@@ -22,11 +22,12 @@ class SpecDetailName extends FormAbstract implements FormInterface
                     ->deletable(false)
                     ->editableKeys(false)
                     ->rules([
-                        fn(): \Closure => function (string $attribute, $value, \Closure $fail) {
+                        fn (): \Closure => function (string $attribute, $value, \Closure $fail) {
                             $values = array_values($value);
                             foreach ($values as $value) {
-                                if (! $value)
+                                if (! $value) {
                                     $fail(__('validation.required'));
+                                }
                             }
                         },
                     ])
@@ -39,7 +40,7 @@ class SpecDetailName extends FormAbstract implements FormInterface
         } else {
             $this->field = Grid::make()->schema([
                 Placeholder::make(__('noah-cms::noah-cms.single_spec'))
-                    ->visible(fn(Get $get): bool => $get('spec_detail_name') == 'single_spec'),
+                    ->visible(fn (Get $get): bool => $get('spec_detail_name') == 'single_spec'),
                 KeyValue::make('spec_detail_name')
                     ->label(__('noah-cms::noah-cms.specification'))
                     ->keyLabel(__('noah-cms::noah-cms.spec_name'))
@@ -48,15 +49,16 @@ class SpecDetailName extends FormAbstract implements FormInterface
                     ->deletable(false)
                     ->editableKeys(false)
                     ->rules([
-                        fn(): \Closure => function (string $attribute, $value, \Closure $fail) {
+                        fn (): \Closure => function (string $attribute, $value, \Closure $fail) {
                             $values = array_values($value);
                             foreach ($values as $value) {
-                                if (! $value)
+                                if (! $value) {
                                     $fail(__('validation.required'));
+                                }
                             }
                         },
                     ])
-                    ->visible(fn(Get $get): bool => $get('spec_detail_name') != 'single_spec')
+                    ->visible(fn (Get $get): bool => $get('spec_detail_name') != 'single_spec')
                     ->columnSpanFull(),
             ]);
         }

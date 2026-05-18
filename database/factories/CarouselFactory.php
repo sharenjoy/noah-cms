@@ -3,18 +3,20 @@
 namespace Sharenjoy\NoahCms\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\Carousel;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Translatable\HasTranslations;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Carousel>
+ * @extends Factory<\App\Models\Carousel>
  */
 class CarouselFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     * @var class-string<Model>
      */
     protected $model = Carousel::class;
 
@@ -23,7 +25,7 @@ class CarouselFactory extends Factory
         return [
             'title' => $this->getName(),
             'description' => $this->getDescription(),
-            'img' => \Spatie\MediaLibrary\MediaCollections\Models\Media::inRandomOrder()->first()->id,
+            'img' => Media::inRandomOrder()->first()->id,
             'is_active' => fake()->boolean(70),
         ];
     }

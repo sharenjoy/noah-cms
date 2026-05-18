@@ -2,12 +2,6 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use Sharenjoy\NoahCms\Utils\JsonLD;
-use Sharenjoy\NoahCms\Utils\Media;
-use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
-use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
-use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
-use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +10,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\SchemaCollection;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
+use Sharenjoy\NoahCms\Database\Factories\PostFactory;
+use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
+use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
+use Sharenjoy\NoahCms\Models\Traits\HasTags;
+use Sharenjoy\NoahCms\Utils\JsonLD;
+use Sharenjoy\NoahCms\Utils\Media;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -24,15 +25,15 @@ use Spatie\Translatable\HasTranslations;
 class Post extends Model implements Sortable
 {
     use CommonModelTrait;
+    use HasCategoryTree;
     use HasFactory;
+    use HasMediaLibrary;
+    use HasSEO;
+    use HasTags;
+    use HasTranslations;
     use LogsActivity;
     use SoftDeletes;
     use SortableTrait;
-    use HasTranslations;
-    use HasMediaLibrary;
-    use HasCategoryTree;
-    use HasTags;
-    use HasSEO;
 
     protected $casts = [
         'album' => 'array',
@@ -94,7 +95,6 @@ class Post extends Model implements Sortable
     ];
 
     /** RELACTIONS */
-
     public function tags(): MorphToMany
     {
         return $this
@@ -109,7 +109,6 @@ class Post extends Model implements Sortable
     /** EVENTS */
 
     /** SEO */
-
     public function getDynamicSEOData(): SEOData
     {
         // TODO
@@ -122,30 +121,31 @@ class Post extends Model implements Sortable
             image: $this->seo->image ? Media::imgUrl($this->seo->image) : Media::imgUrl($this->img),
             enableTitleSuffix: false,
             alternates: $this->getAlternateTag($path),
-            schema: SchemaCollection::make()->add(fn(SEOData $SEOData) => JsonLD::article($SEOData, $this)),
+            schema: SchemaCollection::make()->add(fn (SEOData $SEOData) => JsonLD::article($SEOData, $this)),
         );
     }
 
     /** OTHERS */
-
     protected static function newFactory()
     {
-        return \Sharenjoy\NoahCms\Database\Factories\PostFactory::new();
+        return PostFactory::new();
     }
 
     public function getReplicateAction($type)
     {
         $resourceName = 'posts';
         $classname = $type == 'table' ? '\Filament\Tables\Actions\ReplicateAction' : '\Filament\Actions\ReplicateAction';
+
         return $classname::make()
             ->after(function (Model $replica): void {
-                $replica->slug = $replica->slug . '-' . $replica->id;
+                $replica->slug = $replica->slug.'-'.$replica->id;
                 $replica->is_active = false;
                 $replica->save();
             })
             ->successRedirectUrl(function (Model $replica) use ($resourceName): string {
                 $currentPanelId = Filament::getCurrentPanel()->getId();
-                return route('filament.' . $currentPanelId . '.resources.' . $resourceName . '.edit', [
+
+                return route('filament.'.$currentPanelId.'.resources.'.$resourceName.'.edit', [
                     'record' => $replica,
                 ]);
             });

@@ -7,10 +7,11 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Sharenjoy\NoahShop\Models\Product;
 use Sharenjoy\NoahCms\Models\Tag;
-use Sharenjoy\NoahShop\Resources\ProductResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
+use Sharenjoy\NoahCms\Utils\Filter;
+use Sharenjoy\NoahShop\Models\Product;
+use Sharenjoy\NoahShop\Resources\ProductResource;
 
 class ProductsRelationManager extends RelationManager
 {
@@ -45,10 +46,10 @@ class ProductsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitle(fn(Product $record): string => "({$record->id}) {$record->title}")
+            ->recordTitle(fn (Product $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.product'))
             ->columns(array_merge(static::getTableStartColumns(ProductResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Product::class)))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Product::class, Tag::class))
+            ->filters(Filter::make(Product::class, Tag::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['title', 'description', 'slug'])->multiple(),

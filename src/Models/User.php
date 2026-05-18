@@ -2,8 +2,6 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
-use Carbon\Carbon;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
@@ -11,28 +9,27 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Sharenjoy\NoahCms\Actions\GenerateUserSeriesNumber;
+use Sharenjoy\NoahCms\Database\Factories\UserFactory;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     use CommonModelTrait;
     use HasFactory;
+    use HasRoles;
+    use HasTags;
     use LogsActivity;
     use Notifiable;
     use SoftDeletes;
-    use HasRoles;
-    use HasTags;
 
     protected $fillable = [
         'name',
@@ -70,10 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
                         ->label(__('noah-cms::noah-cms.password'))
                         ->placeholder('********')
                         ->password()
-                        ->dehydrated(fn($state) => !empty($state))
-                        ->required(fn(Get $get): bool => !$get('id'))
+                        ->dehydrated(fn ($state) => ! empty($state))
+                        ->required(fn (Get $get): bool => ! $get('id'))
                         ->rules(['min:8']),
-                ])->visible(fn(Get $get): bool => !$get('id')),
+                ])->visible(fn (Get $get): bool => ! $get('id')),
             ],
             'right' => [
                 'tags' => ['min' => 0, 'max' => 3, 'multiple' => true],
@@ -108,7 +105,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     protected static function newFactory()
     {
-        return \Sharenjoy\NoahCms\Database\Factories\UserFactory::new();
+        return UserFactory::new();
     }
 
     /**
@@ -118,7 +115,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         return Str::of($this->name)
             ->explode(' ')
-            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
 

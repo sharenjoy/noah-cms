@@ -29,11 +29,11 @@ trait NoahBaseResource
 
         // 如果 noah-cms config 中有指定 model，则使用该 model
         if (array_key_exists($strModel, config('noah-cms.models', []))) {
-            return config('noah-cms.models.' . $strModel);
+            return config('noah-cms.models.'.$strModel);
         }
 
         if (array_key_exists($strModel, config('noah-shop.models', []))) {
-            return config('noah-shop.models.' . $strModel);
+            return config('noah-shop.models.'.$strModel);
         }
 
         return parent::getModel();
@@ -57,7 +57,7 @@ trait NoahBaseResource
             $table
                 ->reorderable('order_column')
                 ->reorderRecordsTriggerAction(
-                    fn(Action $action, bool $isReordering) => $action
+                    fn (Action $action, bool $isReordering) => $action
                         ->button()
                         ->label($isReordering ? __('noah-cms::noah-cms.reordering_completed') : __('noah-cms::noah-cms.start_reordering')),
                 );
@@ -69,6 +69,7 @@ trait NoahBaseResource
                 foreach ($sort as $column => $direction) {
                     $query->orderBy($column, $direction);
                 }
+
                 return $query;
             });
         } else {

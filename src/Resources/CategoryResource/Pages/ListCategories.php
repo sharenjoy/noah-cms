@@ -2,10 +2,10 @@
 
 namespace Sharenjoy\NoahCms\Resources\CategoryResource\Pages;
 
+use Filament\Resources\Pages\ListRecords;
 use Sharenjoy\NoahCms\Resources\CategoryResource;
 use Sharenjoy\NoahCms\Resources\CategoryResource\Widgets\CategoryWidget;
 use Sharenjoy\NoahCms\Resources\Traits\NoahListRecords;
-use Filament\Resources\Pages\ListRecords;
 
 class ListCategories extends ListRecords
 {
@@ -21,7 +21,7 @@ class ListCategories extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            CategoryWidget::class
+            CategoryWidget::class,
         ];
     }
 }

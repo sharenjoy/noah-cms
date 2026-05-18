@@ -2,12 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\TagResource\Pages;
 
+use Filament\Resources\Pages\EditRecord;
 use Sharenjoy\NoahCms\Resources\TagResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahEditRecord;
-use Filament\Actions\ReplicateAction;
-use Filament\Facades\Filament;
-use Filament\Resources\Pages\EditRecord;
-use Illuminate\Database\Eloquent\Model;
 
 class EditTag extends EditRecord
 {

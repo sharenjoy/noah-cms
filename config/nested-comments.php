@@ -1,5 +1,8 @@
 <?php
 
+use Coolsam\NestedComments\Models\Comment;
+use Coolsam\NestedComments\Models\Reaction;
+use Coolsam\NestedComments\NestedComments;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,8 +14,8 @@ return [
     ],
 
     'models' => [
-        'comment' => \Coolsam\NestedComments\Models\Comment::class,
-        'reaction' => \Coolsam\NestedComments\Models\Reaction::class,
+        'comment' => Comment::class,
+        'reaction' => Reaction::class,
         'user' => env('AUTH_MODEL', 'Sharenjoy\NoahCms\Models\User'), // The model that will be used to get the authenticated user
     ],
 
@@ -37,15 +40,15 @@ return [
     'allow-guest-reactions' => env('ALLOW_GUEST_REACTIONS', false), // Allow guest users to react
     'allow-guest-comments' => env('ALLOW_GUEST_COMMENTS', false), // Allow guest users to comment
     'closures' => [
-        'getUserNameUsing' => fn(Authenticatable | Model $user) => $user->getAttribute('name'),
-        'getUserAvatarUsing' => fn(
-            Authenticatable | Model | string $user
-        ) => app(\Coolsam\NestedComments\NestedComments::class)->geDefaultUserAvatar($user),
+        'getUserNameUsing' => fn (Authenticatable|Model $user) => $user->getAttribute('name'),
+        'getUserAvatarUsing' => fn (
+            Authenticatable|Model|string $user
+        ) => app(NestedComments::class)->geDefaultUserAvatar($user),
         //        'getMentionsUsing' => fn (string $query) => app(\Coolsam\NestedComments\NestedComments::class)->getUserMentions($query), // Get mentions of all users in the DB
-        'getMentionsUsing' => fn(
+        'getMentionsUsing' => fn (
             string $query,
             Model $commentable
-        ) => app(\Coolsam\NestedComments\NestedComments::class)->getCurrentThreadUsers($query, $commentable),
+        ) => app(NestedComments::class)->getCurrentThreadUsers($query, $commentable),
     ],
     'mentions' => [
         'items-placeholder' => 'Search users by name or email address',

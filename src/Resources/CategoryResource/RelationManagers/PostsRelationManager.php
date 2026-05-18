@@ -11,6 +11,7 @@ use Sharenjoy\NoahCms\Models\Category;
 use Sharenjoy\NoahCms\Models\Post;
 use Sharenjoy\NoahCms\Resources\PostResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
+use Sharenjoy\NoahCms\Utils\Filter;
 
 class PostsRelationManager extends RelationManager
 {
@@ -45,10 +46,10 @@ class PostsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitle(fn(Post $record): string => "({$record->id}) {$record->title}")
+            ->recordTitle(fn (Post $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.post'))
             ->columns(array_merge(static::getTableStartColumns(PostResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Post::class)))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Post::class, Category::class))
+            ->filters(Filter::make(Post::class, Category::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['title', 'description', 'slug'])->multiple(),

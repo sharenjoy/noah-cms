@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\MenuResource\Pages;
 
+use Filament\Resources\Pages\CreateRecord;
 use Sharenjoy\NoahCms\Resources\MenuResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahCreateRecord;
-use Filament\Resources\Pages\CreateRecord;
 
 class CreateMenu extends CreateRecord
 {

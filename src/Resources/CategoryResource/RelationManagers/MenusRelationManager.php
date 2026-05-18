@@ -11,6 +11,7 @@ use Sharenjoy\NoahCms\Models\Category;
 use Sharenjoy\NoahCms\Models\Menu;
 use Sharenjoy\NoahCms\Resources\MenuResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
+use Sharenjoy\NoahCms\Utils\Filter;
 
 class MenusRelationManager extends RelationManager
 {
@@ -45,10 +46,10 @@ class MenusRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitle(fn(Menu $record): string => "({$record->id}) {$record->title}")
+            ->recordTitle(fn (Menu $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.menu'))
             ->columns(array_merge(static::getTableStartColumns(MenuResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Menu::class)))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Menu::class, Category::class))
+            ->filters(Filter::make(Menu::class, Category::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['title', 'description', 'slug'])->multiple(),

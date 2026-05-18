@@ -25,19 +25,19 @@ class JsonLD
         }
 
         return [
-            "@context" => "https://schema.org",
-            "@type" => "NewsArticle",
-            "headline" => $model->seo->title ?: $model->title,
-            "image" => array_values(array_unique($images)),
-            "datePublished" => $model->published_at,
-            "dateModified" => $model->updated_at,
-            "author" => [
+            '@context' => 'https://schema.org',
+            '@type' => 'NewsArticle',
+            'headline' => $model->seo->title ?: $model->title,
+            'image' => array_values(array_unique($images)),
+            'datePublished' => $model->published_at,
+            'dateModified' => $model->updated_at,
+            'author' => [
                 // [
                 //     "@type" => "Person",
                 //     "name" => "Jane Doe",
                 //     "url" => "https://example.com/profile/janedoe123"
                 // ]
-            ]
+            ],
         ];
     }
 }

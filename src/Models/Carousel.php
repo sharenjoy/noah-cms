@@ -5,6 +5,7 @@ namespace Sharenjoy\NoahCms\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Sharenjoy\NoahCms\Database\Factories\CarouselFactory;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -16,11 +17,11 @@ class Carousel extends Model implements Sortable
 {
     use CommonModelTrait;
     use HasFactory;
+    use HasMediaLibrary;
+    use HasTranslations;
     use LogsActivity;
     use SoftDeletes;
     use SortableTrait;
-    use HasTranslations;
-    use HasMediaLibrary;
 
     protected $casts = [
         'is_active' => 'boolean',
@@ -72,9 +73,8 @@ class Carousel extends Model implements Sortable
     /** SEO */
 
     /** OTHERS */
-
     protected static function newFactory()
     {
-        return \Sharenjoy\NoahCms\Database\Factories\CarouselFactory::new();
+        return CarouselFactory::new();
     }
 }

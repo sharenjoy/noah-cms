@@ -3,18 +3,20 @@
 namespace Sharenjoy\NoahCms\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\Menu;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Translatable\HasTranslations;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Sharenjoy\NoahCms\Models\Menu>
+ * @extends Factory<Menu>
  */
 class MenuFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     * @var class-string<Model>
      */
     protected $model = Menu::class;
 
@@ -25,7 +27,7 @@ class MenuFactory extends Factory
             'description' => $this->getDescription(),
             'content' => $this->getContent(),
             'slug' => fake()->unique()->word(10),
-            'img' => \Spatie\MediaLibrary\MediaCollections\Models\Media::inRandomOrder()->first()->id,
+            'img' => Media::inRandomOrder()->first()->id,
             'is_active' => fake()->boolean(70),
             'published_at' => now(),
         ];
@@ -33,7 +35,7 @@ class MenuFactory extends Factory
 
     protected function getTitle(): array|string
     {
-        if (in_array(HasTranslations::class, class_uses(\Sharenjoy\NoahCms\Models\Menu::class))) {
+        if (in_array(HasTranslations::class, class_uses(Menu::class))) {
             return [
                 'en' => fake('en')->sentence(),
                 'zh_TW' => fake()->sentence(),
@@ -45,7 +47,7 @@ class MenuFactory extends Factory
 
     protected function getDescription(): array|string
     {
-        if (in_array(HasTranslations::class, class_uses(\Sharenjoy\NoahCms\Models\Menu::class))) {
+        if (in_array(HasTranslations::class, class_uses(Menu::class))) {
             return [
                 'en' => fake('en')->paragraph(),
                 'zh_TW' => fake()->paragraph(),
@@ -57,7 +59,7 @@ class MenuFactory extends Factory
 
     protected function getContent(): array|string
     {
-        if (in_array(HasTranslations::class, class_uses(\Sharenjoy\NoahCms\Models\Menu::class))) {
+        if (in_array(HasTranslations::class, class_uses(Menu::class))) {
             return [
                 'en' => fake('en')->text(),
                 'zh_TW' => fake()->text(),

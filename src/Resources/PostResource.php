@@ -2,13 +2,14 @@
 
 namespace Sharenjoy\NoahCms\Resources;
 
-use Sharenjoy\NoahCms\Resources\PostResource\Pages;
-use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Sharenjoy\NoahCms\Resources\PostResource\Pages;
+use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
+use Sharenjoy\NoahCms\Utils\Filter;
 
 class PostResource extends Resource implements HasShieldPermissions
 {
@@ -41,9 +42,10 @@ class PostResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         $table = static::chainTableFunctions($table);
+
         return $table
             ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(static::getModel()))
+            ->filters(Filter::make(static::getModel()))
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ActionGroup::make(array_merge(static::getTableActions(), [])),

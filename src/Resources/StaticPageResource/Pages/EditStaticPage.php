@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\StaticPageResource\Pages;
 
+use Filament\Resources\Pages\EditRecord;
 use Sharenjoy\NoahCms\Resources\StaticPageResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahEditRecord;
-use Filament\Resources\Pages\EditRecord;
 
 class EditStaticPage extends EditRecord
 {

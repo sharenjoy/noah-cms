@@ -14,8 +14,8 @@ class ShopFeatured
             return false;
         }
 
-        if ($layer && config()->has('noah-shop.shop-feature.' . $layer)) {
-            return config('noah-shop.shop-feature.' . $layer);
+        if ($layer && config()->has('noah-shop.shop-feature.'.$layer)) {
+            return config('noah-shop.shop-feature.'.$layer);
         }
 
         return false;

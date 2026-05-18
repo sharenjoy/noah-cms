@@ -11,7 +11,7 @@ class NoahCmsPlugin implements Plugin
 
     public static function make(): NoahCmsPlugin
     {
-        return new NoahCmsPlugin();
+        return new NoahCmsPlugin;
     }
 
     public function getId(): string

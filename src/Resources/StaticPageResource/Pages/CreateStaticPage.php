@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\StaticPageResource\Pages;
 
+use Filament\Resources\Pages\CreateRecord;
 use Sharenjoy\NoahCms\Resources\StaticPageResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahCreateRecord;
-use Filament\Resources\Pages\CreateRecord;
 
 class CreateStaticPage extends CreateRecord
 {

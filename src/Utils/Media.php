@@ -8,14 +8,18 @@ class Media
 {
     public static function mediaItem(?int $imageId = null)
     {
-        if (! $imageId) return;
+        if (! $imageId) {
+            return;
+        }
 
         return MediaLibraryItem::find($imageId)->getItem();
     }
 
     public static function imgUrl(int|array|null $imageId = null)
     {
-        if (! $imageId) return;
+        if (! $imageId) {
+            return;
+        }
 
         if (is_array($imageId)) {
             $images = [];

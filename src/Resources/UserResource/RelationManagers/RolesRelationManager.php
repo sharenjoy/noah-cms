@@ -2,13 +2,14 @@
 
 namespace Sharenjoy\NoahCms\Resources\UserResource\RelationManagers;
 
-use Sharenjoy\NoahCms\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahCms\Utils\Filter;
 use Spatie\Permission\Models\Role;
 
 class RolesRelationManager extends RelationManager
@@ -51,7 +52,7 @@ class RolesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('name')
                     ->weight('font-medium')
                     ->label(__('filament-shield::filament-shield.column.name'))
-                    ->formatStateUsing(fn($state): string => str()->headline($state)),
+                    ->formatStateUsing(fn ($state): string => str()->headline($state)),
                 Tables\Columns\TextColumn::make('guard_name')
                     ->badge()
                     ->color('warning')
@@ -66,7 +67,7 @@ class RolesRelationManager extends RelationManager
                     ->since()
                     ->dateTimeTooltip('Y-m-d H:i:s'),
             ])
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Role::class, User::class))
+            ->filters(Filter::make(Role::class, User::class))
             ->headerActions([
                 Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['name'])->multiple(),
             ])

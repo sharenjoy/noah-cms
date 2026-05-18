@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\StaticPageResource\Pages;
 
+use Filament\Resources\Pages\ViewRecord;
 use Sharenjoy\NoahCms\Resources\StaticPageResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahViewRecord;
-use Filament\Resources\Pages\ViewRecord;
 
 class ViewStaticPage extends ViewRecord
 {

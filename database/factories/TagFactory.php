@@ -2,19 +2,20 @@
 
 namespace Sharenjoy\NoahCms\Database\Factories;
 
-use Sharenjoy\NoahCms\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
+use Sharenjoy\NoahCms\Models\Tag;
 use Spatie\Translatable\HasTranslations;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Sharenjoy\NoahCms\Models\Tag>
+ * @extends Factory<Tag>
  */
 class TagFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     * @var class-string<Model>
      */
     protected $model = Tag::class;
 

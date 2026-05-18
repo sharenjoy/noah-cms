@@ -3,6 +3,19 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Sharenjoy\NoahCms\Models\Carousel;
+use Sharenjoy\NoahCms\Models\Category;
+use Sharenjoy\NoahCms\Models\Menu;
+use Sharenjoy\NoahCms\Models\Permission;
+use Sharenjoy\NoahCms\Models\Post;
+use Sharenjoy\NoahCms\Models\Role;
+use Sharenjoy\NoahCms\Models\Seo;
+use Sharenjoy\NoahCms\Models\StaticPage;
+use Sharenjoy\NoahCms\Models\Tag;
+use Sharenjoy\NoahCms\Models\User;
+use Sharenjoy\NoahShop\Models\Product;
+use Sharenjoy\NoahShop\Models\Promo;
+use Sharenjoy\NoahShop\Models\Survey\Survey;
 
 return new class extends Migration
 {
@@ -43,19 +56,19 @@ return new class extends Migration
     private function morphMap(): array
     {
         $models = [
-            \Sharenjoy\NoahCms\Models\Carousel::class,
-            \Sharenjoy\NoahCms\Models\Category::class,
-            \Sharenjoy\NoahCms\Models\Menu::class,
-            \Sharenjoy\NoahCms\Models\Permission::class,
-            \Sharenjoy\NoahCms\Models\Post::class,
-            \Sharenjoy\NoahCms\Models\Role::class,
-            \Sharenjoy\NoahCms\Models\Seo::class,
-            \Sharenjoy\NoahCms\Models\StaticPage::class,
-            \Sharenjoy\NoahCms\Models\Tag::class,
-            \Sharenjoy\NoahCms\Models\User::class,
-            \Sharenjoy\NoahShop\Models\Product::class,
-            \Sharenjoy\NoahShop\Models\Promo::class,
-            \Sharenjoy\NoahShop\Models\Survey\Survey::class,
+            Carousel::class,
+            Category::class,
+            Menu::class,
+            Permission::class,
+            Post::class,
+            Role::class,
+            Seo::class,
+            StaticPage::class,
+            Tag::class,
+            User::class,
+            Product::class,
+            Promo::class,
+            Survey::class,
         ];
 
         $models = array_merge($models, array_values(config('noah-cms.models', [])));

@@ -5,19 +5,10 @@ namespace Sharenjoy\NoahCms\Pages\Settings;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Closure;
 use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Get;
-use Illuminate\Support\HtmlString;
 use Outerweb\FilamentSettings\Filament\Pages\Settings as BaseSettings;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
-use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
-use Sharenjoy\NoahCms\Actions\Shop\ShopFeatured;
 
 class NormalSettings extends BaseSettings
 {

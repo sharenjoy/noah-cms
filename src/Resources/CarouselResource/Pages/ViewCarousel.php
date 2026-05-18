@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\CarouselResource\Pages;
 
+use Filament\Resources\Pages\ViewRecord;
 use Sharenjoy\NoahCms\Resources\CarouselResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahViewRecord;
-use Filament\Resources\Pages\ViewRecord;
 
 class ViewCarousel extends ViewRecord
 {

@@ -9,7 +9,7 @@ class Gender extends FormAbstract implements FormInterface
     public function make()
     {
         $this->field = Radio::make($this->fieldName)
-            ->label(__('noah-cms::noah-cms.' . $this->fieldName))
+            ->label(__('noah-cms::noah-cms.'.$this->fieldName))
             ->options($this->content['options'] ?? [
                 'male' => __('noah-cms::noah-cms.male'),
                 'female' => __('noah-cms::noah-cms.female'),

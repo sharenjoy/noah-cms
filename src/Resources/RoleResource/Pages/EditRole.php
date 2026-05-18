@@ -2,12 +2,12 @@
 
 namespace Sharenjoy\NoahCms\Resources\RoleResource\Pages;
 
-use Sharenjoy\NoahCms\Resources\RoleResource;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Sharenjoy\NoahCms\Resources\RoleResource;
 
 class EditRole extends EditRecord
 {

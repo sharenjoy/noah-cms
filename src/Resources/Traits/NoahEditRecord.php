@@ -5,7 +5,6 @@ namespace Sharenjoy\NoahCms\Resources\Traits;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
-use Filament\Resources\Pages\ContentTabPosition;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 trait NoahEditRecord

@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\CategoryResource\Pages;
 
+use Filament\Resources\Pages\CreateRecord;
 use Sharenjoy\NoahCms\Resources\CategoryResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahCreateRecord;
-use Filament\Resources\Pages\CreateRecord;
 
 class CreateCategory extends CreateRecord
 {

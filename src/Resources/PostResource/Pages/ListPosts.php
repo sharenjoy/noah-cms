@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\PostResource\Pages;
 
+use Filament\Resources\Pages\ListRecords;
 use Sharenjoy\NoahCms\Resources\PostResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahListRecords;
-use Filament\Resources\Pages\ListRecords;
 
 class ListPosts extends ListRecords
 {

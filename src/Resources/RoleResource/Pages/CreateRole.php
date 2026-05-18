@@ -2,11 +2,11 @@
 
 namespace Sharenjoy\NoahCms\Resources\RoleResource\Pages;
 
-use Sharenjoy\NoahCms\Resources\RoleResource;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Sharenjoy\NoahCms\Resources\RoleResource;
 
 class CreateRole extends CreateRecord
 {

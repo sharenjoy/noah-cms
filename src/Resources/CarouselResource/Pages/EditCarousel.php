@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\CarouselResource\Pages;
 
+use Filament\Resources\Pages\EditRecord;
 use Sharenjoy\NoahCms\Resources\CarouselResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahEditRecord;
-use Filament\Resources\Pages\EditRecord;
 
 class EditCarousel extends EditRecord
 {

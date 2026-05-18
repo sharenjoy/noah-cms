@@ -1,6 +1,8 @@
 <?php
 
-if (!function_exists('noah_setting')) {
+use Sharenjoy\NoahCms\Utils\Media;
+
+if (! function_exists('noah_setting')) {
     function noah_setting(string $key): mixed
     {
         $setting = setting($key);
@@ -10,6 +12,7 @@ if (!function_exists('noah_setting')) {
             if (isset($setting[$locale])) {
                 return $setting[$locale];
             }
+
             return $setting;
         }
 
@@ -17,9 +20,9 @@ if (!function_exists('noah_setting')) {
     }
 }
 
-if (!function_exists('media_url')) {
+if (! function_exists('media_url')) {
     function media_url($ids): mixed
     {
-        return \Sharenjoy\NoahCms\Utils\Media::imgUrl($ids);
+        return Media::imgUrl($ids);
     }
 }

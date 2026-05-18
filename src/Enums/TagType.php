@@ -7,7 +7,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Sharenjoy\NoahCms\Enums\Traits\BaseEnum;
 
-enum TagType: string implements HasLabel, HasColor
+enum TagType: string implements HasColor, HasLabel
 {
     use BaseEnum;
 

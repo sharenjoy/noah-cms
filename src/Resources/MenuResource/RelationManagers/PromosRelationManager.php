@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Sharenjoy\NoahCms\Models\Menu;
 use Sharenjoy\NoahCms\Models\Promo;
 use Sharenjoy\NoahCms\Resources\Traits\CanViewShop;
+use Sharenjoy\NoahCms\Utils\Filter;
 
 class PromosRelationManager extends RelationManager
 {
@@ -44,10 +45,10 @@ class PromosRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitle(fn(Promo $record): string => "({$record->id}) {$record->title}")
+            ->recordTitle(fn (Promo $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.promo'))
             ->columns(\Sharenjoy\NoahCms\Utils\Table::make(Promo::class))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Promo::class, Menu::class))
+            ->filters(Filter::make(Promo::class, Menu::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['title', 'description', 'slug'])->multiple(),

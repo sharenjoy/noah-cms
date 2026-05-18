@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\RoleResource\Pages;
 
-use Sharenjoy\NoahCms\Resources\RoleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Sharenjoy\NoahCms\Resources\RoleResource;
 
 class ListRoles extends ListRecords
 {

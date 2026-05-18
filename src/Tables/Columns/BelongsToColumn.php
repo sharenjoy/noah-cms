@@ -18,8 +18,8 @@ class BelongsToColumn extends TextColumn
             $string = $this->camelToKebabCase($content['relation']);
             $this->content['relation_route'] = $this->content['relation_route'] ?? str($string)->plural();
 
-            if (!isset($this->content['relation_column'])) {
-                $this->content['relation_column'] = str_replace('-', '_', $string) . '_id';
+            if (! isset($this->content['relation_column'])) {
+                $this->content['relation_column'] = str_replace('-', '_', $string).'_id';
             }
         }
 

@@ -13,6 +13,7 @@ class ResourceIDColumn extends TextColumn
     public function content(array $content): static
     {
         $this->content = $content;
+
         return $this;
     }
 

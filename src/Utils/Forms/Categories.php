@@ -4,6 +4,7 @@ namespace Sharenjoy\NoahCms\Utils\Forms;
 
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Sharenjoy\NoahCms\Models\Category;
+use Sharenjoy\NoahCms\Utils\Form;
 
 class Categories extends FormAbstract implements FormInterface
 {
@@ -27,10 +28,10 @@ class Categories extends FormAbstract implements FormInterface
                 relationship: 'categories',
                 titleAttribute: 'title',
                 parentAttribute: 'parent_id',
-                modifyQueryUsing: fn($query) => $query->orderBy('order'),
-                modifyChildQueryUsing: fn($query) => $query->orderBy('order')
+                modifyQueryUsing: fn ($query) => $query->orderBy('order'),
+                modifyChildQueryUsing: fn ($query) => $query->orderBy('order')
             )
-            ->createOptionForm(\Sharenjoy\NoahCms\Utils\Form::make(Category::class, 'create'));
+            ->createOptionForm(Form::make(Category::class, 'create'));
 
         $this->resolve();
 

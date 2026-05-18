@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\PostResource\Pages;
 
+use Filament\Resources\Pages\CreateRecord;
 use Sharenjoy\NoahCms\Resources\PostResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahCreateRecord;
-use Filament\Resources\Pages\CreateRecord;
 
 class CreatePost extends CreateRecord
 {

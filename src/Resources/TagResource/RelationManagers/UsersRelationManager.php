@@ -11,6 +11,7 @@ use Sharenjoy\NoahCms\Models\Tag;
 use Sharenjoy\NoahCms\Models\User;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
 use Sharenjoy\NoahCms\Resources\UserResource;
+use Sharenjoy\NoahCms\Utils\Filter;
 
 class UsersRelationManager extends RelationManager
 {
@@ -45,10 +46,10 @@ class UsersRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitle(fn(User $record): string => "({$record->id}) {$record->name}\r{$record->email}")
+            ->recordTitle(fn (User $record): string => "({$record->id}) {$record->name}\r{$record->email}")
             ->heading(__('noah-cms::noah-cms.user'))
             ->columns(array_merge(static::getTableStartColumns(UserResource::class), \Sharenjoy\NoahCms\Utils\Table::make(User::class)))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(User::class, Tag::class))
+            ->filters(Filter::make(User::class, Tag::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['title', 'description', 'slug'])->multiple(),

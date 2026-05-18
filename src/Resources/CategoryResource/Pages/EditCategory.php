@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\CategoryResource\Pages;
 
+use Filament\Resources\Pages\EditRecord;
 use Sharenjoy\NoahCms\Resources\CategoryResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahEditRecord;
-use Filament\Resources\Pages\EditRecord;
 
 class EditCategory extends EditRecord
 {

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
-use Sharenjoy\NoahCms\Models\Post;
+use Sharenjoy\NoahCms\Database\Factories\CategoryFactory;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasMediaLibrary;
 use Sharenjoy\NoahCms\Models\Traits\HasMenus;
@@ -22,13 +22,13 @@ class Category extends Model
 {
     use CommonModelTrait;
     use HasFactory;
-    use LogsActivity;
-    use SoftDeletes;
-    use HasTranslations;
     use HasMediaLibrary;
-    use ModelTree;
     use HasMenus;
     use HasSEO;
+    use HasTranslations;
+    use LogsActivity;
+    use ModelTree;
+    use SoftDeletes;
 
     protected $casts = [
         'parent_id' => 'int',
@@ -79,7 +79,7 @@ class Category extends Model
             'slug' => [],
         ];
 
-        if (class_exists(\Sharenjoy\NoahShop\Models\Product::class)) {
+        if (class_exists(Product::class)) {
             $fields['relation_count'] = ['label' => 'products_count', 'relation' => 'products'];
         }
 
@@ -96,7 +96,6 @@ class Category extends Model
     }
 
     /** RELACTIONS */
-
     public function posts(): MorphToMany
     {
         return $this->morphedByMany(Post::class, 'categorizable');
@@ -112,7 +111,6 @@ class Category extends Model
     /** EVENTS */
 
     /** SEO */
-
     public function getDynamicSEOData(): SEOData
     {
         // TODO
@@ -130,9 +128,8 @@ class Category extends Model
     }
 
     /** OTHERS */
-
     protected static function newFactory()
     {
-        return \Sharenjoy\NoahCms\Database\Factories\CategoryFactory::new();
+        return CategoryFactory::new();
     }
 }

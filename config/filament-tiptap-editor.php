@@ -1,5 +1,12 @@
 <?php
 
+use FilamentTiptapEditor\Actions\GridBuilderAction;
+use FilamentTiptapEditor\Actions\LinkAction;
+use FilamentTiptapEditor\Actions\OEmbedAction;
+use FilamentTiptapEditor\Enums\TiptapOutput;
+use RalphJSmit\Filament\MediaLibrary\FilamentTipTap\Actions\MediaLibraryAction;
+use RalphJSmit\Filament\MediaLibrary\FilamentTipTap\Actions\MediaLibraryEditAction;
+
 return [
     'direction' => 'ltr',
     'max_content_width' => '5xl',
@@ -64,14 +71,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'media_action' => RalphJSmit\Filament\MediaLibrary\FilamentTipTap\Actions\MediaLibraryAction::class,
-    'edit_media_action' => RalphJSmit\Filament\MediaLibrary\FilamentTipTap\Actions\MediaLibraryEditAction::class,
+    'media_action' => MediaLibraryAction::class,
+    'edit_media_action' => MediaLibraryEditAction::class,
     // 'media_action' => FilamentTiptapEditor\Actions\MediaAction::class,
     // 'media_action' => Awcodes\Curator\Actions\MediaAction::class,
     // 'edit_media_action' => FilamentTiptapEditor\Actions\EditMediaAction::class,
-    'link_action' => FilamentTiptapEditor\Actions\LinkAction::class,
-    'grid_builder_action' => FilamentTiptapEditor\Actions\GridBuilderAction::class,
-    'oembed_action' => FilamentTiptapEditor\Actions\OEmbedAction::class,
+    'link_action' => LinkAction::class,
+    'grid_builder_action' => GridBuilderAction::class,
+    'oembed_action' => OEmbedAction::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -82,7 +89,7 @@ return [
     |
     | See: https://tiptap.dev/guide/output
     */
-    'output' => FilamentTiptapEditor\Enums\TiptapOutput::Html,
+    'output' => TiptapOutput::Html,
 
     /*
     |--------------------------------------------------------------------------

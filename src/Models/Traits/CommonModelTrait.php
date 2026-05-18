@@ -42,9 +42,6 @@ trait CommonModelTrait
         return $items;
     }
 
-    /**
-     * @return \Spatie\Activitylog\LogOptions
-     */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

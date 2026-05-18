@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\PostResource\Pages;
 
+use Filament\Resources\Pages\ViewRecord;
 use Sharenjoy\NoahCms\Resources\PostResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahViewRecord;
-use Filament\Resources\Pages\ViewRecord;
 
 class ViewPost extends ViewRecord
 {

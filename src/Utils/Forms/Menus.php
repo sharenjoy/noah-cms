@@ -26,8 +26,8 @@ class Menus extends FormAbstract implements FormInterface
                 relationship: 'menus',
                 titleAttribute: 'title',
                 parentAttribute: 'parent_id',
-                modifyQueryUsing: fn($query) => $query->orderBy('order'),
-                modifyChildQueryUsing: fn($query) => $query->orderBy('order')
+                modifyQueryUsing: fn ($query) => $query->orderBy('order'),
+                modifyChildQueryUsing: fn ($query) => $query->orderBy('order')
             );
 
         $this->resolve();

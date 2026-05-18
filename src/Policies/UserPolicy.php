@@ -2,9 +2,8 @@
 
 namespace Sharenjoy\NoahCms\Policies;
 
-use Sharenjoy\NoahCms\Models\User;
-
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Sharenjoy\NoahCms\Models\User;
 
 class UserPolicy
 {
@@ -13,10 +12,9 @@ class UserPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function viewAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function viewAny(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('view_any_user');
     }
@@ -24,10 +22,9 @@ class UserPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function view(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function view(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('view_user');
     }
@@ -35,10 +32,9 @@ class UserPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function create(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function create(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('create_user');
     }
@@ -46,10 +42,9 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function update(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function update(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('update_user');
     }
@@ -57,10 +52,9 @@ class UserPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function delete(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function delete(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('delete_user');
     }
@@ -68,10 +62,9 @@ class UserPolicy
     /**
      * Determine whether the user can bulk delete.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function deleteAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function deleteAny(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('delete_any_user');
     }
@@ -79,10 +72,9 @@ class UserPolicy
     /**
      * Determine whether the user can permanently delete.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function forceDelete(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function forceDelete(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('force_delete_user');
     }
@@ -90,10 +82,9 @@ class UserPolicy
     /**
      * Determine whether the user can permanently bulk delete.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function forceDeleteAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function forceDeleteAny(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('force_delete_any_user');
     }
@@ -101,10 +92,9 @@ class UserPolicy
     /**
      * Determine whether the user can restore.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function restore(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function restore(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('restore_user');
     }
@@ -112,10 +102,9 @@ class UserPolicy
     /**
      * Determine whether the user can bulk restore.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function restoreAny(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function restoreAny(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('restore_any_user');
     }
@@ -123,10 +112,9 @@ class UserPolicy
     /**
      * Determine whether the user can bulk restore.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function replicate(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function replicate(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('{{ Replicate }}');
     }
@@ -134,10 +122,9 @@ class UserPolicy
     /**
      * Determine whether the user can reorder.
      *
-     * @param  \Sharenjoy\NoahCms\Models\User  $user
-     * @return bool
+     * @param  User  $user
      */
-    public function reorder(\Sharenjoy\NoahCms\Models\User | \Sharenjoy\NoahShop\Models\User $user): bool
+    public function reorder(User|\Sharenjoy\NoahShop\Models\User $user): bool
     {
         return $user->can('{{ Reorder }}');
     }

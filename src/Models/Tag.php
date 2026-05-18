@@ -12,9 +12,9 @@ use Illuminate\Support\Collection;
 use Overtrue\Pinyin\Pinyin;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
-use Sharenjoy\NoahCms\Models\Post;
 // use Sharenjoy\NoahShop\Models\Promo;
 // use Sharenjoy\NoahShop\Models\Product;
+use Sharenjoy\NoahCms\Database\Factories\TagFactory;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Utils\Media;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -26,11 +26,11 @@ class Tag extends Model implements Sortable
 {
     use CommonModelTrait;
     use HasFactory;
+    use HasSEO;
+    use HasTranslations;
     use LogsActivity;
     use SoftDeletes;
     use SortableTrait;
-    use HasTranslations;
-    use HasSEO;
 
     public array $translatable = [
         'name',
@@ -91,11 +91,10 @@ class Tag extends Model implements Sortable
 
     protected static function newFactory()
     {
-        return \Sharenjoy\NoahCms\Database\Factories\TagFactory::new();
+        return TagFactory::new();
     }
 
     /** SEO */
-
     public function getDynamicSEOData(): SEOData
     {
         // TODO
@@ -125,14 +124,14 @@ class Tag extends Model implements Sortable
     {
         $locale = $locale ?? static::getLocale();
 
-        return $query->whereRaw('lower(' . $this->getQuery()->getGrammar()->wrap('name->' . $locale) . ') like ?', ['%' . mb_strtolower($name) . '%']);
+        return $query->whereRaw('lower('.$this->getQuery()->getGrammar()->wrap('name->'.$locale).') like ?', ['%'.mb_strtolower($name).'%']);
     }
 
     public static function findOrCreate(
-        string | array | ArrayAccess $values,
-        string | null $type = null,
-        string | null $locale = null,
-    ): Collection | Tag | static {
+        string|array|ArrayAccess $values,
+        ?string $type = null,
+        ?string $locale = null,
+    ): Collection|Tag|static {
         $tags = collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof self) {
                 return $value;

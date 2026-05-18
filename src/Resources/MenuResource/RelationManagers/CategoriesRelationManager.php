@@ -11,6 +11,7 @@ use Sharenjoy\NoahCms\Models\Category;
 use Sharenjoy\NoahCms\Models\Menu;
 use Sharenjoy\NoahCms\Resources\CategoryResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseRelationManager;
+use Sharenjoy\NoahCms\Utils\Filter;
 
 class CategoriesRelationManager extends RelationManager
 {
@@ -45,10 +46,10 @@ class CategoriesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitle(fn(Category $record): string => "({$record->id}) {$record->title}")
+            ->recordTitle(fn (Category $record): string => "({$record->id}) {$record->title}")
             ->heading(__('noah-cms::noah-cms.category'))
             ->columns(array_merge(static::getTableStartColumns(CategoryResource::class), \Sharenjoy\NoahCms\Utils\Table::make(Category::class)))
-            ->filters(\Sharenjoy\NoahCms\Utils\Filter::make(Category::class, Menu::class))
+            ->filters(Filter::make(Category::class, Menu::class))
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()->preloadRecordSelect()->recordSelectSearchColumns(['title', 'description', 'slug'])->multiple(),

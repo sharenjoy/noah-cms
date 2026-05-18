@@ -68,7 +68,9 @@ abstract class FormAbstract
                         }
                         $convertStr = $state[$this->fieldName]['en'] ?: $state[$this->fieldName]['zh_TW'];
                     } else {
-                        if (empty($state)) return;
+                        if (empty($state)) {
+                            return;
+                        }
                         $convertStr = $state;
                     }
 

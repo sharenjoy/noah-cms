@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\StaticPageResource\Pages;
 
+use Filament\Resources\Pages\ListRecords;
 use Sharenjoy\NoahCms\Resources\StaticPageResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahListRecords;
-use Filament\Resources\Pages\ListRecords;
 
 class ListStaticPages extends ListRecords
 {

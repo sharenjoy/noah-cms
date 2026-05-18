@@ -2,9 +2,8 @@
 
 namespace Sharenjoy\NoahCms\Resources\UserResource\Pages;
 
-use Sharenjoy\NoahCms\Resources\UserResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Sharenjoy\NoahCms\Resources\UserResource;
 
 class CreateUser extends CreateRecord
 {

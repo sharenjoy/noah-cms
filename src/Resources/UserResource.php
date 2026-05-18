@@ -11,12 +11,12 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 use Sharenjoy\NoahCms\Actions\Shop\RoleCan;
 use Sharenjoy\NoahCms\Models\Role;
 use Sharenjoy\NoahCms\Resources\Traits\NoahBaseResource;
 use Sharenjoy\NoahCms\Resources\UserResource\Pages;
 use Sharenjoy\NoahCms\Resources\UserResource\RelationManagers\RolesRelationManager;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 class UserResource extends Resource implements HasShieldPermissions
 {
@@ -51,6 +51,7 @@ class UserResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         $table = static::chainTableFunctions($table);
+
         return $table
             ->columns(array_merge(static::getTableStartColumns(), \Sharenjoy\NoahCms\Utils\Table::make(static::getModel())))
             ->filters(array_merge([
@@ -65,19 +66,19 @@ class UserResource extends Resource implements HasShieldPermissions
                     ])
                     ->query(function (Builder $query, array $data) {
                         $query->when($data['roles'], function ($query, $roles) {
-                            return $query->whereHas('roles', fn($query) => $query->whereIn('roles.id', $roles));
+                            return $query->whereHas('roles', fn ($query) => $query->whereIn('roles.id', $roles));
                         });
                     })
                     ->indicateUsing(function (array $data): ?string {
                         if ($data['roles'] ?? null) {
-                            return __('noah-cms::noah-cms.role') . ': ' . implode(', ', Role::whereIn('id', $data['roles'])->get()->pluck('name')->toArray());
+                            return __('noah-cms::noah-cms.role').': '.implode(', ', Role::whereIn('id', $data['roles'])->get()->pluck('name')->toArray());
                         }
 
                         return null;
                     }),
             ], \Sharenjoy\NoahCms\Utils\Filter::make(static::getModel())))
             ->actions([
-                Impersonate::make()->iconSize('sm')->visible(fn() => RoleCan::run(role: 'super_admin')),
+                Impersonate::make()->iconSize('sm')->visible(fn () => RoleCan::run(role: 'super_admin')),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ActionGroup::make(array_merge(static::getTableActions(), [])),
             ])

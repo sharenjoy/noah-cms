@@ -3,8 +3,6 @@
 namespace Sharenjoy\NoahCms\Utils\Tables;
 
 use Filament\Tables\Columns\TextColumn;
-use Sharenjoy\NoahCms\Utils\Tables\TableAbstract;
-use Sharenjoy\NoahCms\Utils\Tables\TableInterface;
 
 class RelationCount extends TableAbstract implements TableInterface
 {

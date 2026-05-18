@@ -2,9 +2,9 @@
 
 namespace Sharenjoy\NoahCms\Resources\TagResource\Pages;
 
+use Filament\Resources\Pages\CreateRecord;
 use Sharenjoy\NoahCms\Resources\TagResource;
 use Sharenjoy\NoahCms\Resources\Traits\NoahCreateRecord;
-use Filament\Resources\Pages\CreateRecord;
 
 class CreateTag extends CreateRecord
 {

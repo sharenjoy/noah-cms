@@ -11,8 +11,8 @@ class Password extends FormAbstract implements FormInterface
         $this->field = TextInput::make($this->fieldName)
             ->password()
             ->placeholder('*******')
-            ->label(__('noah-cms::noah-cms.' . $this->fieldName))
-            ->disabled(fn($record) => $record !== null ? true : false);
+            ->label(__('noah-cms::noah-cms.'.$this->fieldName))
+            ->disabled(fn ($record) => $record !== null ? true : false);
 
         $this->resolve();
 

@@ -2,10 +2,10 @@
 
 namespace Sharenjoy\NoahCms\Resources\MenuResource\Pages;
 
+use Filament\Resources\Pages\ListRecords;
 use Sharenjoy\NoahCms\Resources\MenuResource;
 use Sharenjoy\NoahCms\Resources\MenuResource\Widgets\MenuWidget;
 use Sharenjoy\NoahCms\Resources\Traits\NoahListRecords;
-use Filament\Resources\Pages\ListRecords;
 
 class ListMenus extends ListRecords
 {
@@ -21,7 +21,7 @@ class ListMenus extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            MenuWidget::class
+            MenuWidget::class,
         ];
     }
 }

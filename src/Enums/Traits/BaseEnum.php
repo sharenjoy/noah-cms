@@ -7,11 +7,11 @@ trait BaseEnum
     public static function options(): array
     {
         return collect(self::cases())
-            ->mapWithKeys(fn($case) => [$case->value => $case->getLabel()])
+            ->mapWithKeys(fn ($case) => [$case->value => $case->getLabel()])
             ->toArray();
     }
 
-    public static function getLabelFromOption($value): string|null
+    public static function getLabelFromOption($value): ?string
     {
         $labels = self::options();
 
@@ -20,15 +20,15 @@ trait BaseEnum
 
     public static function visibleCases(): array
     {
-        $hidden = config('noah-cms.hidden.' . class_basename(self::class), []);
+        $hidden = config('noah-cms.hidden.'.class_basename(self::class), []);
 
-        return array_filter(self::cases(), fn($case) => !in_array($case->value, $hidden));
+        return array_filter(self::cases(), fn ($case) => ! in_array($case->value, $hidden));
     }
 
     public static function visibleOptions(): array
     {
         return collect(self::visibleCases())
-            ->mapWithKeys(fn($case) => [$case->value => $case->getLabel()])
+            ->mapWithKeys(fn ($case) => [$case->value => $case->getLabel()])
             ->toArray();
     }
 }
