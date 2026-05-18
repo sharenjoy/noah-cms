@@ -15,6 +15,7 @@ class ModelWithoutCategoryTree extends Model
             'left' => [],
             'right' => [
                 'categories' => [],
+                'seo' => [],
             ],
         ];
     }
@@ -24,6 +25,7 @@ class ModelWithoutCategoryTree extends Model
         return [
             'title' => [],
             'categories' => [],
+            'seo' => [],
         ];
     }
 }

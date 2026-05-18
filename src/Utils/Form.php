@@ -144,8 +144,15 @@ class Form
 
     protected static function shouldSkipField(string $name): bool
     {
-        return $name === 'categories'
-            && ! in_array(HasCategoryTree::class, class_uses_recursive(static::$model));
+        if ($name === 'categories') {
+            return ! in_array(HasCategoryTree::class, class_uses_recursive(static::$model));
+        }
+
+        if ($name === 'seo') {
+            return ! in_array(HasSEO::class, class_uses_recursive(static::$model));
+        }
+
+        return false;
     }
 
     protected static function extendSection($fields, $position)

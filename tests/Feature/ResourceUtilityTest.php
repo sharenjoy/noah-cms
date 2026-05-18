@@ -19,12 +19,13 @@ function collectFormComponentNames(array $components): array
         ->all();
 }
 
-it('skips category form fields when the model does not use category tree', function () {
+it('skips guarded form fields when the model does not use their traits', function () {
     expect(collectFormComponentNames(Form::make(ModelWithoutCategoryTree::class, 'create')))
-        ->not->toContain('categories');
+        ->not->toContain('categories')
+        ->not->toContain('seo');
 });
 
-it('skips category table columns when the model does not use category tree', function () {
+it('skips guarded table columns when the model does not use their traits', function () {
     $columnNames = collect(Table::make(ModelWithoutCategoryTree::class))
         ->map(fn ($column): string => $column->getName())
         ->all();

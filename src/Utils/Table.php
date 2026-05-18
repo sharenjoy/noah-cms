@@ -9,6 +9,7 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use RalphJSmit\Filament\MediaLibrary\Tables\Columns\MediaColumn;
+use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 
 class Table
@@ -134,8 +135,15 @@ class Table
 
     protected static function shouldSkipColumn(string $model, string $name): bool
     {
-        return $name === 'categories'
-            && ! in_array(HasCategoryTree::class, class_uses_recursive($model));
+        if ($name === 'categories') {
+            return ! in_array(HasCategoryTree::class, class_uses_recursive($model));
+        }
+
+        if ($name === 'seo') {
+            return ! in_array(HasSEO::class, class_uses_recursive($model));
+        }
+
+        return false;
     }
 
     protected static function getLabel($name, $content): string

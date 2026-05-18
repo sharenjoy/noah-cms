@@ -2,9 +2,11 @@
 
 namespace Sharenjoy\NoahCms\Models;
 
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use Sharenjoy\NoahCms\Database\Factories\FaqFactory;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
 use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
@@ -18,6 +20,7 @@ class Faq extends Model implements Sortable
     use CommonModelTrait;
     use HasCategoryTree;
     use HasFactory;
+    use HasSEO;
     use HasTranslations;
     use LogsActivity;
     use SoftDeletes;
@@ -64,6 +67,7 @@ class Faq extends Model implements Sortable
         return [
             'question' => ['label' => 'question'],
             'categories' => [],
+            'seo' => [],
             'is_active' => [],
             'created_at' => ['isToggledHiddenByDefault' => true],
             'updated_at' => ['isToggledHiddenByDefault' => true],
@@ -80,5 +84,25 @@ class Faq extends Model implements Sortable
     protected static function newFactory()
     {
         return FaqFactory::new();
+    }
+
+    public function getReplicateAction($type)
+    {
+        $resourceName = 'faqs';
+        $classname = $type == 'table' ? '\Filament\Tables\Actions\ReplicateAction' : '\Filament\Actions\ReplicateAction';
+
+        return $classname::make()
+            ->after(function (Model $replica): void {
+                $replica->slug = $replica->slug.'-'.$replica->id;
+                $replica->is_active = false;
+                $replica->save();
+            })
+            ->successRedirectUrl(function (Model $replica) use ($resourceName): string {
+                $currentPanelId = Filament::getCurrentPanel()->getId();
+
+                return route('filament.'.$currentPanelId.'.resources.'.$resourceName.'.edit', [
+                    'record' => $replica,
+                ]);
+            });
     }
 }
