@@ -12,6 +12,7 @@ return [
         'Category' => \Sharenjoy\NoahCms\Models\Category::class,
         'StaticPage' => \Sharenjoy\NoahCms\Models\StaticPage::class,
         'Carousel' => \Sharenjoy\NoahCms\Models\Carousel::class,
+        'Faq' => \Sharenjoy\NoahCms\Models\Faq::class,
     ],
 
     // Eloquent morph type 寫入資料庫時使用不含 namespace 的 class basename。
@@ -32,6 +33,7 @@ return [
             \Sharenjoy\NoahCms\Resources\UserResource::class,
             \Sharenjoy\NoahCms\Resources\StaticPageResource::class,
             \Sharenjoy\NoahCms\Resources\CarouselResource::class,
+            \Sharenjoy\NoahCms\Resources\FaqResource::class,
         ],
         'pages' => [
             \Sharenjoy\NoahCms\Pages\Activities::class,

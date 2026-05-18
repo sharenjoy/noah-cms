@@ -62,6 +62,7 @@ class NoahCmsServiceProvider extends PackageServiceProvider
         $models = [
             Models\Carousel::class,
             Models\Category::class,
+            Models\Faq::class,
             Models\Menu::class,
             Models\Permission::class,
             Models\Post::class,
