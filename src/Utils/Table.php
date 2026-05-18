@@ -9,6 +9,7 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use RalphJSmit\Filament\MediaLibrary\Tables\Columns\MediaColumn;
+use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 
 class Table
 {
@@ -18,6 +19,9 @@ class Table
         $columns = [];
 
         foreach ($table as $name => $content) {
+            if (static::shouldSkipColumn($model, $name)) {
+                continue;
+            }
 
             if (! is_array($content)) {
                 // 可以直接使用 Filamane table column component
@@ -126,6 +130,12 @@ class Table
         }
 
         return $columns;
+    }
+
+    protected static function shouldSkipColumn(string $model, string $name): bool
+    {
+        return $name === 'categories'
+            && ! in_array(HasCategoryTree::class, class_uses_recursive($model));
     }
 
     protected static function getLabel($name, $content): string

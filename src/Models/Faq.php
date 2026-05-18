@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Sharenjoy\NoahCms\Database\Factories\FaqFactory;
 use Sharenjoy\NoahCms\Models\Traits\CommonModelTrait;
+use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -15,6 +16,7 @@ use Spatie\Translatable\HasTranslations;
 class Faq extends Model implements Sortable
 {
     use CommonModelTrait;
+    use HasCategoryTree;
     use HasFactory;
     use HasTranslations;
     use LogsActivity;
@@ -52,6 +54,7 @@ class Faq extends Model implements Sortable
             ],
             'right' => [
                 'is_active' => ['required' => true],
+                'categories' => ['required' => true],
             ],
         ];
     }
@@ -60,6 +63,7 @@ class Faq extends Model implements Sortable
     {
         return [
             'question' => ['label' => 'question'],
+            'categories' => [],
             'is_active' => [],
             'created_at' => ['isToggledHiddenByDefault' => true],
             'updated_at' => ['isToggledHiddenByDefault' => true],

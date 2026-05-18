@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use RalphJSmit\Filament\Activitylog\Forms\Components\Timeline;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
+use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Form
@@ -99,6 +100,10 @@ class Form
         $fields = [];
 
         foreach ($items as $name => $content) {
+            if (static::shouldSkipField($name)) {
+                continue;
+            }
+
             if (! is_array($content)) {
                 // 可以直接使用 Filamane form field component
                 $fields[] = $content;
@@ -135,6 +140,12 @@ class Form
         $fields = static::extendSection($fields, $position);
 
         return $fields;
+    }
+
+    protected static function shouldSkipField(string $name): bool
+    {
+        return $name === 'categories'
+            && ! in_array(HasCategoryTree::class, class_uses_recursive(static::$model));
     }
 
     protected static function extendSection($fields, $position)

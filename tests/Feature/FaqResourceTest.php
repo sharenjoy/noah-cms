@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Gate;
 use Sharenjoy\NoahCms\Models\Faq;
+use Sharenjoy\NoahCms\Models\Traits\HasCategoryTree;
 use Sharenjoy\NoahCms\Policies\FaqPolicy;
 use Sharenjoy\NoahCms\Resources\FaqResource;
 use Spatie\EloquentSortable\SortableTrait;
@@ -23,9 +24,11 @@ it('defines faq as a translatable sortable content resource', function () {
 
     expect(class_uses_recursive(Faq::class))->toContain(HasTranslations::class)
         ->and(class_uses_recursive(Faq::class))->toContain(SortableTrait::class)
+        ->and(class_uses_recursive(Faq::class))->toContain(HasCategoryTree::class)
         ->and($faq->getFormFields())->toHaveKeys(['left', 'right'])
         ->and($faq->getFormFields()['left'])->toHaveKeys(['question', 'answer'])
-        ->and($faq->getTableFields())->toHaveKeys(['question', 'is_active', 'created_at', 'updated_at']);
+        ->and($faq->getFormFields()['right'])->toHaveKey('categories')
+        ->and($faq->getTableFields())->toHaveKeys(['question', 'categories', 'is_active', 'created_at', 'updated_at']);
 });
 
 it('provides a faq policy matching the resource permission prefixes', function () {
